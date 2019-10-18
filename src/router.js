@@ -5,10 +5,42 @@ Vue.use(Router);
 
 const routes = [
     {
+        path: '*',
+        redirect: '/main'
+    },
+    {
         name: 'main',
         component: () => import('./view/main'),
         meta: {
             title: '首页'
+        }
+    },
+    {
+        name: 'login',
+        component: () => import('./view/login'),
+        meta: {
+            title: '登陆'
+        }
+    },
+    {
+        name: 'mine',
+        component: () => import('./view/mine'),
+        meta: {
+            title: '我的'
+        }
+    },
+    {
+        name: 'my-order',
+        component: () => import('./view/my-order'),
+        meta: {
+            title: '我的订单'
+        }
+    },
+    {
+        name: 'book',
+        component: () => import('./view/book'),
+        meta: {
+            title: '预定'
         }
     }
 ];
