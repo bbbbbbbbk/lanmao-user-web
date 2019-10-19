@@ -18,7 +18,7 @@
       </van-tab>
       <van-tab title="已退款">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <van-cell v-for="item in list" :key="item" :title="item" />
+          <van-cell v-for="item in list" :key="item" :title="item" click="click" />
         </van-list>
       </van-tab>
     </van-tabs>
@@ -50,6 +50,13 @@ export default {
           this.finished = true;
         }
       }, 500);
+    },
+    click() {
+      this.$http
+      .get(this.$api.Index.index, true)
+      .then(result => {
+        
+      });
     }
   }
 };

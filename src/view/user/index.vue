@@ -12,6 +12,14 @@ export default {
     return {
       active: 0
     };
+  },
+
+  mounted() {
+    this.$http
+    .get(this.$api.Index.index, true)
+    .then(result => {
+      
+    });
   }
 };
 </script>
