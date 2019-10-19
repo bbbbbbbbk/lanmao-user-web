@@ -1,8 +1,23 @@
 <template>
   <div>
-    <van-cell title="单元格" is-link />
-    <van-cell title="单元格" is-link value="内容" />
-    <van-cell title="单元格" is-link arrow-direction="down" value="内容" />
+    <!-- 头像 -->
+    <div>
+      <van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />你好
+    </div>
+    <!-- 资产 -->
+    <div>
+      <van-grid>
+        <van-grid-item icon="photo-o" text="优惠券" />
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+      </van-grid>
+    </div>
+    <!-- 箭头 -->
+    <div>
+      <van-cell title="我的订单" is-link to="my-order" />
+      <van-cell title="我的地址" is-link to="my-address"/>
+    </div>
   </div>
 </template>
 

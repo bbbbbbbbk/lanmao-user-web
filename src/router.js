@@ -9,24 +9,10 @@ const routes = [
         redirect: '/main'
     },
     {
-        name: 'main',
-        component: () => import('./view/main'),
-        meta: {
-            title: '首页'
-        }
-    },
-    {
         name: 'login',
         component: () => import('./view/login'),
         meta: {
             title: '登陆'
-        }
-    },
-    {
-        name: 'mine',
-        component: () => import('./view/mine'),
-        meta: {
-            title: '我的'
         }
     },
     {
@@ -37,11 +23,42 @@ const routes = [
         }
     },
     {
-        name: 'book',
-        component: () => import('./view/book'),
+        name: 'my-address',
+        component: () => import('./view/my-address'),
         meta: {
-            title: '预定'
+            title: '我的地址'
         }
+    },
+    {
+        name: 'index',
+        path: '/index/:name',
+        component: () => import('./view/index'),
+        children: [
+            {
+                path: '/main',
+                name: 'main',
+                component: () => import('./view/main'),
+                meta: {
+                    title: '首页'
+                }
+            },
+            {
+                path: '/mine',
+                name: 'mine',
+                component: () => import('./view/mine'),
+                meta: {
+                    title: '我的'
+                }
+            },
+            {
+                path: '/book',
+                name: 'book',
+                component: () => import('./view/book'),
+                meta: {
+                    title: '预定'
+                }
+            }
+        ]
     }
 ];
 

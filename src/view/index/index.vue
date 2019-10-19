@@ -1,29 +1,13 @@
 <template>
   <div>
-    <!-- 首页 -->
     <div>
-      <van-swipe class="swipe-container">
-        <van-swipe-item v-for="(image, index) in images" :key="index">
-          <img fit="cover" v-lazy="image" />
-        </van-swipe-item>
-      </van-swipe>
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <van-cell v-for="item in list" :key="item" :title="item" />
-      </van-list>
+        <router-view />
     </div>
-    <!-- 预约 -->
-    <div>
-
-    </div>
-    <!-- 我的 -->
-    <div>
-
-    </div>
-    <!-- <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item icon="search">预约</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
-    </van-tabbar> -->
+    <van-tabbar route v-model="active">
+      <van-tabbar-item replace to="/main" icon="search">首页</van-tabbar-item>
+      <van-tabbar-item replace to="/book" icon="home-o">预约</van-tabbar-item>
+      <van-tabbar-item replace to="/mine" icon="search">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -58,7 +42,24 @@ export default {
         }
       }, 500);
     }
-  }
+  },
+
+  /**
+     * tab栏的切换
+     */
+    change () {
+      if (this.active === 0) {
+        this.$router.push({
+          path: '/main',
+          replace: true
+        })
+      } else if (this.active === 1) {
+        this.$router.push({
+          path: '/book',
+          replace: true
+        })
+      }
+    }
 };
 </script>
 

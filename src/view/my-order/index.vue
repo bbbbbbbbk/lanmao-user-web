@@ -1,8 +1,27 @@
 <template>
   <div>
-    <van-cell title="单元格" is-link />
-    <van-cell title="单元格" is-link value="内容" />
-    <van-cell title="单元格" is-link arrow-direction="down" value="内容" />
+    <van-tabs v-model="active">
+      <van-tab title="全部">
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-cell v-for="item in list" :key="item" :title="item" />
+        </van-list>
+      </van-tab>
+      <van-tab title="待付款">
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-cell v-for="item in list" :key="item" :title="item" />
+        </van-list>
+      </van-tab>
+      <van-tab title="已完成">
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-cell v-for="item in list" :key="item" :title="item" />
+        </van-list>
+      </van-tab>
+      <van-tab title="已退款">
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-cell v-for="item in list" :key="item" :title="item" />
+        </van-list>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -10,8 +29,28 @@
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      list: [],
+      loading: false,
+      finished: false
     };
+  },
+  methods: {
+    onLoad() {
+      // 异步更新数据
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1);
+        }
+        // 加载状态结束
+        this.loading = false;
+
+        // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true;
+        }
+      }, 500);
+    }
   }
 };
 </script>
