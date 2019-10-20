@@ -4,10 +4,10 @@
         <router-view />
     </div>
     <van-tabbar route v-model="active" safe-area-inset-bottom>
-      <van-tabbar-item replace to="/main" icon="search">首页</van-tabbar-item>
-      <van-tabbar-item replace to="/mech" icon="home-o">技师</van-tabbar-item>
-      <van-tabbar-item replace to="/book" icon="home-o">预约</van-tabbar-item>
-      <van-tabbar-item replace to="/mine" icon="search">我的</van-tabbar-item>
+      <van-tabbar-item replace to="/main" icon="search" safe-area-inset-bottom>首页</van-tabbar-item>
+      <van-tabbar-item replace to="/mech" icon="home-o" safe-area-inset-bottom>技师</van-tabbar-item>
+      <van-tabbar-item replace to="/book" icon="home-o" safe-area-inset-bottom>预约</van-tabbar-item>
+      <van-tabbar-item replace to="/mine" icon="search" safe-area-inset-bottom>我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>

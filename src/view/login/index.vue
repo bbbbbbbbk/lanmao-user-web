@@ -16,12 +16,12 @@
       </div>
       <dl class="dr_agreement">
         <a href="/#/user-agreement">
-          <dd>· 登陆即”表示客户同意 33上门服务协议</dd>
+          <dd>· 登陆即”表示客户同意 上门服务协议</dd>
         </a>
         <dd>· 登陆后未注册手机号将自动注册</dd>
       </dl>
       <div class="dr_button">
-        <van-button type="default" block round color="#fc524f">登录</van-button>
+        <van-button type="default" block round color="#fc524f" @click="login">登录</van-button>
       </div>
     </div>
   </div>
@@ -53,6 +53,12 @@ export default {
           self.timer = null;
         }
       }, 1000);
+    },
+
+    login() {
+      this.$router.push({
+        path: "/main"
+      });
     }
   }
 };

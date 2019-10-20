@@ -3,7 +3,7 @@
     <div class="main wd_wdxxdesc">
       <p style="white-space: normal; text-align: center;">
         <strong>
-          <span style="font-family: 宋体;">33上门用户协议</span>
+          <span style="font-family: 宋体;">上门用户协议</span>
         </strong>
         <strong></strong>
       </p>
