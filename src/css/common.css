@@ -45,3 +45,10 @@ body {
     font: 12px/1.5 'Microsoft YaHei','宋体', Tahoma, Arial, sans-serif;
     background-color: #F7F7F7;
 }
+
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
