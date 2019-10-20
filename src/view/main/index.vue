@@ -9,15 +9,18 @@
       </van-swipe>
       <div class="dr_grid">
         <van-grid :column-num="2">
-          <van-grid-item icon="photo-o" text="服务项目" is-link to="product"/>
-          <van-grid-item icon="photo-o" text="预约技师" is-link to="mech"/>
+          <van-grid-item icon="photo-o" text="服务项目" is-link to="product" />
+          <van-grid-item icon="photo-o" text="预约技师" is-link to="mech" />
         </van-grid>
       </div>
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
           <!-- 左边图片-->
           <div class="pic">
-            <img src="https://www.33oncall.com/upload/goods/20190704/6a44dac1e138f45c5b59fc4d6334246e.jpg" alt=""/>
+            <img
+              src="https://www.33oncall.com/upload/goods/20190704/6a44dac1e138f45c5b59fc4d6334246e.jpg"
+              alt
+            />
           </div>
           <!-- 右边文字 -->
           <div class="dr_right">
@@ -27,11 +30,60 @@
               <span>好评: 90%</span>
             </h5>
             <p class="txtdot">接单时间: 0:00～24:00 全天</p>
-            <h6 class="txtdot">价格：<font>￥399.00/100分钟</font></h6>
+            <h6 class="txtdot">
+              价格：
+              <font>￥399.00/100分钟</font>
+            </h6>
           </div>
         </div>
       </van-list>
     </div>
+    <!-- 优惠券弹出 -->
+    <van-popup v-model="show" closeable>
+      <div class="yhj_tancon">
+        <h4>领取优惠券</h4>
+        <div class="pp">
+          <ul class="fix">
+            <li class="fix">
+              <a href="javascript:;">
+                <div class="w_l fl">
+                  <h3 class="txtdot">￥10</h3>
+                  <p class="txtdot">满200使用</p>
+                  <p class="txtdot"></p>
+                </div>
+                <span class="w_r fl">
+                  <h5 class="txtdot">立即领取</h5>
+                </span>
+              </a>
+            </li>
+            <li class="fix">
+              <a href="javascript:;">
+                <div class="w_l fl">
+                  <h3 class="txtdot">￥10</h3>
+                  <p class="txtdot">满200使用</p>
+                  <p class="txtdot"></p>
+                </div>
+                <span class="w_r fl">
+                  <h5 class="txtdot">立即领取</h5>
+                </span>
+              </a>
+            </li>
+            <li class="fix">
+              <a href="javascript:;">
+                <div class="w_l fl">
+                  <h3 class="txtdot">￥10</h3>
+                  <p class="txtdot">满200使用</p>
+                  <p class="txtdot"></p>
+                </div>
+                <span class="w_r fl">
+                  <h5 class="txtdot">立即领取</h5>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -46,7 +98,8 @@ export default {
       ],
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      show: true
     };
   },
 
@@ -110,18 +163,77 @@ export default {
 }
 .dr_right h5 span {
   color: #999;
-  font-size: .6em;
+  font-size: 0.6em;
 }
 .dr_right h5 span:first-child {
   margin-right: 20px;
 }
 .dr_right h6 {
-  font-size: .6em;
+  font-size: 0.6em;
   color: #999;
 }
 .txtdot {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.yhj_tancon {
+  width: 296px;
+  height: 263px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 13px;
+}
+.yhj_tancon h4 {
+  text-align: center;
+  color: #333;
+  font-size: 1.4em;
+  line-height: 1.6em;
+}
+.yhj_tancon .pp li {
+  background: #ef3b38;
+  width: 100%;
+  height: 60px;
+  margin-bottom: 10px;
+}
+.fl {
+  float: left;
+}
+.yhj_tancon .pp li .w_l {
+  width: calc(100% - 90px);
+  border-right: 1px dashed #fff;
+  padding: 5px 8px;
+}
+.yhj_tancon .pp li .w_r {
+  width: 90px;
+  height: 100%;
+  padding: 5px;
+}
+.yhj_tancon .pp li .w_r h5 {
+  text-align: center;
+  display: block;
+  color: #fff;
+  height: 100%;
+  font-size: 1.1em;
+  line-height: 3.6em;
+}
+.yhj_tancon .pp {
+  padding: 10px;
+}
+.yhj_tancon li h3 {
+  font-size: 1.4em;
+  color: #fff;
+  line-height: 1.8em;
+}
+.yhj_tancon li p {
+  font-size: 1em;
+  color: #fff;
+  line-height: 1.4em;
+}
+.van-popup--center {
+  border-radius: 10px;
+}
+.van-popup__close-icon {
+  top: 5px;
 }
 </style>
