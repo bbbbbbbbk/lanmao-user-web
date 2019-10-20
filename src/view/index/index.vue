@@ -3,7 +3,7 @@
     <div>
         <router-view />
     </div>
-    <van-tabbar route v-model="active">
+    <van-tabbar route v-model="active" safe-area-inset-bottom>
       <van-tabbar-item replace to="/main" icon="search">首页</van-tabbar-item>
       <van-tabbar-item replace to="/mech" icon="home-o">技师</van-tabbar-item>
       <van-tabbar-item replace to="/book" icon="home-o">预约</van-tabbar-item>

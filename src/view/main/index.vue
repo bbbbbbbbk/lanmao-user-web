@@ -9,8 +9,8 @@
       </van-swipe>
       <div>
         <van-grid :column-num="2">
-          <van-grid-item icon="photo-o" text="服务项目" />
-          <van-grid-item icon="photo-o" text="预约技师" />
+          <van-grid-item icon="photo-o" text="服务项目" is-link to="product"/>
+          <van-grid-item icon="photo-o" text="预约技师" is-link to="mech"/>
         </van-grid>
       </div>
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">

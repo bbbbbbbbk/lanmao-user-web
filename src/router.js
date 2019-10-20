@@ -107,6 +107,20 @@ const routes = [
         }
     },
     {
+        name: 'mech-detail',
+        component: () => import('./view/mech-detail'),
+        meta: {
+            title: '技师详情'
+        }
+    },
+    {
+        name: 'product-detail',
+        component: () => import('./view/product-detail'),
+        meta: {
+            title: '服务详情'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

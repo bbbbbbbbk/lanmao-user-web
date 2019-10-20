@@ -16,6 +16,7 @@ import { Row, Col } from 'vant';
 import { Popup } from 'vant';
 import { CouponCell, CouponList } from 'vant';
 import { Rate } from 'vant';
+import { SubmitBar } from 'vant';
 
 import './http/axios'
 import http from './http/http';
@@ -37,6 +38,7 @@ Vue.use(Row).use(Col);
 Vue.use(Popup);
 Vue.use(CouponCell).use(CouponList);
 Vue.use(Rate);
+Vue.use(SubmitBar);
 
 // 对后端接口 进行全局注册
 Vue.prototype.$api = api;

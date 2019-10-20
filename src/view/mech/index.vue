@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <div v-for="item in list" :key="item">
+      <div v-for="item in list" :key="item" @click="goDetail">
         <!-- 左边 -->
       <div>
         <van-image width="80" height="80" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
@@ -55,6 +55,12 @@ export default {
           this.finished = true;
         }
       }, 500);
+    },
+
+    goDetail() {
+      this.$router.push({
+        path: "/mech-detail"
+      });
     }
   }
 };
