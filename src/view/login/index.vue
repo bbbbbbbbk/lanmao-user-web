@@ -8,9 +8,9 @@
       </div>
       <div class="dr_phone">
         <van-cell-group>
-          <van-field v-model="value" placeholder="请输入手机号" />
-          <van-field v-model="sms" center clearable label="短信验证码" placeholder="请输入短信验证码">
-            <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+          <van-field v-model="mobile" placeholder="请输入手机号" type="number" />
+          <van-field v-model="smsCode" center clearable label="短信验证码" placeholder="请输入短信验证码" type="number">
+            <van-button slot="button" size="small" type="primary" @click="sendCode">{{smsText}}</van-button>
           </van-field>
         </van-cell-group>
       </div>
@@ -20,9 +20,9 @@
         </a>
         <dd>· 登陆后未注册手机号将自动注册</dd>
       </dl>
-      <p class="dr_button">
-        <input type="button" value="登陆" />
-      </p>
+      <div class="dr_button">
+        <van-button type="default" block round color="#fc524f">登录</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,8 +31,29 @@
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      smsCode: "",
+      smsText: "发送验证码",
+      mobile: "",
+      timer: null
     };
+  },
+
+  methods: {
+    sendCode() {
+      if (this.timer) return;
+      this.$toast('发送成功');
+      var self = this;
+      var count = 60;
+      this.timer = setInterval(() => {
+        self.smsText = count--;
+        if (count <= 0) {
+          self.smsText = "发送验证码";
+          clearInterval(self.timer);
+          self.timer = null;
+        }
+      }, 1000);
+    }
   }
 };
 </script>
@@ -59,6 +80,9 @@ p {
   padding: 0.1rem 0;
   margin-bottom: 0.4rem;
 }
+.dr_logo {
+  margin-top: 20px;
+}
 .dr_logo img {
   display: block;
   margin: 0 auto;
@@ -71,9 +95,15 @@ p {
   margin-top: 40px;
 }
 .dr_button {
-  margin-top: 20px;
+  margin-top: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .dr_agreement {
   margin: 10px;
+  margin-top: 10px;
+}
+.dr_agreement dd {
+  color: #e62129;
 }
 </style>
