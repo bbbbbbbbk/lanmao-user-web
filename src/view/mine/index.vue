@@ -6,11 +6,10 @@
     </div>
     <!-- 资产 -->
     <div>
-      <van-grid>
-        <van-grid-item icon="photo-o" text="优惠券" />
-        <van-grid-item icon="photo-o" text="文字" />
-        <van-grid-item icon="photo-o" text="文字" />
-        <van-grid-item icon="photo-o" text="文字" />
+      <van-grid :column-num="3">
+        <van-grid-item icon="like-o" text="我的收藏" is-link to="my-collect"/>
+        <van-grid-item icon="coupon-o" text="优惠券" is-link to="my-coupon"/>
+        <van-grid-item icon="balance-pay" text="我的钱包" />
       </van-grid>
     </div>
     <!-- 箭头 -->
@@ -19,6 +18,8 @@
       <van-cell title="我的地址" is-link to="my-address"/>
       <van-cell title="关于我们" is-link to="about-us" />
       <van-cell title="常见问题" is-link to="issues" />
+      <van-cell title="设置" is-link to="setting" />
+      <van-cell title="售后服务" is-link to="after-service" />
     </div>
   </div>
 </template>

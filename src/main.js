@@ -14,6 +14,8 @@ import { Grid, GridItem } from 'vant';
 import { Icon } from 'vant';
 import { Row, Col } from 'vant';
 import { Popup } from 'vant';
+import { CouponCell, CouponList } from 'vant';
+import { Rate } from 'vant';
 
 import './http/axios'
 import http from './http/http';
@@ -33,6 +35,8 @@ Vue.use(Grid).use(GridItem);
 Vue.use(Icon);
 Vue.use(Row).use(Col);
 Vue.use(Popup);
+Vue.use(CouponCell).use(CouponList);
+Vue.use(Rate);
 
 // 对后端接口 进行全局注册
 Vue.prototype.$api = api;

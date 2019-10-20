@@ -79,6 +79,34 @@ const routes = [
         }
     },
     {
+        name: 'setting',
+        component: () => import('./view/setting'),
+        meta: {
+            title: '设置'
+        }
+    },
+    {
+        name: 'after-service',
+        component: () => import('./view/after-service'),
+        meta: {
+            title: '售后服务'
+        }
+    },
+    {
+        name: 'my-coupon',
+        component: () => import('./view/my-coupon'),
+        meta: {
+            title: '优惠券'
+        }
+    },
+    {
+        name: 'user-evaluate',
+        component: () => import('./view/user-evaluate'),
+        meta: {
+            title: '用户评价'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

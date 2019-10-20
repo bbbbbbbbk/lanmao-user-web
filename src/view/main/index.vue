@@ -7,23 +7,16 @@
           <img fit="cover" v-lazy="image" />
         </van-swipe-item>
       </van-swipe>
+      <div>
+        <van-grid :column-num="2">
+          <van-grid-item icon="photo-o" text="服务项目" />
+          <van-grid-item icon="photo-o" text="预约技师" />
+        </van-grid>
+      </div>
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <van-cell v-for="item in list" :key="item" :title="item" />
       </van-list>
     </div>
-    <!-- 预约 -->
-    <div>
-
-    </div>
-    <!-- 我的 -->
-    <div>
-
-    </div>
-    <!-- <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item icon="search">预约</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
-    </van-tabbar> -->
   </div>
 </template>
 
