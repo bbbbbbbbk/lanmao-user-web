@@ -22,6 +22,9 @@ import './http/axios'
 import http from './http/http';
 import api from './http/api';
 
+//css
+import './css/common.css'
+
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(Tabbar)

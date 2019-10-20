@@ -121,6 +121,27 @@ const routes = [
         }
     },
     {
+        name: 'pick-mech',
+        component: () => import('./view/pick-mech'),
+        meta: {
+            title: '选择技师'
+        }
+    },
+    {
+        name: 'my-wallet',
+        component: () => import('./view/my-wallet'),
+        meta: {
+            title: '我的钱包'
+        }
+    },
+    {
+        name: 'user-agreement',
+        component: () => import('./view/user-agreement'),
+        meta: {
+            title: '用户协议'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

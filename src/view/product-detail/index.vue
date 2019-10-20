@@ -249,7 +249,7 @@
         </van-tab>
       </van-tabs>
     </div>
-    <van-submit-bar :price="3050" button-text="提交订单" @submit="onSubmit" />
+    <van-submit-bar :price="3050" button-text="选技师" @submit="onSubmit" safe-area-inset-bottom />
   </div>
 </template>
 
@@ -266,9 +266,11 @@ export default {
   },
 
   methods: {
-      onSubmit() {
-          
-      }
+    onSubmit() {
+      this.$router.push({
+        path: "/pick-mech"
+      });
+    }
   }
 };
 </script>
