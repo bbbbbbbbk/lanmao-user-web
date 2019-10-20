@@ -52,11 +52,7 @@ export default {
       }, 500);
     },
     click() {
-      this.$http
-      .get(this.$api.Index.index, true)
-      .then(result => {
-        
-      });
+      
     }
   }
 };

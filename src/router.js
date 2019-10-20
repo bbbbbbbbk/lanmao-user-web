@@ -30,6 +30,55 @@ const routes = [
         }
     },
     {
+        name: 'my-book',
+        component: () => import('./view/my-book'),
+        meta: {
+            title: '我的预约'
+        }
+    },
+    {
+        name: 'add-address',
+        component: () => import('./view/add-address'),
+        meta: {
+            title: '新增地址'
+        }
+    },
+    {
+        name: 'activity',
+        component: () => import('./view/activity'),
+        meta: {
+            title: '活动'
+        }
+    },
+    {
+        name: 'activity-detail',
+        component: () => import('./view/activity-detail'),
+        meta: {
+            title: '活动'
+        }
+    },
+    {
+        name: 'my-collect',
+        component: () => import('./view/my-collect'),
+        meta: {
+            title: '我的收藏'
+        }
+    },
+    {
+        name: 'about-us',
+        component: () => import('./view/about-us'),
+        meta: {
+            title: '关于我们'
+        }
+    },
+    {
+        name: 'issues',
+        component: () => import('./view/issues'),
+        meta: {
+            title: '常见问题'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),
@@ -40,6 +89,14 @@ const routes = [
                 component: () => import('./view/main'),
                 meta: {
                     title: '首页'
+                }
+            },
+            {
+                path: '/mech',
+                name: 'mech',
+                component: () => import('./view/mech'),
+                meta: {
+                    title: '技师'
                 }
             },
             {
