@@ -1,8 +1,17 @@
 <template>
   <div>
-    <van-cell title="单元格" is-link />
-    <van-cell title="单元格" is-link value="内容" />
-    <van-cell title="单元格" is-link arrow-direction="down" value="内容" />
+    <van-address-edit
+      :area-list="areaList"
+      show-postal
+      show-delete
+      show-set-default
+      show-search-result
+      :search-result="searchResult"
+      :area-columns-placeholder="['请选择', '请选择', '请选择']"
+      @save="onSave"
+      @delete="onDelete"
+      @change-detail="onChangeDetail"
+    />
   </div>
 </template>
 
@@ -10,10 +19,30 @@
 export default {
   data() {
     return {
-      active: 0
-    };
+      areaList:[],
+      searchResult: []
+    }
+  },
+
+  methods: {
+    onSave() {
+      // Toast('save');
+    },
+    onDelete() {
+      // Toast('delete');
+    },
+    onChangeDetail(val) {
+      if (val) {
+        this.searchResult = [{
+          name: '黄龙万科中心',
+          address: '杭州市西湖区'
+        }];
+      } else {
+        this.searchResult = [];
+      }
+    }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

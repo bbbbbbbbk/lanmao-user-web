@@ -142,6 +142,13 @@ const routes = [
         }
     },
     {
+        name: 'edit-userinfo',
+        component: () => import('./view/edit-userinfo'),
+        meta: {
+            title: '编辑用户信息'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

@@ -19,6 +19,9 @@ import { Rate } from 'vant';
 import { SubmitBar } from 'vant';
 import { Toast } from 'vant';
 import { Notify } from 'vant';
+import { Dialog } from 'vant';
+import { AddressList } from 'vant';
+import { AddressEdit } from 'vant';
 
 import './http/axios'
 import http from './http/http';
@@ -46,6 +49,9 @@ Vue.use(Rate);
 Vue.use(SubmitBar);
 Vue.use(Toast);
 Vue.use(Notify);
+Vue.use(Dialog);
+Vue.use(AddressList);
+Vue.use(AddressEdit);
 
 // 对后端接口 进行全局注册
 Vue.prototype.$api = api;
