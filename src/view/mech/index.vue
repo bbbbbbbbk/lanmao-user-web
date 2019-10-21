@@ -4,7 +4,7 @@
       <div v-for="item in list" :key="item" @click="goDetail" class="dr_cell">
         <!-- 左边 -->
         <div class="dr_wl fl">
-          <van-image width="80" height="80" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
+          <van-image width="60" height="60" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
           <h5>在线接单中</h5>
         </div>
 
@@ -12,8 +12,8 @@
         <div class="dr_wr fl">
           <!-- 上边 -->
           <div>
-            <span>小雪</span>
-            <van-icon name="https://b.yzcdn.cn/vant/icon-demo-1126.png" />
+            <span class="m_name">小雪</span>
+            <span class="w_dz fr">1043km</span>
           </div>
           <!-- 中间 -->
           <div class="w_job_c">
@@ -27,7 +27,11 @@
             严格要求自己服务好每一位亲爱的客户，您今天的满意是我最大的收获！
           </p>
           <!-- 下边 -->
-          <div>湖南 3年经验 11单</div>
+          <h6>
+            <span>湖南</span>
+            <span>3年经验</span>
+            <span>11单</span>
+          </h6>
         </div>
       </div>
     </van-list>
@@ -74,14 +78,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.center-me {
-  margin: 0 auto;
-}
 .dr_wl {
-  width: 80px;
+  width: 60px;
+  height: 100%;
+  padding-top: 10px;
 }
 .dr_wr {
-  width: calc(100% - 80px);
+  width: calc(100% - 60px);
   padding-left: 10px;
   padding-top: 10px;
 }
@@ -94,6 +97,9 @@ export default {
 }
 .dr_wl h5 {
   text-align: center;
+  color: #1479e6;
+  font-size: 1em;
+  line-height: 1.8em;
 }
 .w_job {
   width: auto;
@@ -112,5 +118,23 @@ export default {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+.w_dz {
+  color: #999;
+  background: url(../../assets/icon1.png) no-repeat left center;
+  background-size: 10px 14px;
+  padding-left: 15px;
+}
+.m_name {
+  color: #333;
+  background: url(../../assets/women_icon.png) no-repeat right center;
+  background-size: 10px 10px;
+  padding-right: 12px;
+  font-size: 1.2em;
+}
+.dr_wr h6 span {
+  margin-right: 20px;
+  color: #999;
+  font-size: .8em;
 }
 </style>

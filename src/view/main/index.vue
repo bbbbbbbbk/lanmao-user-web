@@ -196,9 +196,6 @@ export default {
   height: 60px;
   margin-bottom: 10px;
 }
-.fl {
-  float: left;
-}
 .yhj_tancon .pp li .w_l {
   width: calc(100% - 90px);
   border-right: 1px dashed #fff;
