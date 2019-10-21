@@ -7,6 +7,10 @@ export default {
     // 个人中心
     Home: {
         UserInfo: '/user/info'
+    },
+
+    Login: {
+        SmsCode: '/v1/sms/sendCode'
     }
 
 }

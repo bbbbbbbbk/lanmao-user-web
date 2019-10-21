@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
   data() {
     return {
@@ -42,6 +43,13 @@ export default {
   methods: {
     sendCode() {
       if (this.timer) return;
+      var data = {
+        "mobile": this.mobile
+      }
+      this.$http.post(this.$api.Login.SmsCode,qs.stringify(data),true)
+      .then((result) => {
+        console.log(result);
+      })
       this.$toast('发送成功');
       var self = this;
       var count = 60;
