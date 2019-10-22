@@ -20,7 +20,11 @@ export default {
   },
 
   methods: {
-    goCharge() {}
+    goCharge() {
+      this.$router.push({
+        path: "/charge"
+      });
+    }
   }
 };
 </script>

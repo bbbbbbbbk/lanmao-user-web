@@ -156,6 +156,13 @@ const routes = [
         }
     },
     {
+        name: 'charge',
+        component: () => import('./view/charge'),
+        meta: {
+            title: '充值'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),
