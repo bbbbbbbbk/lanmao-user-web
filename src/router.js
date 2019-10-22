@@ -149,6 +149,13 @@ const routes = [
         }
     },
     {
+        name: 'coupon-center',
+        component: () => import('./view/coupon-center'),
+        meta: {
+            title: '领券中心'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

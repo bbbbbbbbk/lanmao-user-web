@@ -22,6 +22,8 @@ import { Notify } from 'vant';
 import { Dialog } from 'vant';
 import { AddressList } from 'vant';
 import { AddressEdit } from 'vant';
+import { Checkbox, CheckboxGroup } from 'vant';
+import { PasswordInput, NumberKeyboard } from 'vant';
 
 import './http/axios'
 import http from './http/http';
@@ -52,6 +54,8 @@ Vue.use(Notify);
 Vue.use(Dialog);
 Vue.use(AddressList);
 Vue.use(AddressEdit);
+Vue.use(Checkbox).use(CheckboxGroup);
+Vue.use(PasswordInput).use(NumberKeyboard);
 
 // 对后端接口 进行全局注册
 Vue.prototype.$api = api;

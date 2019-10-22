@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <!-- 首页 -->
     <div>
       <van-swipe class="swipe-container">
@@ -8,35 +8,39 @@
         </van-swipe-item>
       </van-swipe>
       <div class="dr_grid">
-        <van-grid :column-num="2">
-          <van-grid-item icon="photo-o" text="服务项目" is-link to="product" />
+        <van-grid :column-num="3">
+          <van-grid-item icon="photo-o" text="服务项目" is-link to="book" />
           <van-grid-item icon="photo-o" text="预约技师" is-link to="mech" />
+          <van-grid-item icon="photo-o" text="领券中心" is-link to="coupon-center" />
         </van-grid>
       </div>
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
-          <!-- 左边图片-->
-          <div class="pic">
-            <img
-              src="https://www.33oncall.com/upload/goods/20190704/6a44dac1e138f45c5b59fc4d6334246e.jpg"
-              alt
-            />
+      <div class="main_list">
+        <h5>-- 推荐项目 --</h5>
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
+            <!-- 左边图片-->
+            <div class="pic">
+              <img
+                src="https://www.33oncall.com/upload/goods/20190704/6a44dac1e138f45c5b59fc4d6334246e.jpg"
+                alt
+              />
+            </div>
+            <!-- 右边文字 -->
+            <div class="dr_right">
+              <h4>上品全身经络推油</h4>
+              <h5>
+                <span>总订单数: 61</span>
+                <span>好评: 90%</span>
+              </h5>
+              <p class="txtdot">接单时间: 0:00～24:00 全天</p>
+              <h6 class="txtdot">
+                价格：
+                <font>￥399.00/100分钟</font>
+              </h6>
+            </div>
           </div>
-          <!-- 右边文字 -->
-          <div class="dr_right">
-            <h4>上品全身经络推油</h4>
-            <h5>
-              <span>总订单数: 61</span>
-              <span>好评: 90%</span>
-            </h5>
-            <p class="txtdot">接单时间: 0:00～24:00 全天</p>
-            <h6 class="txtdot">
-              价格：
-              <font>￥399.00/100分钟</font>
-            </h6>
-          </div>
-        </div>
-      </van-list>
+        </van-list>
+      </div>
     </div>
     <!-- 优惠券弹出 -->
     <van-popup v-model="show" closeable>
@@ -131,6 +135,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.main {
+  width: 100%;
+  height: 100%;
+}
 .swipe-container {
   width: 100%;
   height: 240px;
@@ -232,5 +240,12 @@ export default {
 }
 .van-popup__close-icon {
   top: 5px;
+}
+.main_list {
+  margin-bottom: 48px;
+}
+.main_list h5 {
+  text-align: center;
+  font-size: 1.4em;
 }
 </style>

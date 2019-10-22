@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div>
+    <div class="dr_top">
       <van-swipe class="swipe-container">
         <van-swipe-item v-for="(image, index) in images" :key="index">
           <img fit="cover" v-lazy="image" />
         </van-swipe-item>
-      </van-swipe>上品全身经络推油
-      价格： 399/100分钟
-      接单时间：00:00～24:00 全天
+      </van-swipe>
+      <p>上品全身经络推油</p>
+      <p>价格： 399/100分钟</p>
+      <p>接单时间：00:00～24:00 全天</p>
     </div>
     <div>
       <van-tabs v-model="active">
@@ -283,5 +284,9 @@ export default {
 .swipe-container {
   width: 100%;
   height: 240px;
+}
+.dr_top p {
+  text-align: center;
+  margin: 10px;
 }
 </style>
