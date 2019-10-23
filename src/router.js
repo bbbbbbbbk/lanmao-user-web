@@ -156,6 +156,13 @@ const routes = [
         }
     },
     {
+        name: 'charge-agreement',
+        component: () => import('./view/charge-agreement'),
+        meta: {
+            title: '充值协议'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),
