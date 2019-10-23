@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {router} from '../router'
 
 // 请求拦截
 axios.interceptors.request.use(config => {
@@ -11,6 +12,10 @@ axios.interceptors.request.use(config => {
 
 // 响应拦截
 axios.interceptors.response.use(response => {
+  console.log(response);
+  if (response.data.code == 302) {
+    router.replace('/login');
+  }
   // 请求成功
   // 1. 根据自己项目需求定制自己的拦截
   // 2. 然后返回数据

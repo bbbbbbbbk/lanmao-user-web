@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
       <p>我是充值协议</p>
   </div>
 </template>
@@ -15,8 +15,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.center-me {
-  margin: 0 auto;
+<style rel="stylesheet/scss" lang="scss" scoped>
+.main {
+  p {
+    text-align: center;
+  }
 }
 </style>

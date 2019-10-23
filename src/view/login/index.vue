@@ -9,7 +9,14 @@
       <div class="dr_phone">
         <van-cell-group>
           <van-field v-model="mobile" placeholder="请输入手机号" type="number" />
-          <van-field v-model="smsCode" center clearable label="短信验证码" placeholder="请输入短信验证码" type="number">
+          <van-field
+            v-model="smsCode"
+            center
+            clearable
+            label="短信验证码"
+            placeholder="请输入短信验证码"
+            type="number"
+          >
             <van-button slot="button" size="small" type="primary" @click="sendCode">{{smsText}}</van-button>
           </van-field>
         </van-cell-group>
@@ -28,7 +35,7 @@
 </template>
 
 <script>
-import qs from 'qs';
+import qs from "qs";
 export default {
   data() {
     return {
@@ -44,28 +51,48 @@ export default {
     sendCode() {
       if (this.timer) return;
       var data = {
-        "mobile": this.mobile
-      }
-      this.$http.post(this.$api.Login.SmsCode,qs.stringify(data),true)
-      .then((result) => {
-        console.log(result);
-      })
-      this.$toast('发送成功');
+        mobile: this.mobile
+      };
       var self = this;
-      var count = 60;
-      this.timer = setInterval(() => {
-        self.smsText = count--;
-        if (count <= 0) {
-          self.smsText = "发送验证码";
-          clearInterval(self.timer);
-          self.timer = null;
-        }
-      }, 1000);
+      this.$http
+        .post(this.$api.Login.SmsCode, qs.stringify(data), false)
+        .then(result => {
+          console.log(result);
+          var resultData = result.data;
+          if (resultData.code == 0) {
+            self.$toast("发送成功");
+            var count = 60;
+            self.timer = setInterval(() => {
+              self.smsText = count--;
+              if (count <= 0) {
+                self.smsText = "发送验证码";
+                clearInterval(self.timer);
+                self.timer = null;
+              }
+            }, 1000);
+          } else {
+            self.$toast(resultData.message);
+          }
+        });
     },
 
     login() {
-      this.$router.push({
-        path: "/main"
+      const self = this;
+      var requestData = {
+        mobile: this.mobile,
+        smsCode: this.smsCode
+      };
+      this.$http
+      .post(this.$api.Login.Login, requestData, false)
+      .then(res => {
+        const resultData = res.data;
+        if (resultData.code == 0) {
+          self.$router.push({
+            path: "/main"
+          });
+        } else {
+          self.$toast(resultData.message);
+        }
       });
     }
   }

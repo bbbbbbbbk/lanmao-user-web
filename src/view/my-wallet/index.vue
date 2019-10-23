@@ -2,7 +2,7 @@
   <div>
     <div class="dr_container">
       <p>账户余额(元)</p>
-      <p>¥0.00</p>
+      <p>¥{{balance}}</p>
     </div>
     <div class="dr_button">
       <van-button type="default" block color="#fc524f" @click="goCharge">充值</van-button>
@@ -15,10 +15,20 @@
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      balance: null
     };
   },
-
+  mounted() {
+    const self = this;
+    this.$http.get(this.$api.MyWallet.GetBalance, {}, false)
+    .then(res => {
+      const resultData = res.data;
+      if (resultData.code == 0) {
+        self.balance = resultData.data;
+      }
+    })
+  },
   methods: {
     goCharge() {
       this.$router.push({
