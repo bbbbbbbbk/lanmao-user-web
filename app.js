@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 app.all('/api/*', function(req, res) {
 
-    const API = 'http://47.105.132.129:8182';
+    const API = 'http://localhost:8182';
 
     //代理
     proxy.web(req, res, {
