@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/dist'));
 app.use(compression());
 app.use(cookieParser());
 
-app.all('/api/*', function(req, res) {
+app.all('/v1/*', function(req, res) {
 
     const API = 'http://localhost:8182';
 
