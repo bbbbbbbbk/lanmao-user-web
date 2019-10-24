@@ -106,6 +106,9 @@ export default {
       show: true
     };
   },
+  mounted() {
+    console.log(this.$route.params);
+  },
 
   methods: {
     onLoad() {
@@ -123,7 +126,7 @@ export default {
         }
       }, 500);
     },
-
+  
     goProduct() {
       this.$router.push({
         path: "/product-detail"
