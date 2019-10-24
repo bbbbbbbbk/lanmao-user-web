@@ -15,7 +15,8 @@ export default {
     },
 
     Mine: {
-        GetUserInfo: '/v1/user/getUserInfo'
+        GetUserInfo: '/v1/user/getUserInfo',
+        GetOpenId: '/v1/user/getOpenId'
     },
 
     MyWallet: {
@@ -23,7 +24,8 @@ export default {
     },
 
     Charge: {
-        GetChargePackages: '/v1/user/getChargePackages'
+        GetChargePackages: '/v1/user/getChargePackages',
+        BookCharge: '/v1/charge/bookCharge'
     }
 
 }
