@@ -92,6 +92,8 @@
 </template>
 
 <script>
+import utils from '../../utils';
+
 export default {
   data() {
     return {
@@ -107,8 +109,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route.params);
-    this.$toast(this.$route.params);
+    console.log(utils.getUrlKey('code'));
   },
 
   methods: {
