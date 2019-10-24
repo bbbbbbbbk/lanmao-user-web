@@ -20,6 +20,10 @@ export default {
 
     MyWallet: {
         GetBalance: '/v1/user/getBalance'
+    },
+
+    Charge: {
+        GetChargePackages: '/v1/user/getChargePackages'
     }
 
 }

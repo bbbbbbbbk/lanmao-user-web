@@ -10,8 +10,8 @@
           <span class="w_l fl txtdot">充值金额</span>
           <span class="w_r fl txtdot">
             <div v-for="item in moneyList" :key="item.id" class="dr_bb" @click="choose(item.id)">
-              <label :class="item.id == chooseId ? 'on' : ''">{{item.value}}元</label>
-              <label class="pp" :class="item.id == chooseId ? 'on' : ''">冲100送20</label>
+              <label :class="item.id == chooseId ? 'on' : ''">{{item.chargeAmount}}元</label>
+              <label class="pp" :class="item.id == chooseId ? 'on' : ''">{{item.packageName}}</label>
             </div>
           </span>
         </li>
@@ -42,22 +42,19 @@ export default {
     return {
       active: 0,
       checked: true,
-      moneyList: [
-        {
-          id: 1,
-          value: 100
-        },
-        {
-          id: 2,
-          value: 200
-        },
-        {
-          id: 3,
-          value: 300
-        }
-      ],
+      moneyList: [],
       chooseId: 1
     };
+  },
+  mounted() {
+    const self = this;
+    this.$http.get(this.$api.Charge.GetChargePackages, {}, false)
+    .then(res => {
+      const resultData = res.data;
+      if (resultData.code == 0) {
+        self.moneyList = resultData.data;
+      }
+    })
   },
 
   methods: {
