@@ -17,17 +17,17 @@
       <div class="main_list">
         <h5>-- 推荐项目 --</h5>
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
+          <div v-for="item in list" :key="item.id" :title="item" class="dr_cell" @click="goProduct">
             <!-- 左边图片-->
             <div class="pic">
               <img
-                src="https://www.33oncall.com/upload/goods/20190704/6a44dac1e138f45c5b59fc4d6334246e.jpg"
+                :src="item.imageUrl"
                 alt
               />
             </div>
             <!-- 右边文字 -->
             <div class="dr_right">
-              <h4>上品全身经络推油</h4>
+              <h4>{{item.name}}</h4>
               <h5>
                 <span>总订单数: 61</span>
                 <span>好评: 90%</span>
@@ -35,7 +35,7 @@
               <p class="txtdot">接单时间: 0:00～24:00 全天</p>
               <h6 class="txtdot">
                 价格：
-                <font>￥399.00/100分钟</font>
+                <font>￥{{item.sellPrice}}/{{item.duration}}分钟</font>
               </h6>
             </div>
           </div>
@@ -105,7 +105,14 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      show: true
+      show: true,
+      pageParams: {
+        page: 1,
+        pageSize: 10,
+        params: {
+          isRec: 'Y'
+        }
+      }
     };
   },
   mounted() {
@@ -132,24 +139,33 @@ export default {
   methods: {
     onLoad() {
       // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+      this.getProduct();
     },
-  
     goProduct() {
       this.$router.push({
         path: "/product-detail"
       });
+    },
+    getProduct() {
+      this.loading = true;
+      var self = this;
+      this.$http.post(this.$api.Product.List, self.pageParams, false)
+      .then(res => {
+        self.loading = false;
+        var resData = res.data;
+        if (resData.code == 0) {
+          var data = resData.data;
+          self.list = self.list.concat(data.list);
+          var totalCount = data.totalCount;
+          if (totalCount <= self.pageParams.page * self.pageParams.pageSize) {
+            //加载完了
+            self.finished = true;
+          } else {
+            //还有下一页
+            self.pageParams.page++;
+          }
+        }
+      })
     }
   }
 };

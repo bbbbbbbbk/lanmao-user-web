@@ -26,6 +26,9 @@ export default {
     Charge: {
         GetChargePackages: '/v1/user/getChargePackages',
         BookCharge: '/v1/charge/bookCharge'
-    }
+    },
 
+    Product: {
+        List: '/v1/product/list'
+    }
 }
