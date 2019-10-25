@@ -43,7 +43,7 @@
 			</div>
       <!-- 技师项目 -->
             <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
+        <div v-for="item in list" :key="item.id" :title="item" class="dr_cell" @click="goProduct">
           <!-- 左边图片-->
           <div class="pic">
             <img
@@ -88,22 +88,27 @@ export default {
       value: 3
     };
   },
+  mounted() {
 
-    methods: {
+  },
+  methods: {
     onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
+      console.log(this.$route.query)
+      var id = this.$route.query.id;
+      var self = this;
+      var params = {
+        id: id
+      }
+      this.$http.post(this.$api.Mech.SelectProduct, params, false) 
+      .then(res => {
+        var resData = res.data;
+        self.loading = false;
+        self.finished = true;
+        if (resData.code == 0) {
+          var data = resData.data;
+          self.list = data;
         }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+      })
     },
 
     goProduct() {

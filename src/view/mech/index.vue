@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <div v-for="item in list" :key="item" @click="goDetail" class="dr_cell">
+      <div v-for="item in list" :key="item" @click="goDetail(item)" class="dr_cell">
         <!-- 左边 -->
         <div class="dr_wl fl">
           <van-image width="60" height="60" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
@@ -12,7 +12,7 @@
         <div class="dr_wr fl">
           <!-- 上边 -->
           <div>
-            <span class="m_name">小雪</span>
+            <span class="m_name">{{item.name}}</span>
             <span class="w_dz fr">1043km</span>
           </div>
           <!-- 中间 -->
@@ -46,30 +46,48 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      value: 3
+      value: 3,
+      pageParams: {
+        page: 1,
+        pageSize: 10,
+        params: {
+
+        }
+      }
     };
   },
+  mounted() {
 
+  },
   methods: {
     onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+      this.getMech();
     },
-
-    goDetail() {
+    getMech() {
+      var self = this;
+      self.loading = true;
+      this.$http.post(this.$api.Mech.List, this.pageParams, false)
+      .then(res => {
+        var resData = res.data;
+        self.loading = false;
+        if (resData.code == 0) {
+          var data = resData.data;
+          self.list = self.list.concat(data.list);
+          var totalCount = data.totalCount;
+          if (totalCount <= self.pageParams.page * self.pageParams.pageSize) {
+            self.finished = true;
+          } else {
+            self.pageParams.page++;
+          }
+        }
+      })
+    },
+    goDetail(item) {
       this.$router.push({
-        path: "/mech-detail"
+        path: "/mech-detail",
+        query: {
+          id: item.id
+        }
       });
     }
   }

@@ -30,5 +30,10 @@ export default {
 
     Product: {
         List: '/v1/product/list'
+    },
+
+    Mech: {
+        List: '/v1/mech/list',
+        SelectProduct: '/v1/mech/selectProduct'
     }
 }
