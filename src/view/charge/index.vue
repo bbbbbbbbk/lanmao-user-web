@@ -88,7 +88,7 @@ export default {
       WeixinJSBridge.invoke(
         "getBrandWCPayRequest",
         {
-          appId: payParams.appid, //公众号名称，由商户传入
+          appId: payParams.appId, //公众号名称，由商户传入
           timeStamp: payParams.timeStamp, //时间戳，自1970年以来的秒数
           nonceStr: payParams.nonceStr, //随机串
           package: payParams.package,
