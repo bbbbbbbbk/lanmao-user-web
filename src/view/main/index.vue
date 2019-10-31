@@ -118,8 +118,6 @@ export default {
   mounted() {
     console.log(utils.getUrlKey('code'));
     var code = utils.getUrlKey('code');
-    const openId = utils.getItem('openId');
-    console.log(openId);
     if (code) {
       //拿到了code
       this.$http.get(this.$api.Mine.GetOpenId, {
@@ -129,7 +127,7 @@ export default {
       }, false)
       .then(res => {
         const resData = res.data;
-        if (resData.code == 0) {
+        if (resData.code == 0 && resData.data.openid) {
           utils.setItem('openId', resData.data.openid);
         }
       })
