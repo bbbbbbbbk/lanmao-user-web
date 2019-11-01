@@ -167,6 +167,13 @@ const routes = [
         }
     },
     {
+        name: 'appoint',
+        component: () => import('./view/appoint'),
+        meta: {
+            title: '预约信息'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),
