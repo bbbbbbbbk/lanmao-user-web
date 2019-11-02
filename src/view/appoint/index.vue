@@ -24,7 +24,13 @@
     </div>
     <div>预约人数</div>
     <div class="order-guest" v-for="guest in guestList" :key="guest.id">
-      <p>{{guest.name}}:</p>
+      <p class="guest-p">
+        <span>{{guest.name}}:</span>
+        <span>
+          <span @click="chooseProduct">选择项目</span>
+          <span @click="chooseMech">选择技师</span>
+        </span>
+      </p>
       <div class="order-project">
         <div class="order-pro-info">
           <img
@@ -153,6 +159,12 @@
       </div>
       <div class="choose-btn"><p @click="sureChooseTime">确定选择</p></div>
     </van-popup>
+    <!-- 选择技师-->
+    <van-popup v-model="showPickMech" position="bottom" closeable>
+    </van-popup>
+    <!-- 选择项目-->
+    <van-popup v-model="showPickProduct" position="bottom" closeable>
+    </van-popup>
   </div>
 </template>
 
@@ -174,6 +186,8 @@ export default {
         }
       ],
       showPickTime: false,
+      showPickMech: false,
+      showPickProduct: false,
       timeBlockList: [],
       selectTime: ''
     };
@@ -203,7 +217,14 @@ export default {
     sureChooseTime() {
       this.showPickTime = !this.showPickTime;
       this.appointTime = this.selectTime;
+    },
+    chooseProduct() {
+      this.showPickProduct = !this.showPickProduct;
+    },
+    chooseMech() {
+      this.showPickMech = !this.showPickMech;
     }
+
   }
 };
 </script>
@@ -437,5 +458,33 @@ export default {
   background: rgba(77,184,72,1) !important;
   color: #fff !important;
   border: 1px solid rgba(77,184,72,1) !important;
+}
+.guest-p {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 10px 5px 10px;
+  >div {
+    display: inline-block;
+  }
+  >span:nth-child(1) {
+    font-size: 13px;
+  }
+  >span:nth-child(2) {
+    margin-right: 10px;
+    font-size: 12px;
+    >span:nth-child(1) {
+      color: #fff;
+      background: rgba(77,184,72,1) !important;
+      border-radius: 10px;
+      padding: 5px 10px 5px 10px;
+      margin-right: 20px;
+    }
+    >span:nth-child(2) {
+      color: #fff;
+      background: rgba(77,184,72,1) !important;
+      border-radius: 10px;
+      padding: 5px 10px 5px 10px;
+    }
+  }
 }
 </style>
