@@ -16,7 +16,7 @@
       </div>
       <div class="order_time">
         <span>预约时间</span>
-        <p>
+        <p @click="chooseTime">
           <span>{{appointTime}}</span>
           <i></i>
         </p>
@@ -92,6 +92,67 @@
         <a class="order_btn_now">立即预约</a>
       </span>
     </div>
+    <!-- 弹窗 -->
+    <van-popup v-model="showPickTime" position="bottom" closeable>
+      <div class="main-pick-time">
+        <div class="choose_time">
+          <div class="slide_tab_top">
+            <div class="slide_ul">
+              <div class="slide_li">
+                <p>今天</p>
+                <p>11-02</p>
+                <!---->
+              </div>
+              <div class="slide_li tab_slide_active">
+                <p>明天</p>
+                <p>11-03</p>
+                <p class="tab_line_active"></p>
+              </div>
+              <div class="slide_li">
+                <p>周一</p>
+                <p>11-04</p>
+                <!---->
+              </div>
+              <div class="slide_li">
+                <p>周二</p>
+                <p>11-05</p>
+                <!---->
+              </div>
+              <div class="slide_li">
+                <p>周三</p>
+                <p>11-06</p>
+                <!---->
+              </div>
+              <div class="slide_li">
+                <p>周四</p>
+                <p>11-07</p>
+                <!---->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide_tab_con">
+        <div class="slide_tab_con_li" v-for="item in timeBlockList">
+          <p class="time_title">
+            <span>{{item.title}}</span>
+            <span>{{item.text}}</span>
+          </p>
+          <div class="time_ul">
+            <div class="time_li" v-for="timeUnit in item.timeUnitList" @click="selectTime = timeUnit.text">
+              <div class="time_blcok" :class="selectTime == timeUnit.text ? 'choose_time_style' : '' ">
+                <div>
+                  <p>{{timeUnit.text}}</p>
+                  <p>{{timeUnit.fullText}}</p>
+                </div>
+              </div>
+            </div>
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="choose-btn"><p @click="sureChooseTime">确定选择</p></div>
+    </van-popup>
   </div>
 </template>
 
@@ -111,7 +172,10 @@ export default {
         {
           name: "预约人3"
         }
-      ]
+      ],
+      showPickTime: false,
+      timeBlockList: [],
+      selectTime: ''
     };
   },
   methods: {
@@ -124,6 +188,21 @@ export default {
       this.$router.push({
         path: "/my-address"
       });
+    },
+    chooseTime() {
+      this.showPickTime = !this.showPickTime;
+      var self = this;
+      this.$http.post(this.$api.Appoint.SelectTime, {}, false)
+      .then(res => {
+        var resData = res.data;
+        if (resData.code == 0) {
+          self.timeBlockList = resData.data;
+        }
+      })
+    },
+    sureChooseTime() {
+      this.showPickTime = !this.showPickTime;
+      this.appointTime = this.selectTime;
     }
   }
 };
@@ -300,5 +379,63 @@ export default {
       font-size: 16px;
     }
   }
+}
+.main-pick-time {
+  .slide_ul {
+    width: auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+    .slide_li {
+      display: inline-block;
+      margin: 10px;
+    }
+  }
+}
+.slide_tab_con {
+  padding: 10px;
+  max-height: 500px;
+  overflow-y: scroll;
+  .time_title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+}
+.time_li {
+  float: left;
+  display: flex;
+  font-size: 15px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  > div {
+    border: 1px solid rgba(220, 220, 220, 1);
+    color: rgba(77, 184, 72, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    height: 50px;
+  }
+}
+.choose-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  >p {
+    background: rgba(102, 199, 42, 1);
+    border-radius: 30px;
+    font-size: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 220px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+}
+.choose_time_style {
+  background: rgba(77,184,72,1) !important;
+  color: #fff !important;
+  border: 1px solid rgba(77,184,72,1) !important;
 }
 </style>

@@ -35,5 +35,9 @@ export default {
     Mech: {
         List: '/v1/mech/list',
         SelectProduct: '/v1/mech/selectProduct'
+    },
+
+    Appoint: {
+        SelectTime: '/v1/appoint/selectTime'
     }
 }
