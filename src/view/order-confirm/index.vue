@@ -5,12 +5,11 @@
         <span>莫胜磊</span>
         <span>17521250205</span>
       </p>
-      <div class="order-user-add" @click="chooseAddress">
+      <div class="order-user-add">
         <i></i>
         <div>
           <a href="javascript:void(0)">
             <p>上海 张杨路628弄4-10号 繁荣昌盛小区 9号楼901</p>
-            <i></i>
           </a>
         </div>
       </div>
@@ -18,7 +17,6 @@
         <span>预约时间</span>
         <p>
           <span>{{appointTime}}</span>
-          <i></i>
         </p>
       </div>
     </div>
@@ -83,13 +81,56 @@
       <span>备注</span>
       <input type="text" placeholder="如有其它需要请留言" />
     </div>
+    <div class="price_con">
+      <p>
+        <span>平台优惠券</span>
+        <span>
+          30元代金券
+          <i></i>
+        </span>
+      </p>
+      <p>
+        <span>技师优惠券</span>
+        <span>无</span>
+      </p>
+      <div>
+        合计
+        <span>158元</span>
+      </div>
+    </div>
+    <div class="pay_type">
+      <p>支付方式</p>
+      <div id="payType0" class="pay_icon_div" @click="payType = 1">
+        <p>
+          <img src="../../assets//payicon-5.png" alt />
+          <span>微信支付</span>
+        </p>
+        <div class="checked_btn">
+          <img src="../../assets/no-checked.png" alt :class="payType == 1 ? 'no_checked' : 'yes_checked' " />
+          <img src="../../assets/checked.png" alt :class="payType == 1 ? 'yes_checked' : 'no_checked' " />
+        </div>
+      </div>
+      <div id="payType1" class="pay_icon_div" @click="payType = 2">
+        <p>
+          <!---->
+          <img src="../../assets/payicon-4.png" alt />
+          <!---->
+          <!---->
+          <span>支付宝支付</span>
+        </p>
+        <div class="checked_btn">
+          <img src="../../assets/no-checked.png" alt :class="payType == 2 ? 'no_checked' : 'yes_checked' " />
+          <img src="../../assets/checked.png" alt :class="payType == 2 ? 'yes_checked' : 'no_checked' " />
+        </div>
+      </div>
+    </div>
     <div class="pay-btn">
       <span>
         应付金额:
         <span>¥66</span>
       </span>
-      <span @click="goConfirm">
-        <a class="order_btn_now">立即预约</a>
+      <span @click="goPay">
+        <a class="order_btn_now">立即支付</a>
       </span>
     </div>
   </div>
@@ -111,19 +152,13 @@ export default {
         {
           name: "预约人3"
         }
-      ]
+      ],
+      payType: 1
     };
   },
   methods: {
-    goConfirm() {
-      this.$router.push({
-        path: "/order-confirm"
-      });
-    },
-    chooseAddress() {
-      this.$router.push({
-        path: "/my-address"
-      });
+    goPay() {
+        
     }
   }
 };
@@ -246,7 +281,7 @@ export default {
   align-items: center;
   border-radius: 10px;
   background: #fff;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   span {
     font-size: 15px;
     margin-left: 10px;
@@ -300,5 +335,73 @@ export default {
       font-size: 16px;
     }
   }
+}
+.price_con {
+  border-radius: 10px;
+  background: #fff;
+  margin: 10px;
+  padding: 10px 20px 0 10px;
+  font-size: 14px;
+  p:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    i {
+        display: inline-block;
+        width: 8px;
+        height: 15px;
+        background: url(../../assets/toperson.png) no-repeat;
+        background-size: 100%;
+    }
+  }
+  p:nth-child(2) {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  >div {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      text-align: right;
+  }
+}
+.pay_type {
+  border-radius: 10px;
+  background: #fff;
+  margin: 10px;
+  margin-bottom: 60px;
+  >p {
+      padding-bottom: 10px;
+      padding-left: 10px;
+      font-size: 15px;
+      color: rgba(103,101,101,1);
+  }
+  >div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(246,244,245,1);
+      font-size: 15px;
+      padding: 10px;
+      >p {
+          display: flex;
+          align-items: center;
+          >img {
+              width: 20px;
+              height: 18px;
+              margin-right: 20px;
+          }
+      }
+  }
+}
+.checked_btn {
+    display: flex;
+    .no_checked {
+        display: none;
+    }
+    .yes_checked {
+        display: block;
+    }
 }
 </style>

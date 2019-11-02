@@ -67,8 +67,6 @@
         </div>
       </van-list>
     </div>
-    <!-- footer -->
-    <div class="footer"></div>
   </div>
 </template>
 

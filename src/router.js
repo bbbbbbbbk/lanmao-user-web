@@ -174,6 +174,13 @@ const routes = [
         }
     },
     {
+        name: 'order-confirm',
+        component: () => import('./view/order-confirm'),
+        meta: {
+            title: '支付信息'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

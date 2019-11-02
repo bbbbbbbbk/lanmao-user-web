@@ -166,7 +166,9 @@ export default {
 
   methods: {
     onSubmit() {
-      this.showPickMech = true;
+      this.$router.push({
+        path: '/appoint'
+      })
     }
   }
 };
