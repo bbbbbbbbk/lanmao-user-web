@@ -17,7 +17,7 @@
       <div class="main_list">
         <h5>-- 推荐项目 --</h5>
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <div v-for="item in list" :key="item.id" :title="item" class="dr_cell" @click="goProduct">
+          <div v-for="item in list" :key="item.id" :title="item" class="dr_cell" @click="goProduct(item)">
             <!-- 左边图片-->
             <div class="pic">
               <img
@@ -139,9 +139,12 @@ export default {
       // 异步更新数据
       this.getProduct();
     },
-    goProduct() {
+    goProduct(product) {
       this.$router.push({
-        path: "/product-detail"
+        path: "/product-detail",
+        query: {
+          id: product.id
+        }
       });
     },
     getProduct() {

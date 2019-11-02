@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <div v-for="item in list" :key="item" @click="goDetail(item)" class="dr_cell">
+      <div v-for="item in list" :key="item.id" @click="goDetail(item)" class="dr_cell">
         <!-- 左边 -->
         <div class="dr_wl fl">
           <van-image width="60" height="60" round src="https://img.yzcdn.cn/vant/cat.jpeg" />

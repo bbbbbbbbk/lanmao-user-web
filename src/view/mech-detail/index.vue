@@ -9,7 +9,6 @@
           <van-image width="60" height="60" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
           <h5>在线接单中</h5>
         </div>
-
         <!-- 右边 -->
         <div class="dr_wr fl">
           <!-- 上边 -->
@@ -30,42 +29,34 @@
           </h6>
         </div>
       </div>
-      <div class="js_desc1b">
-				<p>热情，待人真诚，手法专业，喜欢交朋友，开拓眼界，</p>
-			</div>
-      <!-- 用户评价 -->
-      <div class="js_desc3t">
-				<h4 class="txtdot fix">用户评价
-					<span class="conr fr">
-						<a href="/supplier/index/comment/massage_id/1146.html">3人评论</a>
-					</span>
-				</h4>
-			</div>
-      <!-- 技师项目 -->
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <div v-for="item in list" :key="item.id" :title="item" class="dr_cell" @click="goProduct">
-          <!-- 左边图片-->
-          <div class="pic">
-            <img
-              src="https://www.33oncall.com/upload/goods/20190704/6a44dac1e138f45c5b59fc4d6334246e.jpg"
-              alt
-            />
-          </div>
-          <!-- 右边文字 -->
-          <div class="dr_right">
-            <h4>上品全身经络推油</h4>
-            <h5>
-              <span>总订单数: 61</span>
-              <span>好评: 90%</span>
-            </h5>
-            <p class="txtdot">接单时间: 0:00～24:00 全天</p>
-            <h6 class="txtdot">
-              价格：
-              <font>￥399.00/100分钟</font>
-            </h6>
-          </div>
-        </div>
-      </van-list>
+      <van-tabs v-model="active">
+        <van-tab title="服务项目">
+          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <div v-for="(product, index) in list" class="pro_info_con">
+              <div class="pro_img">
+                <img :src="product.imageUrl" alt />
+              </div>
+              <div class="pro_info">
+                <p>{{product.name}}</p>
+                <p>放松全身解除慢性疲劳</p>
+                <p>
+                  <span>
+                    <i></i>
+                    <span>{{product.duration}}分钟</span>
+                  </span>
+                  <span></span>
+                </p>
+                <p>
+                  <span>¥{{product.sellPrice}}</span>
+                  <span @click="goAppoint(product)">预约</span>
+                </p>
+              </div>
+            </div>
+          </van-list>
+        </van-tab>
+        <van-tab title="顾客评价"></van-tab>
+        <van-tab title="资格认证"></van-tab>
+      </van-tabs>
     </div>
   </div>
 </template>
@@ -86,19 +77,16 @@ export default {
       value: 3
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     onLoad() {
-      console.log(this.$route.query)
+      console.log(this.$route.query);
       var id = this.$route.query.id;
       var self = this;
       var params = {
         id: id
-      }
-      this.$http.post(this.$api.Mech.SelectProduct, params, false) 
-      .then(res => {
+      };
+      this.$http.post(this.$api.Mech.SelectProduct, params, false).then(res => {
         var resData = res.data;
         self.loading = false;
         self.finished = true;
@@ -106,12 +94,23 @@ export default {
           var data = resData.data;
           self.list = data;
         }
-      })
+      });
     },
 
     goProduct() {
       this.$router.push({
         path: "/product-detail"
+      });
+    },
+    goAppoint(product) {
+      var mechId = this.$route.query.id;
+      var productId = product.id;
+      this.$router.push({
+        path: "/appoint",
+        query: {
+          productId: productId,
+          mechId: mechId
+        }
       });
     }
   }
@@ -119,14 +118,71 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-body {
-  background: chocolate;
-}
+<style lang="scss" scoped>
 .main {
   width: 100%;
   height: 100%;
-  background: #999;
+  .pro_info_con {
+    display: flex;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 10px;
+    background: #fff;
+    .pro_img {
+      width: 100px;
+      height: 100px;
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .pro_info {
+    width: calc(100% - 110px);
+    margin-left: 10px;
+    background: #fff;
+    >p:nth-child(1) {
+      font-size: 15px;
+      margin-top: 5px;
+    }
+    >p:nth-child(2) {
+      margin-top: 2px;
+    }
+    >p:nth-child(3) {
+      font-size: 12px;
+      color: rgba(153,153,153,1);
+      margin-top: 2px;
+      >span:nth-child(1) {
+        >i {
+          width: 9px;
+          height: 9px;
+          display: inline-block;
+          background: url(../../assets/url.png) no-repeat;
+          background-size: 100%;
+          position: relative;
+          margin-right: 10px;
+        }
+      }
+    }
+    >p:nth-child(4) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      >span:nth-child(1) {
+        font-size: 14px;
+        color: rgba(255,102,51,1);
+      }
+      >span:nth-child(2) {
+        background: rgba(102,199,42,1) !important;
+        color: #fff;
+        font-size: 13px;
+        border-radius: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+  }
 }
 .footer {
   width: 100%;

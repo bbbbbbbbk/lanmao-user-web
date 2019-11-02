@@ -29,10 +29,12 @@ export default {
     },
 
     Product: {
+        Root: '/v1/product',
         List: '/v1/product/list'
     },
 
     Mech: {
+        Root: '/v1/mech',
         List: '/v1/mech/list',
         SelectProduct: '/v1/mech/selectProduct'
     },

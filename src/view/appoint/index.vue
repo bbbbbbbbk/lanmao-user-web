@@ -22,34 +22,31 @@
         </p>
       </div>
     </div>
-    <div>预约人数</div>
-    <div class="order-guest" v-for="guest in guestList" :key="guest.id">
+    <p class="appoint-num">预约人数</p>
+    <div class="order-guest" v-for="(guest,index) in guestList" :key="guest.id">
       <p class="guest-p">
-        <span>{{guest.name}}:</span>
+        <span>预约人{{index + 1}}:</span>
         <span>
           <span @click="chooseProduct">选择项目</span>
           <span @click="chooseMech">选择技师</span>
         </span>
       </p>
-      <div class="order-project">
+      <div class="order-project" v-for="(product, index) in guest.productList">
         <div class="order-pro-info">
-          <img
-            src="https://mcdn.yishengdaojia.cn/upload/20170830/04c7785db10ac5f0561868519e1e5932.jpg"
-            alt
-          />
+          <img :src="product.imageUrl" alt />
           <div>
-            <p>中医对症金牌调理</p>
+            <p>{{product.name}}</p>
             <p>中医对症，金牌调理</p>
-            <p>60分钟</p>
+            <p>{{product.duration}}分钟</p>
           </div>
         </div>
       </div>
-      <div class="order_jishi_info">
+      <div class="order_jishi_info" v-for="(mech, index) in guest.mechList">
         <div class="jishi_li">
           <div class="jishi_con">
             <div class="jishi_head">
               <img
-                src="https://mcdn.yishengdaojia.cn/upload/20190925/f34114665356581fbcafd9f7c1745b6c.jpg"
+                :src="mech.avatar"
                 alt
               />
               <i
@@ -60,7 +57,7 @@
             <div class="jishi_info">
               <p class="jishi_juli"></p>
               <p class="jishi_name">
-                <span>顾根俊</span>
+                <span>{{mech.name}}</span>
                 <i
                   style="margin-left: 0.14rem; width: 0.99rem; height: 0.46rem; background-image: url(&quot;https://mcdn.yishengdaojia.cn/upload/20190711/b62750402d0f59184fad0093868b0fe7.png&quot;);"
                 ></i>
@@ -145,8 +142,15 @@
             <span>{{item.text}}</span>
           </p>
           <div class="time_ul">
-            <div class="time_li" v-for="timeUnit in item.timeUnitList" @click="selectTime = timeUnit.text">
-              <div class="time_blcok" :class="selectTime == timeUnit.text ? 'choose_time_style' : '' ">
+            <div
+              class="time_li"
+              v-for="timeUnit in item.timeUnitList"
+              @click="selectTime = timeUnit.text"
+            >
+              <div
+                class="time_blcok"
+                :class="selectTime == timeUnit.text ? 'choose_time_style' : '' "
+              >
                 <div>
                   <p>{{timeUnit.text}}</p>
                   <p>{{timeUnit.fullText}}</p>
@@ -157,14 +161,14 @@
           </div>
         </div>
       </div>
-      <div class="choose-btn"><p @click="sureChooseTime">确定选择</p></div>
+      <div class="choose-btn">
+        <p @click="sureChooseTime">确定选择</p>
+      </div>
     </van-popup>
     <!-- 选择技师-->
-    <van-popup v-model="showPickMech" position="bottom" closeable>
-    </van-popup>
+    <van-popup v-model="showPickMech" position="bottom" closeable></van-popup>
     <!-- 选择项目-->
-    <van-popup v-model="showPickProduct" position="bottom" closeable>
-    </van-popup>
+    <van-popup v-model="showPickProduct" position="bottom" closeable></van-popup>
   </div>
 </template>
 
@@ -176,21 +180,51 @@ export default {
       appointTime: "请选择您的预约时间",
       guestList: [
         {
-          name: "预约人1"
-        },
-        {
-          name: "预约人2"
-        },
-        {
-          name: "预约人3"
+          productList: [],
+          mechList: []
         }
       ],
       showPickTime: false,
       showPickMech: false,
       showPickProduct: false,
       timeBlockList: [],
-      selectTime: ''
+      selectTime: ""
     };
+  },
+  mounted() {
+    console.log(this.$route.query);
+    var self = this;
+    var productId = this.$route.query.productId;
+    var mechId = this.$route.query.mechId;
+    if (productId) {
+      //如果传过来了项目Id
+      this.$http
+        .get(this.$api.Product.Root + "/" + productId, {}, false)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            var guestList = self.guestList;
+            for (var i = 0; i < guestList.length; i++) {
+              var guest = guestList[i];
+              guest.productList.push(resData.data);
+            }
+          }
+        });
+    }
+    if (mechId) {
+      this.$http
+        .get(this.$api.Mech.Root + "/" + mechId, {}, false)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            var guestList = self.guestList;
+            for (var i = 0; i < guestList.length; i++) {
+              var guest = guestList[i];
+              guest.mechList.push(resData.data);
+            }
+          }
+        });
+    }
   },
   methods: {
     goConfirm() {
@@ -206,13 +240,12 @@ export default {
     chooseTime() {
       this.showPickTime = !this.showPickTime;
       var self = this;
-      this.$http.post(this.$api.Appoint.SelectTime, {}, false)
-      .then(res => {
+      this.$http.post(this.$api.Appoint.SelectTime, {}, false).then(res => {
         var resData = res.data;
         if (resData.code == 0) {
           self.timeBlockList = resData.data;
         }
-      })
+      });
     },
     sureChooseTime() {
       this.showPickTime = !this.showPickTime;
@@ -224,13 +257,16 @@ export default {
     chooseMech() {
       this.showPickMech = !this.showPickMech;
     }
-
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.appoint-num {
+  padding-left: 10px;
+  font-size: 15px;
+}
 .order-guest {
 }
 .order-address {
@@ -442,7 +478,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  >p {
+  > p {
     background: rgba(102, 199, 42, 1);
     border-radius: 30px;
     font-size: 15px;
@@ -455,33 +491,33 @@ export default {
   }
 }
 .choose_time_style {
-  background: rgba(77,184,72,1) !important;
+  background: rgba(77, 184, 72, 1) !important;
   color: #fff !important;
-  border: 1px solid rgba(77,184,72,1) !important;
+  border: 1px solid rgba(77, 184, 72, 1) !important;
 }
 .guest-p {
   display: flex;
   justify-content: space-between;
   margin: 10px 10px 5px 10px;
-  >div {
+  > div {
     display: inline-block;
   }
-  >span:nth-child(1) {
+  > span:nth-child(1) {
     font-size: 13px;
   }
-  >span:nth-child(2) {
+  > span:nth-child(2) {
     margin-right: 10px;
     font-size: 12px;
-    >span:nth-child(1) {
+    > span:nth-child(1) {
       color: #fff;
-      background: rgba(77,184,72,1) !important;
+      background: rgba(77, 184, 72, 1) !important;
       border-radius: 10px;
       padding: 5px 10px 5px 10px;
       margin-right: 20px;
     }
-    >span:nth-child(2) {
+    > span:nth-child(2) {
       color: #fff;
-      background: rgba(77,184,72,1) !important;
+      background: rgba(77, 184, 72, 1) !important;
       border-radius: 10px;
       padding: 5px 10px 5px 10px;
     }

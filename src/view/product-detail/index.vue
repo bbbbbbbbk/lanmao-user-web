@@ -166,8 +166,12 @@ export default {
 
   methods: {
     onSubmit() {
+      console.log(this.$route.query);
       this.$router.push({
-        path: '/appoint'
+        path: '/appoint',
+        query: {
+          productId: this.$route.query.id
+        }
       })
     }
   }
