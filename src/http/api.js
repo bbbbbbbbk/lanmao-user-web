@@ -40,6 +40,7 @@ export default {
     },
 
     Appoint: {
+        Book: '/v1/appoint/book',
         SelectTime: '/v1/appoint/selectTime'
     }
 }

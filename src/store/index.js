@@ -22,6 +22,9 @@ const store = new Vuex.Store({
       storage.setState(state);
     },
     loadGuestData(state, data) {
+      var productId = data.productId;
+      var mechId = data.mechId;
+      state.bookData = storage.getDefaultState().bookData;
       http
         .get(api.Mine.GetUserInfo, null, false)
         .then(res => {
@@ -29,22 +32,9 @@ const store = new Vuex.Store({
           const resultData = res.data;
           if (resultData.code == 0) {
             state.userInfo = resultData.data;
+            state.bookData.linkMobile = resultData.data.mobile;
+            state.bookData.linkName = resultData.data.name;
             storage.setState(state);
-            state.bookData = {
-              address: '请选择您的预约地址',
-              mobile: state.userInfo.mobile,
-              name: state.userInfo.name,
-              remark: '',
-              bookTime: '请选择您的预约时间',
-              guests: [
-                {
-                  products: [],
-                  mechs: []
-                }
-              ]
-            };
-            var productId = data.productId;
-            var mechId = data.mechId;
             if (productId) {
               //如果传过来了项目Id
               http
@@ -52,7 +42,8 @@ const store = new Vuex.Store({
                 .then(res => {
                   var resData = res.data;
                   if (resData.code == 0) {
-                    state.bookData.guests[0].products.push(resData.data);
+                    console.log(state)
+                    state.bookData.guestList[0].productList.push(resData.data);
                     storage.setState(state);
                   }
                 });
@@ -63,7 +54,7 @@ const store = new Vuex.Store({
                 .then(res => {
                   var resData = res.data;
                   if (resData.code == 0) {
-                    state.bookData.guests[0].mechs.push(resData.data);
+                    state.bookData.guestList[0].mechList.push(resData.data);
                     storage.setState(state);
                   }
                 });

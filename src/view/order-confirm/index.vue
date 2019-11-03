@@ -2,48 +2,45 @@
   <div>
     <div class="order-address">
       <p class="order-user-info">
-        <span>莫胜磊</span>
-        <span>17521250205</span>
+        <span>{{bookData.linkName}}</span>
+        <span>{{bookData.linkMobile}}</span>
       </p>
       <div class="order-user-add">
         <i></i>
         <div>
           <a href="javascript:void(0)">
-            <p>上海 张杨路628弄4-10号 繁荣昌盛小区 9号楼901</p>
+            <p>{{bookData.address}}</p>
+            <i></i>
           </a>
         </div>
       </div>
       <div class="order_time">
         <span>预约时间</span>
         <p>
-          <span>{{appointTime}}</span>
+          <span>{{bookData.bookTime}}</span>
+          <i></i>
         </p>
       </div>
     </div>
-    <div>预约人数</div>
-    <div class="order-guest" v-for="guest in guestList" :key="guest.id">
-      <p>{{guest.name}}:</p>
-      <div class="order-project">
+    <div class="order-guest" v-for="(guest,index) in bookData.guestList" :key="guest.id">
+      <p class="guest-p">
+        <span>预约人{{index + 1}}:</span>
+      </p>
+      <div class="order-project" v-for="(product, index) in guest.productList">
         <div class="order-pro-info">
-          <img
-            src="https://mcdn.yishengdaojia.cn/upload/20170830/04c7785db10ac5f0561868519e1e5932.jpg"
-            alt
-          />
+          <img :src="product.imageUrl" alt />
           <div>
-            <p>中医对症金牌调理</p>
+            <p>{{product.name}}</p>
             <p>中医对症，金牌调理</p>
-            <p>60分钟</p>
+            <p>{{product.duration}}分钟</p>
           </div>
         </div>
       </div>
-      <div class="order_jishi_info">
+      <div class="order_jishi_info" v-for="(mech, index) in guest.mechList">
         <div class="jishi_li">
           <div class="jishi_con">
             <div class="jishi_head">
-              <img
-                src="https://mcdn.yishengdaojia.cn/upload/20190925/f34114665356581fbcafd9f7c1745b6c.jpg"
-                alt
-              />
+              <img :src="mech.avatar" alt />
               <i
                 class="person-hot"
                 style="width: 0.5rem; height: 0.3rem; background-image: url(&quot;https://mcdn.yishengdaojia.cn/upload/20190717/a72a8229f4e2c32fe24f48fd0d99b0af.png&quot;);"
@@ -52,7 +49,7 @@
             <div class="jishi_info">
               <p class="jishi_juli"></p>
               <p class="jishi_name">
-                <span>顾根俊</span>
+                <span>{{mech.name}}</span>
                 <i
                   style="margin-left: 0.14rem; width: 0.99rem; height: 0.46rem; background-image: url(&quot;https://mcdn.yishengdaojia.cn/upload/20190711/b62750402d0f59184fad0093868b0fe7.png&quot;);"
                 ></i>
@@ -81,6 +78,7 @@
       <span>备注</span>
       <input type="text" placeholder="如有其它需要请留言" />
     </div>
+    <!-- 优惠券 -->
     <div class="price_con">
       <p>
         <span>平台优惠券</span>
@@ -106,8 +104,16 @@
           <span>微信支付</span>
         </p>
         <div class="checked_btn">
-          <img src="../../assets/no-checked.png" alt :class="payType == 1 ? 'no_checked' : 'yes_checked' " />
-          <img src="../../assets/checked.png" alt :class="payType == 1 ? 'yes_checked' : 'no_checked' " />
+          <img
+            src="../../assets/no-checked.png"
+            alt
+            :class="payType == 1 ? 'no_checked' : 'yes_checked' "
+          />
+          <img
+            src="../../assets/checked.png"
+            alt
+            :class="payType == 1 ? 'yes_checked' : 'no_checked' "
+          />
         </div>
       </div>
       <div id="payType1" class="pay_icon_div" @click="payType = 2">
@@ -119,15 +125,23 @@
           <span>支付宝支付</span>
         </p>
         <div class="checked_btn">
-          <img src="../../assets/no-checked.png" alt :class="payType == 2 ? 'no_checked' : 'yes_checked' " />
-          <img src="../../assets/checked.png" alt :class="payType == 2 ? 'yes_checked' : 'no_checked' " />
+          <img
+            src="../../assets/no-checked.png"
+            alt
+            :class="payType == 2 ? 'no_checked' : 'yes_checked' "
+          />
+          <img
+            src="../../assets/checked.png"
+            alt
+            :class="payType == 2 ? 'yes_checked' : 'no_checked' "
+          />
         </div>
       </div>
     </div>
     <div class="pay-btn">
       <span>
         应付金额:
-        <span>¥66</span>
+        <span>¥{{totalPrice}}</span>
       </span>
       <span @click="goPay">
         <a class="order_btn_now">立即支付</a>
@@ -141,24 +155,35 @@ export default {
   data() {
     return {
       active: 0,
-      appointTime: "请选择您的预约时间",
-      guestList: [
-        {
-          name: "预约人1"
-        },
-        {
-          name: "预约人2"
-        },
-        {
-          name: "预约人3"
-        }
-      ],
       payType: 1
     };
   },
+  computed: {
+    address() {
+      return this.$store.state.appointAddress;
+    },
+    bookData() {
+      return this.$store.state.bookData;
+    },
+    totalPrice() {
+      var guestList = this.$store.state.bookData.guestList;
+      var totalPrice = 0;
+      for (let guest of guestList) {
+        var productList = guest.productList;
+        for (let product of productList) {
+          totalPrice += product.sellPrice;
+        }
+      }
+      return totalPrice;
+    }
+  },
   methods: {
     goPay() {
+      var bookData = this.$store.state.bookData;
+      this.$http.post(this.$api.Appoint.Book, bookData, {}, false)
+      .then(res => {
         
+      })
     }
   }
 };
@@ -347,11 +372,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     i {
-        display: inline-block;
-        width: 8px;
-        height: 15px;
-        background: url(../../assets/toperson.png) no-repeat;
-        background-size: 100%;
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background: url(../../assets/toperson.png) no-repeat;
+      background-size: 100%;
     }
   }
   p:nth-child(2) {
@@ -360,10 +385,10 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-  >div {
-      margin-top: 5px;
-      margin-bottom: 5px;
-      text-align: right;
+  > div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: right;
   }
 }
 .pay_type {
@@ -371,37 +396,37 @@ export default {
   background: #fff;
   margin: 10px;
   margin-bottom: 60px;
-  >p {
-      padding-bottom: 10px;
-      padding-left: 10px;
-      font-size: 15px;
-      color: rgba(103,101,101,1);
+  > p {
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 15px;
+    color: rgba(103, 101, 101, 1);
   }
-  >div {
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(246, 244, 245, 1);
+    font-size: 15px;
+    padding: 10px;
+    > p {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(246,244,245,1);
-      font-size: 15px;
-      padding: 10px;
-      >p {
-          display: flex;
-          align-items: center;
-          >img {
-              width: 20px;
-              height: 18px;
-              margin-right: 20px;
-          }
+      > img {
+        width: 20px;
+        height: 18px;
+        margin-right: 20px;
       }
+    }
   }
 }
 .checked_btn {
-    display: flex;
-    .no_checked {
-        display: none;
-    }
-    .yes_checked {
-        display: block;
-    }
+  display: flex;
+  .no_checked {
+    display: none;
+  }
+  .yes_checked {
+    display: block;
+  }
 }
 </style>

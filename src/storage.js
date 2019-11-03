@@ -11,27 +11,30 @@ export default {
             storage.set(VUEX_STATE, val);
         }
     },
+    getDefaultState() {
+        return {
+            userInfo: {
+
+            },
+            bookData: {
+                address: '请选择您的预约地址',
+                linkMobile: '',
+                linkName: '',
+                remark: '',
+                bookTime: '请选择您的预约时间',
+                guestList: [
+                    {
+                        productList: [],
+                        mechList: []
+                    }
+                ]
+            }
+        };
+    },
     getState() {
         var state = storage.get(VUEX_STATE);
         if (!state) {
-            return {
-                userInfo: {
-
-                },
-                bookData: {
-                    address: '',
-                    mobile: '',
-                    name: '',
-                    remark: '',
-                    bookTime: '',
-                    guests: [
-                        {
-                            products: [],
-                            mechs: []
-                        }
-                    ]
-                }
-            };
+            return this.getDefaultState();
         }
         return state;
     }

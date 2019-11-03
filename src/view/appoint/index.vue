@@ -2,8 +2,8 @@
   <div>
     <div class="order-address">
       <p class="order-user-info">
-        <span>{{bookData.name}}</span>
-        <span>{{bookData.mobile}}</span>
+        <span>{{bookData.linkName}}</span>
+        <span>{{bookData.linkMobile}}</span>
       </p>
       <div class="order-user-add" @click="chooseAddress">
         <i></i>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <p class="appoint-num">预约人数</p>
-    <div class="order-guest" v-for="(guest,index) in bookData.guests" :key="guest.id">
+    <div class="order-guest" v-for="(guest,index) in bookData.guestList" :key="guest.id">
       <p class="guest-p">
         <span>预约人{{index + 1}}:</span>
         <span>
@@ -31,7 +31,7 @@
           <span @click="chooseMech">选择技师</span>
         </span>
       </p>
-      <div class="order-project" v-for="(product, index) in guest.products">
+      <div class="order-project" v-for="(product, index) in guest.productList">
         <div class="order-pro-info">
           <img :src="product.imageUrl" alt />
           <div>
@@ -41,14 +41,11 @@
           </div>
         </div>
       </div>
-      <div class="order_jishi_info" v-for="(mech, index) in guest.mechs">
+      <div class="order_jishi_info" v-for="(mech, index) in guest.mechList">
         <div class="jishi_li">
           <div class="jishi_con">
             <div class="jishi_head">
-              <img
-                :src="mech.avatar"
-                alt
-              />
+              <img :src="mech.avatar" alt />
               <i
                 class="person-hot"
                 style="width: 0.5rem; height: 0.3rem; background-image: url(&quot;https://mcdn.yishengdaojia.cn/upload/20190717/a72a8229f4e2c32fe24f48fd0d99b0af.png&quot;);"
@@ -89,7 +86,7 @@
     <div class="pay-btn">
       <span>
         应付金额:
-        <span>¥66</span>
+        <span>¥{{totalPrice}}</span>
       </span>
       <span @click="goConfirm">
         <a class="order_btn_now">立即预约</a>
@@ -191,11 +188,20 @@ export default {
     },
     bookData() {
       return this.$store.state.bookData;
+    },
+    totalPrice() {
+      var guestList = this.$store.state.bookData.guestList;
+      var totalPrice = 0;
+      for (let guest of guestList) {
+        var productList = guest.productList;
+        for (let product of productList) {
+          totalPrice += product.sellPrice;
+        }
+      }
+      return totalPrice;
     }
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     goConfirm() {
       this.$router.push({
@@ -219,7 +225,7 @@ export default {
     },
     sureChooseTime() {
       this.showPickTime = !this.showPickTime;
-      this.$store.commit('chooseBookTime', this.selectTime);
+      this.$store.commit("chooseBookTime", this.selectTime);
     },
     chooseProduct() {
       this.showPickProduct = !this.showPickProduct;
@@ -228,7 +234,7 @@ export default {
       this.showPickMech = !this.showPickMech;
     }
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     next();
   }
 };
