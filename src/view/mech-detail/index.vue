@@ -105,6 +105,10 @@ export default {
     goAppoint(product) {
       var mechId = this.$route.query.id;
       var productId = product.id;
+      this.$store.commit('loadGuestData', {
+        mechId: mechId,
+        productId: productId
+      });
       this.$router.push({
         path: "/appoint",
         query: {

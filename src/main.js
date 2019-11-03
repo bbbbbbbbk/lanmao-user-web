@@ -32,6 +32,8 @@ import api from './http/api';
 //css
 import './css/common.css'
 
+import store from './store';
+
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(Tabbar)
@@ -64,7 +66,12 @@ Vue.prototype.$http = http;
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+  next();
+})
+
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

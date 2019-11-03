@@ -9,7 +9,7 @@
         <i></i>
         <div>
           <a href="javascript:void(0)">
-            <p>上海 张杨路628弄4-10号 繁荣昌盛小区 9号楼901</p>
+            <p>{{address}}</p>
             <i></i>
           </a>
         </div>
@@ -178,12 +178,6 @@ export default {
     return {
       active: 0,
       appointTime: "请选择您的预约时间",
-      guestList: [
-        {
-          productList: [],
-          mechList: []
-        }
-      ],
       showPickTime: false,
       showPickMech: false,
       showPickProduct: false,
@@ -191,40 +185,48 @@ export default {
       selectTime: ""
     };
   },
+  computed: {
+    address() {
+      return this.$store.state.appointAddress;
+    },
+    guestList() {
+      return this.$store.state.appointGuest;
+    }
+  },
   mounted() {
-    console.log(this.$route.query);
-    var self = this;
-    var productId = this.$route.query.productId;
-    var mechId = this.$route.query.mechId;
-    if (productId) {
-      //如果传过来了项目Id
-      this.$http
-        .get(this.$api.Product.Root + "/" + productId, {}, false)
-        .then(res => {
-          var resData = res.data;
-          if (resData.code == 0) {
-            var guestList = self.guestList;
-            for (var i = 0; i < guestList.length; i++) {
-              var guest = guestList[i];
-              guest.productList.push(resData.data);
-            }
-          }
-        });
-    }
-    if (mechId) {
-      this.$http
-        .get(this.$api.Mech.Root + "/" + mechId, {}, false)
-        .then(res => {
-          var resData = res.data;
-          if (resData.code == 0) {
-            var guestList = self.guestList;
-            for (var i = 0; i < guestList.length; i++) {
-              var guest = guestList[i];
-              guest.mechList.push(resData.data);
-            }
-          }
-        });
-    }
+    // console.log(this.$route.query);
+    // var self = this;
+    // var productId = this.$route.query.productId;
+    // var mechId = this.$route.query.mechId;
+    // if (productId) {
+    //   //如果传过来了项目Id
+    //   this.$http
+    //     .get(this.$api.Product.Root + "/" + productId, {}, false)
+    //     .then(res => {
+    //       var resData = res.data;
+    //       if (resData.code == 0) {
+    //         var guestList = self.guestList;
+    //         self.$store.commit('chooseAppointProduct', {
+    //             index: 0,
+    //             data: resData.data
+    //           });
+    //       }
+    //     });
+    // }
+    // if (mechId) {
+    //   this.$http
+    //     .get(this.$api.Mech.Root + "/" + mechId, {}, false)
+    //     .then(res => {
+    //       var resData = res.data;
+    //       if (resData.code == 0) {
+    //         var guestList = self.guestList;
+    //         self.$store.commit('chooseAppointMech', {
+    //             index: 0,
+    //             data: resData.data
+    //           });
+    //       }
+    //     });
+    // }
   },
   methods: {
     goConfirm() {
@@ -257,6 +259,9 @@ export default {
     chooseMech() {
       this.showPickMech = !this.showPickMech;
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    next();
   }
 };
 </script>

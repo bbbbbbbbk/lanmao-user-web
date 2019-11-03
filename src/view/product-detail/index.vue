@@ -152,10 +152,8 @@ export default {
   data() {
     return {
       active: 0,
-      list: [
-        1,
-        2
-      ],
+      list: [1, 2],
+      value: 5,
       images: [
         "https://img.yzcdn.cn/vant/apple-1.jpg",
         "https://img.yzcdn.cn/vant/apple-2.jpg"
@@ -167,12 +165,15 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.$route.query);
+      this.$store.commit("loadGuestData", {
+        productId: this.$route.query.id
+      });
       this.$router.push({
-        path: '/appoint',
+        path: "/appoint",
         query: {
           productId: this.$route.query.id
         }
-      })
+      });
     }
   }
 };
@@ -248,7 +249,7 @@ export default {
 .dr_wr h6 span {
   margin-right: 20px;
   color: #999;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 .dr_xjs {
   width: 320px;

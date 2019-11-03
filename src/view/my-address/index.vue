@@ -7,6 +7,7 @@
       disabled-text="以下地址超出配送范围"
       @add="onAdd"
       @edit="onEdit"
+      @select="onSelect"
     />
   </div>
 </template>
@@ -52,6 +53,10 @@ export default {
       this.$router.push({
         path: "/add-address"
       });
+    },
+    onSelect(item, index) {
+      console.log(item);
+      this.$store.commit('chooseAddress', item.address)
     }
   }
 }
