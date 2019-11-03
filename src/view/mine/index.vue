@@ -5,7 +5,7 @@
       <p class="dr_avatar">
         <van-image width="100" height="100" round src="https://img.yzcdn.cn/vant/cat.jpeg" />
       </p>
-      <p class="dr_name">{{userName}}</p>
+      <p class="dr_name">{{userInfo.name}}</p>
     </div>
     <!-- 资产 -->
     <div class="dr_assert">
@@ -32,11 +32,14 @@ export default {
   data() {
     return {
       active: 0,
-      userName: ''
     };
   },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    }
+  },
   mounted() {
-    console.log('mounted');
     const self = this;
     this.$http
     .get(this.$api.Mine.GetUserInfo, null, false)
@@ -44,7 +47,7 @@ export default {
       console.log(res);
       const resultData = res.data;
       if (resultData.code == 0) {
-        self.userName = resultData.data.name;
+        self.$store.commit('loadUserInfo', resultData.data);
       }
     })
   }

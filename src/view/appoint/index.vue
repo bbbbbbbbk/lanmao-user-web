@@ -2,14 +2,14 @@
   <div>
     <div class="order-address">
       <p class="order-user-info">
-        <span>莫胜磊</span>
-        <span>17521250205</span>
+        <span>{{bookData.name}}</span>
+        <span>{{bookData.mobile}}</span>
       </p>
       <div class="order-user-add" @click="chooseAddress">
         <i></i>
         <div>
           <a href="javascript:void(0)">
-            <p>{{address}}</p>
+            <p>{{bookData.address}}</p>
             <i></i>
           </a>
         </div>
@@ -17,13 +17,13 @@
       <div class="order_time">
         <span>预约时间</span>
         <p @click="chooseTime">
-          <span>{{appointTime}}</span>
+          <span>{{bookData.bookTime}}</span>
           <i></i>
         </p>
       </div>
     </div>
     <p class="appoint-num">预约人数</p>
-    <div class="order-guest" v-for="(guest,index) in guestList" :key="guest.id">
+    <div class="order-guest" v-for="(guest,index) in bookData.guests" :key="guest.id">
       <p class="guest-p">
         <span>预约人{{index + 1}}:</span>
         <span>
@@ -31,7 +31,7 @@
           <span @click="chooseMech">选择技师</span>
         </span>
       </p>
-      <div class="order-project" v-for="(product, index) in guest.productList">
+      <div class="order-project" v-for="(product, index) in guest.products">
         <div class="order-pro-info">
           <img :src="product.imageUrl" alt />
           <div>
@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="order_jishi_info" v-for="(mech, index) in guest.mechList">
+      <div class="order_jishi_info" v-for="(mech, index) in guest.mechs">
         <div class="jishi_li">
           <div class="jishi_con">
             <div class="jishi_head">
@@ -189,44 +189,12 @@ export default {
     address() {
       return this.$store.state.appointAddress;
     },
-    guestList() {
-      return this.$store.state.appointGuest;
+    bookData() {
+      return this.$store.state.bookData;
     }
   },
   mounted() {
-    // console.log(this.$route.query);
-    // var self = this;
-    // var productId = this.$route.query.productId;
-    // var mechId = this.$route.query.mechId;
-    // if (productId) {
-    //   //如果传过来了项目Id
-    //   this.$http
-    //     .get(this.$api.Product.Root + "/" + productId, {}, false)
-    //     .then(res => {
-    //       var resData = res.data;
-    //       if (resData.code == 0) {
-    //         var guestList = self.guestList;
-    //         self.$store.commit('chooseAppointProduct', {
-    //             index: 0,
-    //             data: resData.data
-    //           });
-    //       }
-    //     });
-    // }
-    // if (mechId) {
-    //   this.$http
-    //     .get(this.$api.Mech.Root + "/" + mechId, {}, false)
-    //     .then(res => {
-    //       var resData = res.data;
-    //       if (resData.code == 0) {
-    //         var guestList = self.guestList;
-    //         self.$store.commit('chooseAppointMech', {
-    //             index: 0,
-    //             data: resData.data
-    //           });
-    //       }
-    //     });
-    // }
+
   },
   methods: {
     goConfirm() {
@@ -251,7 +219,7 @@ export default {
     },
     sureChooseTime() {
       this.showPickTime = !this.showPickTime;
-      this.appointTime = this.selectTime;
+      this.$store.commit('chooseBookTime', this.selectTime);
     },
     chooseProduct() {
       this.showPickProduct = !this.showPickProduct;
