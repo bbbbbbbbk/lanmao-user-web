@@ -28,7 +28,6 @@ const store = new Vuex.Store({
       http
         .get(api.Mine.GetUserInfo, null, false)
         .then(res => {
-          console.log(res);
           const resultData = res.data;
           if (resultData.code == 0) {
             state.userInfo = resultData.data;
@@ -42,7 +41,6 @@ const store = new Vuex.Store({
                 .then(res => {
                   var resData = res.data;
                   if (resData.code == 0) {
-                    console.log(state)
                     state.bookData.guestList[0].productList.push(resData.data);
                     storage.setState(state);
                   }

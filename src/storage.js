@@ -27,7 +27,8 @@ export default {
                         productList: [],
                         mechList: []
                     }
-                ]
+                ],
+                addressId: 0
             }
         };
     },

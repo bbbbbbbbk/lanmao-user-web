@@ -98,35 +98,10 @@
         <div class="choose_time">
           <div class="slide_tab_top">
             <div class="slide_ul">
-              <div class="slide_li">
-                <p>今天</p>
-                <p>11-02</p>
-                <!---->
-              </div>
-              <div class="slide_li tab_slide_active">
-                <p>明天</p>
-                <p>11-03</p>
-                <p class="tab_line_active"></p>
-              </div>
-              <div class="slide_li">
-                <p>周一</p>
-                <p>11-04</p>
-                <!---->
-              </div>
-              <div class="slide_li">
-                <p>周二</p>
-                <p>11-05</p>
-                <!---->
-              </div>
-              <div class="slide_li">
-                <p>周三</p>
-                <p>11-06</p>
-                <!---->
-              </div>
-              <div class="slide_li">
-                <p>周四</p>
-                <p>11-07</p>
-                <!---->
+              <div class="slide_li" @click="selectDay = day.text" v-for="day in days" :class="selectDay == day.text ? 'tab_slide_active': '' ">
+                <p>{{day.title}}</p>
+                <p>{{day.text}}</p>
+                <p :class="selectDay == day.text ? 'tab_line_active' : '' "></p>
               </div>
             </div>
           </div>
@@ -179,7 +154,34 @@ export default {
       showPickMech: false,
       showPickProduct: false,
       timeBlockList: [],
-      selectTime: ""
+      selectTime: "",
+      selectDay: '',
+      days: [
+        {
+          title: '今天',
+          text: '11-02'
+        },
+                {
+          title: '明天',
+          text: '11-03'
+        },
+                {
+          title: '周一',
+          text: '11-04'
+        },
+                {
+          title: '周二',
+          text: '11-05'
+        },
+                {
+          title: '周三',
+          text: '11-06'
+        },
+                {
+          title: '周四',
+          text: '11-07'
+        }
+      ]
     };
   },
   computed: {
@@ -225,7 +227,8 @@ export default {
     },
     sureChooseTime() {
       this.showPickTime = !this.showPickTime;
-      this.$store.commit("chooseBookTime", this.selectTime);
+      var bookTime = '2019-' + this.selectDay + ' ' + this.selectTime + ':00'
+      this.$store.commit("chooseBookTime", bookTime);
     },
     chooseProduct() {
       this.showPickProduct = !this.showPickProduct;
@@ -424,6 +427,17 @@ export default {
     .slide_li {
       display: inline-block;
       margin: 10px;
+      position: relative;
+    }
+    .tab_line_active {
+      width: 20px;
+      height: 4px;
+      background: rgba(102, 199, 42, 1);
+      border-radius: 0.04rem;
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      margin-left: -10px;
     }
   }
 }
