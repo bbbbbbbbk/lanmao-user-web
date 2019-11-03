@@ -2,39 +2,24 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import http from '../http/http';
 import api from '../http/api';
-import createPersistedState from "vuex-persistedstate";
+import storage from '../storage';
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  plugins: [createPersistedState()],
-  state: {
-    userInfo: {
-
-    },
-    bookData: {
-      address: '',
-      mobile: '',
-      name: '',
-      remark: '',
-      bookTime: '',
-      guests: [
-        {
-          products: [],
-          mechs: []
-        }
-      ]
-    }
-  },
+  state: storage.getState(),
   mutations: {
     loadUserInfo(state, userInfo) {
       state.userInfo = userInfo;
+      storage.setState(state);
     },
     chooseAddress(state, address) {
       state.bookData.address = address;
+      storage.setState(state);
     },
     chooseBookTime(state, bookTime) {
       state.bookData.bookTime = bookTime;
+      storage.setState(state);
     },
     loadGuestData(state, data) {
       http
@@ -44,6 +29,7 @@ const store = new Vuex.Store({
           const resultData = res.data;
           if (resultData.code == 0) {
             state.userInfo = resultData.data;
+            storage.setState(state);
             state.bookData = {
               address: '请选择您的预约地址',
               mobile: state.userInfo.mobile,
@@ -67,6 +53,7 @@ const store = new Vuex.Store({
                   var resData = res.data;
                   if (resData.code == 0) {
                     state.bookData.guests[0].products.push(resData.data);
+                    storage.setState(state);
                   }
                 });
             }
@@ -77,6 +64,7 @@ const store = new Vuex.Store({
                   var resData = res.data;
                   if (resData.code == 0) {
                     state.bookData.guests[0].mechs.push(resData.data);
+                    storage.setState(state);
                   }
                 });
             }
