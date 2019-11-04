@@ -182,6 +182,13 @@ const routes = [
         }
     },
     {
+        name: 'order-pay-success',
+        component: () => import('./view/order-pay-success'),
+        meta: {
+            title: '支付成功'
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),

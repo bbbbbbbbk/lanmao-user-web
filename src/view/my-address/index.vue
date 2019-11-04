@@ -57,6 +57,7 @@ export default {
     onSelect(item, index) {
       console.log(item);
       this.$store.commit('chooseAddress', item.address)
+      this.$router.go(-1);
     }
   }
 }

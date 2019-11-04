@@ -179,10 +179,16 @@ export default {
   },
   methods: {
     goPay() {
+      var self = this;
       var bookData = this.$store.state.bookData;
       this.$http.post(this.$api.Appoint.Book, bookData, {}, false)
       .then(res => {
-        
+        var resData = res.data;
+        if (resData.code == 0) {
+          self.$router.push({
+            path: '/order-pay-success'
+          })
+        }
       })
     }
   }
