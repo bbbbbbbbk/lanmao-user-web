@@ -206,6 +206,10 @@ export default {
   mounted() {},
   methods: {
     goConfirm() {
+      if (this.$store.state.bookData.address == '请选择您的预约地址') {
+        this.$toast('请选择您的预约地址');
+        return;
+      }
       this.$router.push({
         path: "/order-confirm"
       });
@@ -226,6 +230,14 @@ export default {
       });
     },
     sureChooseTime() {
+      if (!this.selectDay) {
+        this.$toast('请选择日期');
+        return;
+      }
+      if(!this.selectTime) {
+        this.$toast('请选择时间');
+        return;
+      }
       this.showPickTime = !this.showPickTime;
       var bookTime = '2019-' + this.selectDay + ' ' + this.selectTime + ':00'
       this.$store.commit("chooseBookTime", bookTime);
