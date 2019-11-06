@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div class="dr_container">
-      <p>账户余额(元)</p>
-      <p>¥{{balance}}</p>
-    </div>
-    <div class="dr_button">
-      <van-button type="default" block color="#fc524f" @click="goCharge">充值</van-button>
-      <!-- <van-button type="default" block color="#fc524f" @click="goCharge">交易记录</van-button> -->
+    <div class="my_account">
+      <p>余额（元）</p>
+      <p>{{balance}}</p>
+      <p>
+        <span @click="goCharge">充值</span>
+      </p>
     </div>
   </div>
 </template>
@@ -21,13 +20,14 @@ export default {
   },
   mounted() {
     const self = this;
-    this.$http.get(this.$api.MyWallet.GetBalance, {}, false)
-    .then(res => {
+    this.$Progress.start();
+    this.$http.get(this.$api.MyWallet.GetBalance, {}, false).then(res => {
       const resultData = res.data;
+      self.$Progress.finish();
       if (resultData.code == 0) {
         self.balance = resultData.data;
       }
-    })
+    });
   },
   methods: {
     goCharge() {
@@ -39,18 +39,33 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.dr_button {
-}
-
-.dr_container {
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  font-size: 20px;
-}
-.dr_container p {
+<style lang="scss" scoped>
+.my_account {
+  background: linear-gradient(148deg,rgba(255,168,33,1),rgba(255,100,33,1));
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 10px 10px 20px;
   margin: 10px;
+  >p:nth-child(1) {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+  >p:nth-child(2) {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  >p:nth-child(3) {
+    display: flex;
+    justify-content: flex-end;
+    >span {
+      background: rgba(255,175,50,1);
+      font-size: 16px;
+      width: 60px;
+      text-align: center;
+      border-radius: 30px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+  }
 }
 </style>
