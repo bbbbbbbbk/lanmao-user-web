@@ -20,13 +20,6 @@ const routes = [
         }
     },
     {
-        name: 'my-order',
-        component: () => import('./view/my-order'),
-        meta: {
-            title: '我的订单'
-        }
-    },
-    {
         name: 'my-address',
         component: () => import('./view/my-address'),
         meta: {
@@ -189,25 +182,32 @@ const routes = [
         }
     },
     {
+        name: 'book',
+        component: () => import('./view/book'),
+        meta: {
+            title: '预定',
+            keepAlive: true
+        }
+    },
+    {
         name: 'index',
         path: '/index/:name',
         component: () => import('./view/index'),
         children: [
+            {
+                path: '/my-order',
+                name: 'my-order',
+                component: () => import('./view/my-order'),
+                meta: {
+                    title: '我的订单'
+                }
+            },
             {
                 path: '/main',
                 name: 'main',
                 component: () => import('./view/main'),
                 meta: {
                     title: '首页',
-                    keepAlive: true
-                }
-            },
-            {
-                path: '/mech',
-                name: 'mech',
-                component: () => import('./view/mech'),
-                meta: {
-                    title: '技师',
                     keepAlive: true
                 }
             },
@@ -221,11 +221,11 @@ const routes = [
                 }
             },
             {
-                path: '/book',
-                name: 'book',
-                component: () => import('./view/book'),
+                path: '/mech',
+                name: 'mech',
+                component: () => import('./view/mech'),
                 meta: {
-                    title: '预定',
+                    title: '技师',
                     keepAlive: true
                 }
             }

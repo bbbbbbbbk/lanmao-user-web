@@ -66,8 +66,21 @@ Vue.prototype.$http = http;
 
 Vue.config.productionTip = false
 
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px'
+})
+
 router.beforeEach((to, from, next) => {
   next();
+})
+
+router.afterEach((to, from) => {
+
+  // ...
 })
 
 new Vue({

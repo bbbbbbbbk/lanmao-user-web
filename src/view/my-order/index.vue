@@ -230,8 +230,10 @@ export default {
       var self = this;
       var page = this.allOrderPageParams.page;
       let pageSize = this.allOrderPageParams.pageSize;
+      this.$Progress.start();
       this.$http.post(this.$api.Order.MyOrder, this.allOrderPageParams, false)
       .then(res => {
+        self.$Progress.finish();
         var resData = res.data;
         self.loading1 = false;
         if (resData.code == 0) {
