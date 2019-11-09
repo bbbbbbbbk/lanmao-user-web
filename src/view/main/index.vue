@@ -7,23 +7,54 @@
           <img fit="cover" v-lazy="image" />
         </van-swipe-item>
       </van-swipe>
-      <div class="dr_grid">
+      <div class="main_menu">
+        <ul>
+          <li>
+            <a href="/#/book">
+              <img
+                src="https://mcdn.yishengdaojia.cn/upload/20190815/06a5161b4fd38d4e09cb1e1f88dab6ef.png"
+              />
+              <span>服务项目</span>
+            </a>
+          </li>
+          <li>
+            <a href="/#/charge">
+              <img
+                src="https://mcdn.yishengdaojia.cn/upload/20190815/a956bce9c3f70b3defa1a141e10ce966.png"
+              />
+              <span>特惠充值</span>
+            </a>
+          </li>
+          <li>
+            <a href="/#/mech">
+              <img
+                src="https://mcdn.yishengdaojia.cn/upload/20190815/a956bce9c3f70b3defa1a141e10ce966.png"
+              />
+              <span>预约技师</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- <div class="dr_grid">
         <van-grid :column-num="3">
           <van-grid-item icon="photo-o" text="服务项目" is-link to="book" />
           <van-grid-item icon="photo-o" text="预约技师" is-link to="mech" />
           <van-grid-item icon="photo-o" text="领券中心" is-link to="coupon-center" />
         </van-grid>
-      </div>
+      </div>-->
       <div class="main_list">
         <h5>-- 推荐项目 --</h5>
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <div v-for="item in list" :key="item.id" :title="item" class="dr_cell" @click="goProduct(item)">
+          <div
+            v-for="item in list"
+            :key="item.id"
+            :title="item"
+            class="dr_cell"
+            @click="goProduct(item)"
+          >
             <!-- 左边图片-->
             <div class="pic">
-              <img
-                :src="item.imageUrl"
-                alt
-              />
+              <img :src="item.imageUrl" alt />
             </div>
             <!-- 右边文字 -->
             <div class="dr_right">
@@ -92,7 +123,7 @@
 </template>
 
 <script>
-import utils from '../../utils';
+import utils from "../../utils";
 
 export default {
   data() {
@@ -110,27 +141,32 @@ export default {
         page: 1,
         pageSize: 10,
         params: {
-          isRec: 'Y'
+          isRec: "Y"
         }
       }
     };
   },
   mounted() {
-    console.log(utils.getUrlKey('code'));
-    var code = utils.getUrlKey('code');
+    console.log(utils.getUrlKey("code"));
+    var code = utils.getUrlKey("code");
     if (code) {
       //拿到了code
-      this.$http.get(this.$api.Mine.GetOpenId, {
-        params: {
-          code: code
-        }
-      }, false)
-      .then(res => {
-        const resData = res.data;
-        if (resData.code == 0 && resData.data.openid) {
-          utils.setItem('openId', resData.data.openid);
-        }
-      })
+      this.$http
+        .get(
+          this.$api.Mine.GetOpenId,
+          {
+            params: {
+              code: code
+            }
+          },
+          false
+        )
+        .then(res => {
+          const resData = res.data;
+          if (resData.code == 0 && resData.data.openid) {
+            utils.setItem("openId", resData.data.openid);
+          }
+        });
     }
   },
 
@@ -150,37 +186,37 @@ export default {
     getProduct() {
       this.loading = true;
       var self = this;
-      this.$http.post(this.$api.Product.List, self.pageParams, false)
-      .then(res => {
-        self.loading = false;
-        var resData = res.data;
-        if (resData.code == 0) {
-          var data = resData.data;
-          self.list = self.list.concat(data.list);
-          var totalCount = data.totalCount;
-          if (totalCount <= self.pageParams.page * self.pageParams.pageSize) {
-            //加载完了
-            self.finished = true;
-          } else {
-            //还有下一页
-            self.pageParams.page++;
+      this.$http
+        .post(this.$api.Product.List, self.pageParams, false)
+        .then(res => {
+          self.loading = false;
+          var resData = res.data;
+          if (resData.code == 0) {
+            var data = resData.data;
+            self.list = self.list.concat(data.list);
+            var totalCount = data.totalCount;
+            if (totalCount <= self.pageParams.page * self.pageParams.pageSize) {
+              //加载完了
+              self.finished = true;
+            } else {
+              //还有下一页
+              self.pageParams.page++;
+            }
           }
-        }
-      })
+        });
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .main {
   width: 100%;
   height: 100%;
 }
 .swipe-container {
   width: 100%;
-  height: 240px;
+  height: 180px;
 }
 .dr_grid {
   margin-top: 10px;
@@ -286,5 +322,32 @@ export default {
 .main_list h5 {
   text-align: center;
   font-size: 1.4em;
+}
+.main_menu {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
+  height: 80px;
+  > ul {
+    color: #333333;
+    > li {
+      list-style: none;
+      float: left;
+      width: 33%;
+      text-align: center;
+      a {
+        color: inherit;
+        text-align: center;
+        display: inline-block;
+      }
+      img {
+        height: 40px;
+        width: 40px;
+        vertical-align: top;
+      }
+    }
+  }
 }
 </style>
