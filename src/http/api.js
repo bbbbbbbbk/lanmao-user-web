@@ -1,7 +1,13 @@
 export default {
     // 首页
     Index: {
-        index: '/index/index'
+        index: '/index/index',
+        QueryBanners: '/api/queryBanners',
+        RecommShop:'/api/shop/recommShop'
+    },
+
+    Shop: {
+        List: '/api/shop/list'
     },
 
     // 个人中心
@@ -10,21 +16,21 @@ export default {
     },
 
     Login: {
-        SmsCode: '/v1/sms/sendCode',
-        Login: '/v1/login'
+        SmsCode: '/api/sms/send',
+        Login: '/api/login'
     },
 
     Mine: {
-        GetUserInfo: '/v1/user/getUserInfo',
+        GetUserInfo: '/api/userInfo',
         GetOpenId: '/v1/user/getOpenId'
     },
 
     MyWallet: {
-        GetBalance: '/v1/user/getBalance'
+        GetBalance: '/api/member/getBalance'
     },
 
     Charge: {
-        GetChargePackages: '/v1/user/getChargePackages',
+        GetPackages: '/api/member/getPackages',
         BookCharge: '/v1/charge/bookCharge'
     },
 

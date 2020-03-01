@@ -11,9 +11,9 @@ app.use(express.static(__dirname + '/dist'));
 app.use(compression());
 app.use(cookieParser());
 
-app.all('/v1/*', function(req, res) {
+app.all('/api/*', function(req, res) {
 
-    const API = 'http://localhost:8182';
+    const API = 'http://localhost:8092';
 
     //代理
     proxy.web(req, res, {

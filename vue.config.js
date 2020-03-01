@@ -1,8 +1,8 @@
 module.exports = {
     devServer: {
         proxy: {
-          '^/v1': {
-            target: 'http://47.105.132.129:8182',
+          '^/api': {
+            target: 'https://userapi.weizispa.com',
             ws: true,
             changeOrigin: true
           }

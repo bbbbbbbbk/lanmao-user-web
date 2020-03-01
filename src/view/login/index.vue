@@ -23,7 +23,7 @@
       </div>
       <dl class="dr_agreement">
         <a href="/#/user-agreement">
-          <dd>· 登陆即”表示客户同意 上门服务协议</dd>
+          <!-- <dd>· 登陆即”表示客户同意 上门服务协议</dd> -->
         </a>
         <dd>· 登陆后未注册手机号将自动注册</dd>
       </dl>
@@ -36,6 +36,8 @@
 
 <script>
 import qs from "qs";
+import utils from '../../utils';
+
 export default {
   data() {
     return {
@@ -55,7 +57,7 @@ export default {
       };
       var self = this;
       this.$http
-        .post(this.$api.Login.SmsCode, qs.stringify(data), false)
+        .post(this.$api.Login.SmsCode, data, false)
         .then(result => {
           console.log(result);
           var resultData = result.data;
@@ -87,6 +89,7 @@ export default {
       .then(res => {
         const resultData = res.data;
         if (resultData.code == 0) {
+          utils.setItem('authCode', resultData.data);
           self.$router.push({
             path: "/main"
           });

@@ -3,8 +3,8 @@
     <!-- 首页 -->
     <div>
       <van-swipe class="swipe-container">
-        <van-swipe-item v-for="(image, index) in images" :key="index">
-          <img fit="cover" v-lazy="image" />
+        <van-swipe-item v-for="(banner, index) in banners" :key="index">
+          <img fit="cover" v-lazy="banner.imageUrl" />
         </van-swipe-item>
       </van-swipe>
       <div class="main_menu">
@@ -43,7 +43,7 @@
         </van-grid>
       </div>-->
       <div class="main_list">
-        <h5>-- 推荐项目 --</h5>
+        <h5>-- 推荐门店 --</h5>
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <div
             v-for="item in list"
@@ -54,7 +54,7 @@
           >
             <!-- 左边图片-->
             <div class="pic">
-              <img :src="item.imageUrl" alt />
+              <img :src="item.logo" alt />
             </div>
             <!-- 右边文字 -->
             <div class="dr_right">
@@ -63,7 +63,7 @@
                 <span>总订单数: 61</span>
                 <span>好评: 90%</span>
               </h5>
-              <p class="txtdot">接单时间: 0:00～24:00 全天</p>
+              <p class="txtdot">接单时间: 10:00～23:00 全天</p>
               <h6 class="txtdot">
                 价格：
                 <font>￥{{item.sellPrice}}/{{item.duration}}分钟</font>
@@ -129,10 +129,7 @@ export default {
   data() {
     return {
       active: 0,
-      images: [
-        "https://img.yzcdn.cn/vant/apple-1.jpg",
-        "https://img.yzcdn.cn/vant/apple-2.jpg"
-      ],
+      banners: [],
       list: [],
       loading: false,
       finished: false,
@@ -168,12 +165,24 @@ export default {
           }
         });
     }
+    this.queryBanners();
   },
 
   methods: {
     onLoad() {
       // 异步更新数据
-      this.getProduct();
+      this.getShops();
+    },
+    queryBanners() {
+      var self = this;
+      this.$http
+        .get(this.$api.Index.QueryBanners, {}, false)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code === 0) {
+            self.banners = resData.data;
+          }
+        })
     },
     goProduct(product) {
       this.$router.push({
@@ -183,25 +192,26 @@ export default {
         }
       });
     },
-    getProduct() {
+    getShops() {
       this.loading = true;
       var self = this;
       this.$http
-        .post(this.$api.Product.List, self.pageParams, false)
+        .post(this.$api.Shop.List, self.pageParams, false)
         .then(res => {
           self.loading = false;
           var resData = res.data;
           if (resData.code == 0) {
-            var data = resData.data;
-            self.list = self.list.concat(data.list);
-            var totalCount = data.totalCount;
-            if (totalCount <= self.pageParams.page * self.pageParams.pageSize) {
-              //加载完了
-              self.finished = true;
-            } else {
-              //还有下一页
-              self.pageParams.page++;
-            }
+            self.list = resData.data;
+            // self.list = self.list.concat(data.list);
+            // var totalCount = data.totalCount;
+            self.finished = true;
+            // if (totalCount <= self.pageParams.page * self.pageParams.pageSize) {
+            //   //加载完了
+            //   self.finished = true;
+            // } else {
+            //   //还有下一页
+            //   self.pageParams.page++;
+            // }
           }
         });
     }
@@ -235,7 +245,7 @@ export default {
   margin-left: 10px;
 }
 .pic img {
-  width: 140px;
+  width: 110px;
   height: 80px;
 }
 .dr_right {

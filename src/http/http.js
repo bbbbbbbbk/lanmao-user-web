@@ -1,4 +1,5 @@
 import axios from 'axios';
+import utils from '../utils'
 
 export default {
     /**
@@ -9,7 +10,9 @@ export default {
      */
     get(url, data, auth = false) {
         if (auth) {
-            return axios.get(url, data, {headers: {Authorization: 'Your back-end user authenticates information'}});
+            var authCode = utils.getItem('authCode');
+            console.log('authCode: ' + authCode)
+            return axios.get(url, {params: data, headers: {'authCode': authCode}});
         } else {
             return axios.get(url, data);
         }
