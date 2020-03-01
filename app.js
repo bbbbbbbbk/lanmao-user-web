@@ -2,7 +2,6 @@ var express = require('express');
 var httpProxy = require('http-proxy');
 var compression = require('compression');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 
 var app = express();
 var proxy = httpProxy.createProxyServer();
