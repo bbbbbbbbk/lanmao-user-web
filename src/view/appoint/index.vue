@@ -139,8 +139,15 @@
     </van-popup>
     <!-- 选择技师-->
     <van-popup v-model="showPickMech" position="bottom" closeable>
+      <ul class="d_mech">
+        <li v-for="mech in mechs" @click="clickMech(mech)" :class="mech.select ? 'active' : ''">
+          <img :src="mech.imageUrl" />
+          <span>{{mech.name}}</span>
+          <span>{{mech.mechNo}}</span>
+        </li>
+      </ul>
       <div class="choose-btn">
-        <p @click="sureChooseTime">确定选择</p>
+        <p @click="sureChooseTime">确定</p>
       </div>
     </van-popup>
     <!-- 选择项目-->
@@ -178,6 +185,8 @@ export default {
       selectTime: "",
       selectDay: '',
       products: [],
+      mechs:[],
+      selectMech:[],
       days: [
         {
           title: '今天',
@@ -326,6 +335,22 @@ export default {
     },
     chooseMech() {
       this.showPickMech = !this.showPickMech;
+      var self = this;
+      console.log(this.$route.query.shopId)
+      var params = {
+        shopId: this.$route.query.shopId
+      }
+      this.$http.get(this.$api.Appoint.Mechs, params, false)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            self.mechs = resData.data;
+          }
+        })
+    },
+    clickMech(mech) {
+      console.log(mech)
+      mech.select = !mech.select;
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -336,6 +361,32 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.d_mech {
+  margin-top: 50px;
+  height: 180px;
+  padding: 10px;
+  overflow-y: scroll;
+  >li{
+    float: left;
+    list-style: none;
+    margin-left: 5px;
+    text-align: center;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    padding: 0 0 10px 0;
+    >img:nth-child(1) {
+      width: 80px;
+      height: 110px;
+    }
+    >span{
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+  }
+  >li.active{
+    border: 1px solid #f63;
+  }
+}
 .d_product {
   margin-top: 50px;
   >li{

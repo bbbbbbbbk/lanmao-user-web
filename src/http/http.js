@@ -8,13 +8,13 @@ export default {
      * @param auth 是否需要带登录信息
      * @returns {AxiosPromise<any>}
      */
-    get(url, data, auth = false) {
+    get(url, params, auth = false) {
         if (auth) {
             var authCode = utils.getItem('authCode');
             console.log('authCode: ' + authCode)
-            return axios.get(url, {params: data, headers: {'authCode': authCode}});
+            return axios.get(url, {params: params, headers: {'authCode': authCode}});
         } else {
-            return axios.get(url, data);
+            return axios.get(url, {params: params});
         }
     },
 

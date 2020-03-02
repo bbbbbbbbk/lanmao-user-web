@@ -50,7 +50,8 @@ export default {
         SelectTime: '/v1/appoint/selectTime',
         QueryDays: '/api/appoint/queryDays',
         QueryTimes: '/api/appoint/queryTimes',
-        Products: '/api/appoint/products'
+        Products: '/api/appoint/products',
+        Mechs: '/api/appoint/mechs'
     },
 
     Order: {
