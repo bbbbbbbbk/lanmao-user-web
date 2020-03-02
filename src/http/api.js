@@ -47,7 +47,10 @@ export default {
 
     Appoint: {
         Book: '/v1/appoint/book',
-        SelectTime: '/v1/appoint/selectTime'
+        SelectTime: '/v1/appoint/selectTime',
+        QueryDays: '/api/appoint/queryDays',
+        QueryTimes: '/api/appoint/queryTimes',
+        Products: '/api/appoint/products'
     },
 
     Order: {

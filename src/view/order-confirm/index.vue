@@ -5,7 +5,7 @@
         <span>{{bookData.linkName}}</span>
         <span>{{bookData.linkMobile}}</span>
       </p>
-      <div class="order-user-add">
+      <!-- <div class="order-user-add">
         <i></i>
         <div>
           <a href="javascript:void(0)">
@@ -13,7 +13,7 @@
             <i></i>
           </a>
         </div>
-      </div>
+      </div> -->
       <div class="order_time">
         <span>预约时间</span>
         <p>

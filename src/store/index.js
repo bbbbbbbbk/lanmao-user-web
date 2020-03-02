@@ -26,7 +26,7 @@ const store = new Vuex.Store({
       var mechId = data.mechId;
       state.bookData = storage.getDefaultState().bookData;
       http
-        .get(api.Mine.GetUserInfo, null, false)
+        .get(api.Mine.GetUserInfo, null, true)
         .then(res => {
           const resultData = res.data;
           if (resultData.code == 0) {

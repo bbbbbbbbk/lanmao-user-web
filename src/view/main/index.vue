@@ -50,7 +50,7 @@
             :key="item.id"
             :title="item"
             class="dr_cell"
-            @click="goProduct(item)"
+            @click.capture="goProduct(item)"
           >
             <!-- 左边图片-->
             <div class="pic">
@@ -67,6 +67,7 @@
               <h6 class="txtdot">
                 价格：
                 <font>￥{{item.sellPrice}}/{{item.duration}}分钟</font>
+                <button class="book" @click="goBook(item)">预定</button>
               </h6>
             </div>
           </div>
@@ -192,6 +193,14 @@ export default {
         }
       });
     },
+    goBook(shop) {
+      this.$router.push({
+        path: "/appoint",
+        query: {
+          shopId: shop.id 
+        }
+      });
+    },
     getShops() {
       this.loading = true;
       var self = this;
@@ -250,9 +259,27 @@ export default {
 }
 .dr_right {
   margin-left: 10px;
-}
-.dr_right h4 {
-  font-size: 1.2em;
+  font-size: 10px;
+  > h5:nth-child(1) {
+    text-align: left;
+  }
+  > h5 {
+    >span{
+
+    }
+  }
+  >h4 {
+    font-size: 1.2em;
+  }
+  .book {
+    position: relative;
+    margin-left: 50px;
+    float: right;
+    display: inline-block;
+    background-color: #e64340;
+    padding: 5px 10px 5px 10px;
+    color: #fff;
+  }
 }
 .dr_right h5 span {
   color: #999;
@@ -328,10 +355,10 @@ export default {
 }
 .main_list {
   margin-bottom: 48px;
-}
-.main_list h5 {
-  text-align: center;
-  font-size: 1.4em;
+  > h5:nth-child(1) {
+    text-align: center;
+    font-size: 1.4em;
+  }
 }
 .main_menu {
   margin-top: 10px;

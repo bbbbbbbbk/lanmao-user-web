@@ -5,7 +5,7 @@
         <span>{{bookData.linkName}}</span>
         <span>{{bookData.linkMobile}}</span>
       </p>
-      <div class="order-user-add" @click="chooseAddress">
+      <!-- <div class="order-user-add" @click="chooseAddress">
         <i></i>
         <div>
           <a href="javascript:void(0)">
@@ -13,7 +13,7 @@
             <i></i>
           </a>
         </div>
-      </div>
+      </div> -->
       <div class="order_time">
         <span>预约时间</span>
         <p @click="chooseTime">
@@ -98,10 +98,10 @@
         <div class="choose_time">
           <div class="slide_tab_top">
             <div class="slide_ul">
-              <div class="slide_li" @click="selectDay = day.text" v-for="day in days" :class="selectDay == day.text ? 'tab_slide_active': '' ">
-                <p>{{day.title}}</p>
-                <p>{{day.text}}</p>
-                <p :class="selectDay == day.text ? 'tab_line_active' : '' "></p>
+              <div class="slide_li" @click="selectDay = day.day" v-for="day in days" :class="selectDay == day.day ? 'tab_slide_active': '' ">
+                <p>{{day.showDay}}</p>
+                <!-- <p>{{day.text}}</p> -->
+                <p :class="selectDay == day.day ? 'tab_line_active' : '' "></p>
               </div>
             </div>
           </div>
@@ -117,14 +117,14 @@
             <div
               class="time_li"
               v-for="timeUnit in item.timeUnitList"
-              @click="selectTime = timeUnit.text"
+              @click="selectTime = timeUnit.time"
             >
               <div
                 class="time_blcok"
-                :class="selectTime == timeUnit.text ? 'choose_time_style' : '' "
+                :class="selectTime == timeUnit.time ? 'choose_time_style' : '' "
               >
                 <div>
-                  <p>{{timeUnit.text}}</p>
+                  <p>{{timeUnit.time}}</p>
                   <p>{{timeUnit.fullText}}</p>
                 </div>
               </div>
@@ -138,9 +138,30 @@
       </div>
     </van-popup>
     <!-- 选择技师-->
-    <van-popup v-model="showPickMech" position="bottom" closeable></van-popup>
+    <van-popup v-model="showPickMech" position="bottom" closeable>
+      <div class="choose-btn">
+        <p @click="sureChooseTime">确定选择</p>
+      </div>
+    </van-popup>
     <!-- 选择项目-->
-    <van-popup v-model="showPickProduct" position="bottom" closeable></van-popup>
+    <van-popup v-model="showPickProduct" position="bottom" closeable>
+      <ul class="d_product">
+        <li v-for="product in products">
+          <span>{{product.name}}</span>
+          <span>
+            <span>¥{{product.sellPrice}}</span>
+            <span>
+              <span @click="minusP(product)">-</span>
+              <span>{{product.count}}</span>
+              <span @click="plusP(product)">+</span>
+            </span>
+          </span>
+        </li>
+      </ul>
+      <div class="choose-btn">
+        <p @click="sureChooseTime">确定</p>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -156,6 +177,7 @@ export default {
       timeBlockList: [],
       selectTime: "",
       selectDay: '',
+      products: [],
       days: [
         {
           title: '今天',
@@ -203,13 +225,49 @@ export default {
       return totalPrice;
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$route.query);
+    var self = this;
+    this.$http.get(this.$api.Appoint.QueryDays, null, false)
+      .then(res => {
+        var resData = res.data;
+        if (resData.code == 0) {
+          self.days = resData.data;
+          if (self.days.length > 0) {
+            var params = {
+              day: self.days[0].day,
+              shopId: self.$route.query.shopId
+            }
+            self.$http.post(self.$api.Appoint.QueryTimes, params, false)
+              .then(res => {
+                var resData = res.data;
+                var pmList = resData.data.pmList;
+                var amList = resData.data.amList;
+                if (amList && amList.length > 0) {
+                  self.timeBlockList.push({
+                    title: '上午',
+                    text: '11:00~17:00',
+                    timeUnitList: amList
+                  })
+                }
+                if (pmList && pmList.length > 0) {
+                  self.timeBlockList.push({
+                    title: '下午',
+                    text: '17:00~23:00',
+                    timeUnitList: pmList
+                  })
+                }
+              })
+          }
+        }
+      })
+  },
   methods: {
     goConfirm() {
-      if (this.$store.state.bookData.address == '请选择您的预约地址') {
-        this.$toast('请选择您的预约地址');
-        return;
-      }
+      // if (this.$store.state.bookData.address == '请选择您的预约地址') {
+      //   this.$toast('请选择您的预约地址');
+      //   return;
+      // }
       this.$router.push({
         path: "/order-confirm"
       });
@@ -239,11 +297,32 @@ export default {
         return;
       }
       this.showPickTime = !this.showPickTime;
-      var bookTime = '2019-' + this.selectDay + ' ' + this.selectTime + ':00'
+      var bookTime = this.selectDay + ' ' + this.selectTime + ':00'
       this.$store.commit("chooseBookTime", bookTime);
     },
     chooseProduct() {
       this.showPickProduct = !this.showPickProduct;
+      var self = this;
+      var params = {
+        shopId: this.$route.query.shopId,
+        bookTime: this.selectDay + ' ' + this.selectTime
+      }
+      this.$http.post(this.$api.Appoint.Products, params, false)
+        .then(res => {
+          var resData = res.data;
+          resData.data.forEach(item => {
+            item.count = 0;
+          })
+          self.products = resData.data;
+        })
+    },
+    minusP(product) {
+      if (product.count > 0) {
+        product.count--;
+      }
+    },
+    plusP(product) {
+      product.count++;
     },
     chooseMech() {
       this.showPickMech = !this.showPickMech;
@@ -257,6 +336,41 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.d_product {
+  margin-top: 50px;
+  >li{
+    padding: 5px;
+    margin: 20px 0 20px 0;
+    font-size: 15px;
+    border-bottom: 1px solid #f2f2f2;
+    >span:nth-child(1) {
+      
+    }
+    >span:nth-child(2) {
+      float: right;
+      >span:nth-child(1) {
+        margin-right: 10px;
+        color: #f63;
+      }
+      >span:nth-child(2) {
+        >span:nth-child(1) {
+          border: 1px solid #ccc;
+          padding: 8px 10px;
+        }
+        >span:nth-child(2) {
+          border: 1px solid #ccc;
+          padding: 8px 10px;
+          border-left: 1px solid transparent;
+          border-right: 1px solid transparent;
+        }
+        >span:nth-child(3) {
+          border: 1px solid #ccc;
+          padding: 8px 10px;
+        }
+      }
+    }
+  }
+}
 .appoint-num {
   padding-left: 10px;
   font-size: 15px;
