@@ -9,8 +9,8 @@
     </div>
     <!-- 资产 -->
     <div class="dr_assert">
-      <van-grid :column-num="3">
-        <van-grid-item icon="like-o" text="我的收藏" is-link to="my-collect" />
+      <van-grid :column-num="2">
+        <!-- <van-grid-item icon="like-o" text="我的收藏" is-link to="my-collect" /> -->
         <van-grid-item icon="coupon-o" text="优惠券" is-link to="my-coupon" />
         <van-grid-item icon="balance-pay" text="我的钱包" is-link to="my-wallet" />
       </van-grid>
@@ -29,56 +29,48 @@
           <a href="/#/charge">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_1.png" alt />
             <p>特惠充值</p>
-            <!---->
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="/#/my-address">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_7.png" alt />
             <p>地址管理</p>
-            <!---->
           </a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="//w2.iyishengyuan.com/common_mall_index/1.html">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_4.png" alt />
             <p>健康商城</p>
-            <!---->
           </a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="//w2.iyishengyuan.com/common_user_collectList/1.html">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_6.png" alt />
             <p>我的关注</p>
-            <!---->
           </a>
         </li>
         <li>
           <a href="//w2.iyishengyuan.com/common_expert_index/1.html">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_5.png" alt />
             <p>健康管理</p>
-            <!---->
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="tel:4006168080">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_3.png" alt />
             <p>联系客服</p>
-            <!---->
           </a>
         </li>
         <li>
           <a href="//w2.iyishengyuan.com/index_h5.html?type=5">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_4.png" alt />
             <p>服务范围</p>
-            <!---->
           </a>
         </li>
         <li>
           <a href="//w2.iyishengyuan.com/index_h5.html?type=6">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_2.png" alt />
             <p>用户协议</p>
-            <!---->
           </a>
         </li>
         <li>
