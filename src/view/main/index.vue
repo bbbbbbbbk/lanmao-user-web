@@ -25,14 +25,6 @@
               <span>特惠充值</span>
             </a>
           </li>
-          <li>
-            <a href="/#/mech">
-              <img
-                src="https://mcdn.yishengdaojia.cn/upload/20190815/a956bce9c3f70b3defa1a141e10ce966.png"
-              />
-              <span>预约技师</span>
-            </a>
-          </li>
         </ul>
       </div>
       <!-- <div class="dr_grid">
@@ -50,7 +42,6 @@
             :key="item.id"
             :title="item"
             class="dr_cell"
-            @click="goShopDetail(item)"
           >
             <!-- 左边图片-->
             <div class="pic">
@@ -134,7 +125,7 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      show: true,
+      show: false,
       pageParams: {
         page: 1,
         pageSize: 10,
@@ -371,7 +362,7 @@ export default {
     > li {
       list-style: none;
       float: left;
-      width: 33%;
+      width: 50%;
       text-align: center;
       a {
         color: inherit;

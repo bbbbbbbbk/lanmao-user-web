@@ -5,15 +5,6 @@
         <span>{{bookData.linkName}}</span>
         <span>{{bookData.linkMobile}}</span>
       </p>
-      <!-- <div class="order-user-add" @click="chooseAddress">
-        <i></i>
-        <div>
-          <a href="javascript:void(0)">
-            <p>{{bookData.address}}</p>
-            <i></i>
-          </a>
-        </div>
-      </div> -->
       <div class="order_time">
         <span>预约时间</span>
         <p @click="chooseTime">
@@ -27,21 +18,25 @@
       <p class="guest-p">
         <span>预约人{{index + 1}}:</span>
         <span>
-          <span @click="chooseProduct">选择项目</span>
-          <span @click="chooseMech">选择技师</span>
+          <span @click="chooseProduct(guest)">选择项目</span>
+          <!-- <span @click="chooseMech">选择技师</span> -->
         </span>
       </p>
-      <div class="order-project" v-for="(product, index) in guest.productList">
+      <div
+        class="order-project" 
+        >
         <div class="order-pro-info">
-          <img :src="product.imageUrl" alt />
           <div>
-            <p>{{product.name}}</p>
-            <p>中医对症，金牌调理</p>
-            <p>{{product.duration}}分钟</p>
+            <p :key="index" v-for="(product, index) in guest.productList">
+              {{product.name}} x {{product.count}}
+            </p>
           </div>
         </div>
       </div>
-      <div class="order_jishi_info" v-for="(mech, index) in guest.mechList">
+      <div 
+        :key="index" 
+        class="order_jishi_info" 
+        v-for="(mech, index) in guest.mechList">
         <div class="jishi_li">
           <div class="jishi_con">
             <div class="jishi_head">
@@ -98,7 +93,11 @@
         <div class="choose_time">
           <div class="slide_tab_top">
             <div class="slide_ul">
-              <div class="slide_li" @click="selectDay = day.day" v-for="day in days" :class="selectDay == day.day ? 'tab_slide_active': '' ">
+              <div 
+                :key="day.id" 
+                class="slide_li" 
+                @click="selectDay = day.day" v-for="day in days" 
+                :class="selectDay == day.day ? 'tab_slide_active': '' ">
                 <p>{{day.showDay}}</p>
                 <!-- <p>{{day.text}}</p> -->
                 <p :class="selectDay == day.day ? 'tab_line_active' : '' "></p>
@@ -108,17 +107,21 @@
         </div>
       </div>
       <div class="slide_tab_con">
-        <div class="slide_tab_con_li" v-for="item in timeBlockList">
+        <div 
+          :key="item.id" 
+          class="slide_tab_con_li" 
+          v-for="item in timeBlockList"
+          >
           <p class="time_title">
             <span>{{item.title}}</span>
             <span>{{item.text}}</span>
           </p>
           <div class="time_ul">
             <div
+              :key="timeUnit.id"
               class="time_li"
               v-for="timeUnit in item.timeUnitList"
-              @click="selectTime = timeUnit.time"
-            >
+              @click="selectTime = timeUnit.time">
               <div
                 class="time_blcok"
                 :class="selectTime == timeUnit.time ? 'choose_time_style' : '' "
@@ -140,7 +143,11 @@
     <!-- 选择技师-->
     <van-popup v-model="showPickMech" position="bottom" closeable>
       <ul class="d_mech">
-        <li v-for="mech in mechs" @click="clickMech(mech)" :class="mech.select ? 'active' : ''">
+        <li 
+          :key="mech" 
+          v-for="mech in mechs" 
+          @click="clickMech(mech)" 
+          :class="mech.select ? 'active' : ''">
           <img :src="mech.imageUrl" />
           <span>{{mech.name}}</span>
           <span>{{mech.mechNo}}</span>
@@ -153,7 +160,9 @@
     <!-- 选择项目-->
     <van-popup v-model="showPickProduct" position="bottom" closeable>
       <ul class="d_product">
-        <li v-for="product in products">
+        <li 
+          :key="product.id" 
+          v-for="product in products">
           <span>{{product.name}}</span>
           <span>
             <span>¥{{product.sellPrice}}</span>
@@ -166,7 +175,7 @@
         </li>
       </ul>
       <div class="choose-btn">
-        <p @click="sureChooseTime">确定</p>
+        <p @click="sureChooseProduct">确定</p>
       </div>
     </van-popup>
   </div>
@@ -187,32 +196,8 @@ export default {
       products: [],
       mechs:[],
       selectMech:[],
-      days: [
-        {
-          title: '今天',
-          text: '11-02'
-        },
-                {
-          title: '明天',
-          text: '11-03'
-        },
-                {
-          title: '周一',
-          text: '11-04'
-        },
-                {
-          title: '周二',
-          text: '11-05'
-        },
-                {
-          title: '周三',
-          text: '11-06'
-        },
-                {
-          title: '周四',
-          text: '11-07'
-        }
-      ]
+      selGuest: {},
+      days: []
     };
   },
   computed: {
@@ -273,10 +258,6 @@ export default {
   },
   methods: {
     goConfirm() {
-      // if (this.$store.state.bookData.address == '请选择您的预约地址') {
-      //   this.$toast('请选择您的预约地址');
-      //   return;
-      // }
       this.$router.push({
         path: "/order-confirm"
       });
@@ -309,7 +290,19 @@ export default {
       var bookTime = this.selectDay + ' ' + this.selectTime + ':00'
       this.$store.commit("chooseBookTime", bookTime);
     },
-    chooseProduct() {
+    sureChooseProduct() {
+      this.showPickProduct = !this.showPickProduct;
+      var self = this;
+      var productList = [];
+      this.products.forEach(item => {
+        if (item.count > 0) {
+          productList.push(item);
+        }
+      });
+      this.selGuest.productList = productList;
+    },
+    chooseProduct(guest) {
+      this.selGuest = guest;
       this.showPickProduct = !this.showPickProduct;
       var self = this;
       var params = {
@@ -481,7 +474,6 @@ export default {
     > span {
       width: 80px;
       font-size: 14px;
-      margin-left: 30px;
     }
     > p {
       display: flex;
@@ -590,7 +582,7 @@ export default {
     > div {
       margin-left: 10px;
     }
-    > div p:nth-child(1) {
+    > div p {
       margin-top: 10px;
       font-size: 16px;
     }
@@ -601,19 +593,20 @@ export default {
     width: auto;
     white-space: nowrap;
     overflow-y: hidden;
+    margin-top: 40px;
     .slide_li {
       display: inline-block;
       margin: 10px;
       position: relative;
     }
     .tab_line_active {
-      width: 20px;
+      width: 40px;
       height: 4px;
       background: rgba(102, 199, 42, 1);
       border-radius: 0.04rem;
       position: absolute;
       bottom: -5px;
-      left: 50%;
+      left: 30%;
       margin-left: -10px;
     }
   }

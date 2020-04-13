@@ -26,17 +26,22 @@
       <p class="guest-p">
         <span>预约人{{index + 1}}:</span>
       </p>
-      <div class="order-project" v-for="(product, index) in guest.productList">
+      <div 
+        class="order-project" >
         <div class="order-pro-info">
-          <img :src="product.imageUrl" alt />
           <div>
-            <p>{{product.name}}</p>
-            <p>中医对症，金牌调理</p>
-            <p>{{product.duration}}分钟</p>
+            <p 
+              :key="index" 
+              v-for="(product, index) in guest.productList">
+              {{product.name}} x {{product.count}}
+            </p>
           </div>
         </div>
       </div>
-      <div class="order_jishi_info" v-for="(mech, index) in guest.mechList">
+      <div 
+        :key="index" 
+        class="order_jishi_info" 
+        v-for="(mech, index) in guest.mechList">
         <div class="jishi_li">
           <div class="jishi_con">
             <div class="jishi_head">
@@ -79,7 +84,7 @@
       <input type="text" placeholder="如有其它需要请留言" />
     </div>
     <!-- 优惠券 -->
-    <div class="price_con">
+    <!-- <div class="price_con" >
       <p>
         <span>平台优惠券</span>
         <span>
@@ -95,7 +100,7 @@
         合计
         <span>158元</span>
       </div>
-    </div>
+    </div> -->
     <div class="pay_type">
       <p>支付方式</p>
       <div id="payType0" class="pay_icon_div" @click="payType = 1">
@@ -116,7 +121,25 @@
           />
         </div>
       </div>
-      <div id="payType1" class="pay_icon_div" @click="payType = 2">
+      <div id="payType2" class="pay_icon_div" @click="payType = 3">
+        <p>
+          <img src="../../assets//payicon-5.png" alt />
+          <span>余额支付</span>
+        </p>
+        <div class="checked_btn">
+          <img
+            src="../../assets/no-checked.png"
+            alt
+            :class="payType == 3 ? 'no_checked' : 'yes_checked' "
+          />
+          <img
+            src="../../assets/checked.png"
+            alt
+            :class="payType == 3 ? 'yes_checked' : 'no_checked' "
+          />
+        </div>
+      </div>
+      <div id="payType1" class="pay_icon_div" @click="payType = 2" v-show="false">
         <p>
           <!---->
           <img src="../../assets/payicon-4.png" alt />
@@ -361,7 +384,7 @@ export default {
     > div {
       margin-left: 10px;
     }
-    > div p:nth-child(1) {
+    > div p{
       margin-top: 10px;
       font-size: 16px;
     }
