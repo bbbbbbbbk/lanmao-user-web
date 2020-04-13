@@ -138,7 +138,6 @@ export default {
   mounted() {
     this.getUserInfo();
     console.log(utils.getUrlKey("code"));
-    this.queryBanners();
   },
 
   methods: {
@@ -150,6 +149,7 @@ export default {
         const resultData = res.data;
         if (resultData.code == 0) {
           self.$store.commit("loadUserInfo", resultData.data);
+          self.queryBanners();
           var code = utils.getUrlKey("code");
           if (code) {
             //拿到了code

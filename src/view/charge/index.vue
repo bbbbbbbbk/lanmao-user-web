@@ -115,7 +115,7 @@ export default {
             self.$toast('充值成功');
             self.$Progress.start();
             self.$http
-              .get(self.$api.MyWallet.GetBalance, {}, false)
+              .get(self.$api.MyWallet.GetBalance, {}, true)
               .then(res => {
                 const resultData = res.data;
                 self.$Progress.finish();
