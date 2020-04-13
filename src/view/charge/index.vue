@@ -93,10 +93,7 @@ export default {
           if (resData.code == 0) {
             var data = resData.data;
             self.bookData = data;
-            if (data.payParams) {
-              var payParams = data.payParams;
-              self.readyPay(payParams);
-            }
+            self.readyPay(data);
           }
         });
     },
