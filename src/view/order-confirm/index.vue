@@ -5,15 +5,6 @@
         <span>{{bookData.linkName}}</span>
         <span>{{bookData.linkMobile}}</span>
       </p>
-      <!-- <div class="order-user-add">
-        <i></i>
-        <div>
-          <a href="javascript:void(0)">
-            <p>{{bookData.address}}</p>
-            <i></i>
-          </a>
-        </div>
-      </div> -->
       <div class="order_time">
         <span>预约时间</span>
         <p>
@@ -22,7 +13,7 @@
         </p>
       </div>
     </div>
-    <div class="order-guest" v-for="(guest,index) in bookData.guestList" :key="guest.id">
+    <div class="order-guest" v-for="(guest,index) in bookData.guests" :key="guest.id">
       <p class="guest-p">
         <span>预约人{{index + 1}}:</span>
       </p>
@@ -32,7 +23,7 @@
           <div>
             <p 
               :key="index" 
-              v-for="(product, index) in guest.productList">
+              v-for="(product, index) in guest.products">
               {{product.name}} x {{product.count}}
             </p>
           </div>
@@ -189,10 +180,10 @@ export default {
       return this.$store.state.bookData;
     },
     totalPrice() {
-      var guestList = this.$store.state.bookData.guestList;
+      var guestList = this.$store.state.bookData.guests;
       var totalPrice = 0;
       for (let guest of guestList) {
-        var productList = guest.productList;
+        var productList = guest.products;
         for (let product of productList) {
           totalPrice += product.sellPrice;
         }
@@ -204,15 +195,53 @@ export default {
     goPay() {
       var self = this;
       var bookData = this.$store.state.bookData;
-      this.$http.post(this.$api.Appoint.Book, bookData, {}, false)
+      bookData.orderType = this.payType;
+      var productIds = [];
+      var guests = bookData.guests;
+      guests.forEach(guest => {
+        var products = guest.products;
+        products.forEach(product => {
+          productIds.push(product.id);
+        });
+        guest.productIds = productIds;
+      });
+
+      this.$http.post(this.$api.Appoint.Book, bookData, {}, true)
       .then(res => {
         var resData = res.data;
         if (resData.code == 0) {
-          self.$router.push({
-            path: '/order-pay-success'
-          })
+          self.payByWechat(resData.data);
         }
       })
+    },
+    payByWechat(orderInfo) {
+      var self = this;
+      this.$http.post('/api/pay/payByWechat', { 'orderId': orderInfo.id}, true)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            var payParams = resData.data;
+            WeixinJSBridge.invoke(
+              "getBrandWCPayRequest",
+               {
+                  appId: payParams.appId, //公众号名称，由商户传入
+                  timeStamp: payParams.timeStamp, //时间戳，自1970年以来的秒数
+                  nonceStr: payParams.nonceStr, //随机串
+                  package: payParams.package,
+                  signType: payParams.signType, //微信签名方式:
+                  paySign: payParams.paySign //微信签名
+                },
+              function(res) {
+                  if (res.err_msg == "get_brand_wcpay_request:ok") {
+                      // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                      self.$router.push({
+                        path: '/order-pay-success'
+                      })
+                  }
+              }
+            );
+          }
+        });
     }
   }
 };
@@ -229,7 +258,7 @@ export default {
   margin: 10px;
   .order-user-info {
     color: #333;
-    padding-left: 35px;
+    padding-left: 10px;
     font-size: 12px;
     span:nth-child(1) {
       font-size: 16px !important;
@@ -275,7 +304,7 @@ export default {
     > span {
       width: 80px;
       font-size: 14px;
-      margin-left: 30px;
+      margin-left: 10px;
     }
     > p {
       display: flex;

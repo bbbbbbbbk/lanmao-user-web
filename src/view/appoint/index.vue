@@ -14,7 +14,9 @@
       </div>
     </div>
     <p class="appoint-num">预约人数</p>
-    <div class="order-guest" v-for="(guest,index) in bookData.guestList" :key="guest.id">
+    <div 
+      class="order-guest" 
+      v-for="(guest,index) in bookData.guests" :key="guest.id">
       <p class="guest-p">
         <span>预约人{{index + 1}}:</span>
         <span>
@@ -27,7 +29,9 @@
         >
         <div class="order-pro-info">
           <div>
-            <p :key="index" v-for="(product, index) in guest.productList">
+            <p 
+              :key="index" 
+              v-for="(product, index) in guest.products">
               {{product.name}} x {{product.count}}
             </p>
           </div>
@@ -96,10 +100,10 @@
               <div 
                 :key="day.id" 
                 class="slide_li" 
-                @click="selectDay = day.day" v-for="day in days" 
+                @click="selectOneDay(day)" 
+                v-for="day in days" 
                 :class="selectDay == day.day ? 'tab_slide_active': '' ">
                 <p>{{day.showDay}}</p>
-                <!-- <p>{{day.text}}</p> -->
                 <p :class="selectDay == day.day ? 'tab_line_active' : '' "></p>
               </div>
             </div>
@@ -208,10 +212,10 @@ export default {
       return this.$store.state.bookData;
     },
     totalPrice() {
-      var guestList = this.$store.state.bookData.guestList;
+      var guestList = this.$store.state.bookData.guests;
       var totalPrice = 0;
       for (let guest of guestList) {
-        var productList = guest.productList;
+        var productList = guest.products;
         for (let product of productList) {
           totalPrice += product.sellPrice;
         }
@@ -221,40 +225,8 @@ export default {
   },
   mounted() {
     console.log(this.$route.query);
-    var self = this;
-    this.$http.get(this.$api.Appoint.QueryDays, null, false)
-      .then(res => {
-        var resData = res.data;
-        if (resData.code == 0) {
-          self.days = resData.data;
-          if (self.days.length > 0) {
-            var params = {
-              day: self.days[0].day,
-              shopId: self.$route.query.shopId
-            }
-            self.$http.post(self.$api.Appoint.QueryTimes, params, false)
-              .then(res => {
-                var resData = res.data;
-                var pmList = resData.data.pmList;
-                var amList = resData.data.amList;
-                if (amList && amList.length > 0) {
-                  self.timeBlockList.push({
-                    title: '上午',
-                    text: '11:00~17:00',
-                    timeUnitList: amList
-                  })
-                }
-                if (pmList && pmList.length > 0) {
-                  self.timeBlockList.push({
-                    title: '下午',
-                    text: '17:00~23:00',
-                    timeUnitList: pmList
-                  })
-                }
-              })
-          }
-        }
-      })
+    this.bookData.shopId = this.$route.query.shopId;
+    this.getBookDay();
   },
   methods: {
     goConfirm() {
@@ -269,13 +241,52 @@ export default {
     },
     chooseTime() {
       this.showPickTime = !this.showPickTime;
+      this.getBookDay();
+    },
+    getBookDay() {
       var self = this;
-      this.$http.post(this.$api.Appoint.SelectTime, {}, false).then(res => {
+      this.$http.get(this.$api.Appoint.QueryDays, null, false)
+      .then(res => {
         var resData = res.data;
         if (resData.code == 0) {
-          self.timeBlockList = resData.data;
+          self.days = resData.data;
+          if (self.days.length > 0) {
+            self.getBookTimes(self.days[0].day);
+          }
         }
-      });
+      })
+    },
+    getBookTimes(day) {
+      var self = this;
+      var params = {
+          day: day,
+          shopId: self.$route.query.shopId
+      }
+      self.$http.post(self.$api.Appoint.QueryTimes, params, false)
+        .then(res => {
+          var resData = res.data;
+          var pmList = resData.data.pmList;
+          var amList = resData.data.amList;
+          self.timeBlockList = [];
+          if (amList && amList.length > 0) {
+              self.timeBlockList.push({
+                title: '上午',
+                text: '11:00~17:00',
+                timeUnitList: amList
+              })
+          }
+          if (pmList && pmList.length > 0) {
+              self.timeBlockList.push({
+                title: '下午',
+                text: '17:00~23:00',
+                timeUnitList: pmList
+              })
+          }
+        });
+    },
+    selectOneDay(day) {
+      this.selectDay = day.day;
+      this.getBookTimes(day.day);
     },
     sureChooseTime() {
       if (!this.selectDay) {
@@ -299,7 +310,7 @@ export default {
           productList.push(item);
         }
       });
-      this.selGuest.productList = productList;
+      this.selGuest.products = productList;
     },
     chooseProduct(guest) {
       this.selGuest = guest;

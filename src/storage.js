@@ -22,9 +22,9 @@ export default {
                 linkName: '',
                 remark: '',
                 bookTime: '请选择您的预约时间',
-                guestList: [
+                guests: [
                     {
-                        productList: [],
+                        products: [],
                         mechList: []
                     }
                 ],

@@ -3,7 +3,7 @@
     <div>
       <div class="dr_logo">
         <a href="#">
-          <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt />
+          <img src="https://kaola-image.oss-cn-shanghai.aliyuncs.com/1576382620385.jpg" alt />
         </a>
       </div>
       <div class="dr_phone">
