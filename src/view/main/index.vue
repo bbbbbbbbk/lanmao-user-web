@@ -183,6 +183,7 @@ export default {
       });
     },
     goBook(shop) {
+      this.$store.commit("initState");
       this.$router.push({
         path: "/appoint",
         query: {

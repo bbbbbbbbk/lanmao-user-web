@@ -230,6 +230,7 @@ export default {
   },
   methods: {
     goConfirm() {
+      this.$store.commit('commitState');
       this.$router.push({
         path: "/order-confirm"
       });

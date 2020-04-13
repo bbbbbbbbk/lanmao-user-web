@@ -9,6 +9,12 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: storage.getState(),
   mutations: {
+    initState() {
+      storage.initState();
+    },
+    commitState(state) {
+      storage.setState(state);
+    },
     loadUserInfo(state, userInfo) {
       state.userInfo = userInfo;
       storage.setState(state);

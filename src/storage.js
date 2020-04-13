@@ -11,6 +11,10 @@ export default {
             storage.set(VUEX_STATE, val);
         }
     },
+    initState() {
+        storage.remove(VUEX_STATE);
+        storage.set(VUEX_STATE, this.getDefaultState());
+    },
     getDefaultState() {
         return {
             userInfo: {
