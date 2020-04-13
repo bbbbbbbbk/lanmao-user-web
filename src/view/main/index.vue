@@ -50,7 +50,7 @@
             :key="item.id"
             :title="item"
             class="dr_cell"
-            @click.capture="goProduct(item)"
+            @click="goShopDetail(item)"
           >
             <!-- 左边图片-->
             <div class="pic">
@@ -67,7 +67,7 @@
               <h6 class="txtdot">
                 价格：
                 <font>￥{{item.sellPrice}}/{{item.duration}}分钟</font>
-                <button class="book" @click="goBook(item)">预定</button>
+                <button class="book" @click.stop="goBook(item)">预定</button>
               </h6>
             </div>
           </div>
@@ -149,9 +149,7 @@ export default {
     var code = utils.getUrlKey("code");
     if (code) {
       //拿到了code
-      this.$http
-        .get(
-          this.$api.Mine.GetOpenId,
+      this.$http.get(this.$api.Mine.GetOpenId,
           {
             params: {
               code: code
@@ -185,11 +183,11 @@ export default {
           }
         })
     },
-    goProduct(product) {
+    goShopDetail(shop) {
       this.$router.push({
-        path: "/product-detail",
+        path: "/shop-detail",
         query: {
-          id: product.id
+          shopId: shop.id
         }
       });
     },
@@ -279,6 +277,7 @@ export default {
     background-color: #e64340;
     padding: 5px 10px 5px 10px;
     color: #fff;
+    padding: 10px;
   }
 }
 .dr_right h5 span {

@@ -21,7 +21,8 @@ export default {
   mounted() {
     const self = this;
     this.$Progress.start();
-    this.$http.get(this.$api.MyWallet.GetBalance, {}, false).then(res => {
+    this.$http.get(this.$api.MyWallet.GetBalance, {}, true)
+    .then(res => {
       const resultData = res.data;
       self.$Progress.finish();
       if (resultData.code == 0) {

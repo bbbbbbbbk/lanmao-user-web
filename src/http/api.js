@@ -22,7 +22,7 @@ export default {
 
     Mine: {
         GetUserInfo: '/api/userInfo',
-        GetOpenId: '/v1/user/getOpenId'
+        GetOpenId: '/api/user/getOpenId'
     },
 
     MyWallet: {
@@ -31,7 +31,7 @@ export default {
 
     Charge: {
         GetPackages: '/api/member/getPackages',
-        BookCharge: '/v1/charge/bookCharge'
+        BookCharge: '/api/member/bookPackage'
     },
 
     Product: {

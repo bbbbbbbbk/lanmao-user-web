@@ -9,9 +9,9 @@
         <li class="fix">
           <span class="w_l fl txtdot">充值金额</span>
           <span class="w_r fl txtdot">
-            <div v-for="item in moneyList" :key="item.id" class="dr_bb" @click="choose(item.id)">
-              <label :class="item.id == chooseId ? 'on' : ''">{{item.chargeAmount}}元</label>
-              <label class="pp" :class="item.id == chooseId ? 'on' : ''">{{item.packageName}}</label>
+            <div v-for="item in moneyList" :key="item.id" class="dr_bb" @click="choose(item)">
+              <label :class="item == choosePackage ? 'on' : ''">{{item.chargeAmount}}元</label>
+              <label class="pp" :class="item == choosePackage ? 'on' : ''">{{item.packageName}}</label>
             </div>
           </span>
         </li>
@@ -47,7 +47,7 @@ export default {
     return {
       checked: true,
       moneyList: [],
-      chooseId: 1,
+      choosePackage: {},
       bookData: null,
       balance: null
     };
@@ -59,7 +59,7 @@ export default {
       if (resultData.code == 0) {
         self.moneyList = resultData.data;
         if (self.moneyList.length > 0) {
-          self.chooseId = self.moneyList[0].id;
+          self.choosePackage = self.moneyList[0];
         }
       }
     });
@@ -74,8 +74,8 @@ export default {
     });
   },
   methods: {
-    choose(cId) {
-      this.chooseId = cId;
+    choose(item) {
+      this.choosePackage = item;
     },
     charge() {
       var self = this;
@@ -84,9 +84,10 @@ export default {
       if (openId) {
         requestParams.openId = openId;
       }
-      requestParams.packageId = this.chooseId;
+      requestParams.packageId = this.choosePackage.id;
+      requestParams.packageName = this.choosePackage.packageName;
       this.$http
-        .post(this.$api.Charge.BookCharge, requestParams, false)
+        .post(this.$api.Charge.BookCharge, requestParams, true)
         .then(res => {
           var resData = res.data;
           if (resData.code == 0) {

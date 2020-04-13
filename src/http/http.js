@@ -28,7 +28,8 @@ export default {
      */
     post(url, data, auth = false) {
         if (auth) {
-            return axios.post(url, data, {headers: {Authorization: 'Your back-end user authenticates information'}});
+            var authCode = utils.getItem('authCode');
+            return axios.post(url, data, {headers: {'authCode': authCode}});
         } else {
             return axios.post(url, data);
         }
