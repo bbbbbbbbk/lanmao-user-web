@@ -138,19 +138,6 @@ export default {
   mounted() {
     this.getUserInfo();
     console.log(utils.getUrlKey("code"));
-    var code = utils.getUrlKey("code");
-    if (code) {
-      //拿到了code
-      this.$http.get(this.$api.Mine.GetOpenId, {'code': code}, true)
-        .then(res => {
-          const resData = res.data;
-          if (resData.code == 0 && resData.data.openid) {
-            utils.setItem("openId", resData.data.openid);
-          }
-        });
-    } else {
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx648f6696cf60ebf0&redirect_uri=http://user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
-    }
     this.queryBanners();
   },
 
@@ -163,6 +150,19 @@ export default {
         const resultData = res.data;
         if (resultData.code == 0) {
           self.$store.commit("loadUserInfo", resultData.data);
+          var code = utils.getUrlKey("code");
+          if (code) {
+            //拿到了code
+            self.$http.get(self.$api.Mine.GetOpenId, {'code': code}, true)
+              .then(res => {
+                  const resData = res.data;
+                  if (resData.code == 0 && resData.data.openid) {
+                    utils.setItem("openId", resData.data.openid);
+                  }
+              });
+          } else {
+            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx648f6696cf60ebf0&redirect_uri=http://user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
+          }
         }
       });
     },
