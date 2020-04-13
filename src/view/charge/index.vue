@@ -112,10 +112,10 @@ export default {
         },
         function(res) {
           if (res.err_msg == "get_brand_wcpay_request:ok") {
-            // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-            this.$Progress.start();
-            this.$http
-              .get(this.$api.MyWallet.GetBalance, {}, false)
+            self.$toast('充值成功');
+            self.$Progress.start();
+            self.$http
+              .get(self.$api.MyWallet.GetBalance, {}, false)
               .then(res => {
                 const resultData = res.data;
                 self.$Progress.finish();

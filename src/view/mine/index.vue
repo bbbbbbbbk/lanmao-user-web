@@ -100,7 +100,8 @@ export default {
   },
   mounted() {
     const self = this;
-    this.$http.get(this.$api.Mine.GetUserInfo, null, true).then(res => {
+    this.$http.get(this.$api.Mine.GetUserInfo, null, true)
+    .then(res => {
       console.log(res);
       const resultData = res.data;
       if (resultData.code == 0) {
