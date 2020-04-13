@@ -141,14 +141,7 @@ export default {
     var code = utils.getUrlKey("code");
     if (code) {
       //拿到了code
-      this.$http.get(this.$api.Mine.GetOpenId,
-          {
-            params: {
-              code: code
-            }
-          },
-          true
-        )
+      this.$http.get(this.$api.Mine.GetOpenId, {'code': code}, true)
         .then(res => {
           const resData = res.data;
           if (resData.code == 0 && resData.data.openid) {
