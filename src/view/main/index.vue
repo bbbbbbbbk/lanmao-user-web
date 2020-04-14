@@ -51,15 +51,12 @@
             <div class="dr_right">
               <h4>{{item.name}}</h4>
               <h5>
-                <span>总订单数: 61</span>
+                <span>总订单数: {{item.orderCount}}</span>
                 <span>好评: 90%</span>
               </h5>
               <p class="txtdot">接单时间: 10:00～23:00 全天</p>
-              <h6 class="txtdot">
-                价格：
-                <font>￥{{item.sellPrice}}/{{item.duration}}分钟</font>
-                <button class="book" @click.stop="goBook(item)">预定</button>
-              </h6>
+              <p class="txtdot">{{item.address}}</p>
+              <button class="book" @click.stop="goBook(item)">预约</button>
             </div>
           </div>
         </van-list>
@@ -257,6 +254,7 @@ export default {
 .dr_right {
   margin-left: 10px;
   font-size: 10px;
+  width: 100%;
   > h5:nth-child(1) {
     text-align: left;
   }
@@ -268,16 +266,18 @@ export default {
   >h4 {
     font-size: 1.2em;
   }
-  .book {
-    position: relative;
-    margin-left: 50px;
-    float: right;
-    display: inline-block;
-    background-color: #e64340;
-    padding: 5px 10px 5px 10px;
-    color: #fff;
-    padding: 10px;
-  }
+}
+.book {
+  margin-top: 5px;
+  margin-right: 10px;
+  width: 100px;
+  background: none;
+  border: none;
+  background-color: #66c72a;
+  color: #fff;
+  float: right;
+  font-size: 12px;
+  padding: 5px 10px 5px 10px;
 }
 .dr_right h5 span {
   color: #999;

@@ -3,7 +3,7 @@
     <van-tabs v-model="active">
       <van-tab title="精油">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
+          <div v-for="item in list" :key="item" :title="item" class="dr_cell" >
             <!-- 左边图片-->
             <div class="pic">
               <img
@@ -29,7 +29,7 @@
       </van-tab>
       <van-tab title="推拿">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <div v-for="item in list" :key="item" :title="item" class="dr_cell" @click="goProduct">
+          <div v-for="item in list" :key="item" :title="item" class="dr_cell">
             <!-- 左边图片-->
             <div class="pic">
               <img

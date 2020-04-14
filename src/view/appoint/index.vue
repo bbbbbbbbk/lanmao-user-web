@@ -252,6 +252,7 @@ export default {
         if (resData.code == 0) {
           self.days = resData.data;
           if (self.days.length > 0) {
+            self.selectDay = self.days[0].day;
             self.getBookTimes(self.days[0].day);
           }
         }
