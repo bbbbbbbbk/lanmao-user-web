@@ -1,9 +1,15 @@
 <template>
   <div>
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" @change="changeTab">
       <van-tab title="全部">
-        <van-list v-model="loading1" :finished="finished1" finished-text="没有更多了" @load="onLoadAllOrder">
-          <div v-for="order in allOrderList">
+        <van-list 
+          v-model="loading1" 
+          :finished="finished1" 
+          finished-text="没有更多了" 
+          @load="onLoadAllOrder">
+          <div 
+            :key="order.id" 
+            v-for="order in allOrderList">
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.bookTime}}</span>
@@ -11,23 +17,22 @@
               </p>
               <div class="order_jishi_info">
                 <div class="order_jishi_head">
-                  <img
-                    :src="order.productList | imageURL"
-                    alt
-                  />
-                  <!---->
-                  <!---->
                 </div>
                 <div class="order_jishi_con">
-                  <p class="service_pro" v-for="product in order.productList">
+                  <p 
+                    :key="product.id" 
+                    class="service_pro" 
+                    v-for="product in order.productList">
                     {{product.name}}
                   </p>
-                  <p class="service_person" v-for="mech in order.mechList">
+                  <p 
+                    :key="mech.id" 
+                    class="service_person" 
+                    v-for="mech in order.mechList">
                     <span>服务技师</span>
                     <span>李阿芳</span>
                     <span>编号4661</span>
                   </p>
-                  <!---->
                   <p class="service_price">
                     <span>订单金额</span>
                     <span>{{order.productList | totalPrice }}元</span>
@@ -38,22 +43,20 @@
                   </p>
                 </div>
               </div>
-              <p class="order_pro_btn">
-                <span style="border: 1px solid rgb(210, 210, 210);">取消订单</span>
-                <!---->
-                <!---->
-                <span style="border: 1px solid rgb(210, 210, 210);">修改时间</span>
-                <span style="border: 1px solid rgb(210, 210, 210);">追加项目</span>
-                <span class="order_again">再次预约</span>
-                <!---->
-              </p>
             </div>
           </div>
         </van-list>
       </van-tab>
       <van-tab title="待付款">
-        <van-list v-model="loading2" :finished="finished2" finished-text="没有更多了" @load="onLoadWaitPayOrder">
-          <div v-for="order in waitPayOrderList">
+        <van-list 
+          v-model="loading2" 
+          :finished="finished2" 
+          finished-text="没有更多了"
+          @load="onLoadWaitPayOrder"
+          >
+          <div 
+            :key="order.id" 
+            v-for="order in waitPayOrderList">
             <div class="jishi_card">
               <p class="order_type">
                 <span>2019-11-06 09:00:00</span>
@@ -65,8 +68,6 @@
                     src="https://mcdn.yishengdaojia.cn/upload/20171010/2cb4e9a29955c48c6dd1405fbc41afe6.jpg"
                     alt
                   />
-                  <!---->
-                  <!---->
                 </div>
                 <div class="order_jishi_con">
                   <p class="service_pro">招牌Massage新用户体验</p>
@@ -75,7 +76,6 @@
                     <span>李阿芳</span>
                     <span>编号4661</span>
                   </p>
-                  <!---->
                   <p class="service_price">
                     <span>订单金额</span>
                     <span>99元</span>
@@ -86,21 +86,12 @@
                   </p>
                 </div>
               </div>
-              <p class="order_pro_btn">
-                <span style="border: 1px solid rgb(210, 210, 210);">取消订单</span>
-                <!---->
-                <!---->
-                <span style="border: 1px solid rgb(210, 210, 210);">修改时间</span>
-                <span style="border: 1px solid rgb(210, 210, 210);">追加项目</span>
-                <span class="order_again">再次预约</span>
-                <!---->
-              </p>
             </div>
           </div>
         </van-list>
       </van-tab>
       <van-tab title="已完成">
-        <van-list v-model="loading3" :finished="finished3" finished-text="没有更多了" @load="onLoadFinishedOrder">
+        <van-list v-model="loading3" :finished="finished3" finished-text="没有更多了">
           <div>
             <div class="jishi_card">
               <p class="order_type">
@@ -113,8 +104,6 @@
                     src="https://mcdn.yishengdaojia.cn/upload/20171010/2cb4e9a29955c48c6dd1405fbc41afe6.jpg"
                     alt
                   />
-                  <!---->
-                  <!---->
                 </div>
                 <div class="order_jishi_con">
                   <p class="service_pro">招牌Massage新用户体验</p>
@@ -123,7 +112,6 @@
                     <span>李阿芳</span>
                     <span>编号4661</span>
                   </p>
-                  <!---->
                   <p class="service_price">
                     <span>订单金额</span>
                     <span>99元</span>
@@ -134,22 +122,15 @@
                   </p>
                 </div>
               </div>
-              <p class="order_pro_btn">
-                <span style="border: 1px solid rgb(210, 210, 210);">取消订单</span>
-                <!---->
-                <!---->
-                <span style="border: 1px solid rgb(210, 210, 210);">修改时间</span>
-                <span style="border: 1px solid rgb(210, 210, 210);">追加项目</span>
-                <span class="order_again">再次预约</span>
-                <!---->
-              </p>
             </div>
           </div>
         </van-list>
       </van-tab>
       <van-tab title="已退款">
-        <van-list v-model="loading4" :finished="finished4" finished-text="没有更多了" @load="onLoadRefundOrder">
-          <div v-for="order in refundOrderList">
+        <van-list v-model="loading4" :finished="finished4" finished-text="没有更多了">
+          <div 
+            :key="order.id" 
+            v-for="order in refundOrderList">
             <div class="jishi_card">
               <p class="order_type">
                 <span>2019-11-06 09:00:00</span>
@@ -161,8 +142,6 @@
                     src="https://mcdn.yishengdaojia.cn/upload/20171010/2cb4e9a29955c48c6dd1405fbc41afe6.jpg"
                     alt
                   />
-                  <!---->
-                  <!---->
                 </div>
                 <div class="order_jishi_con">
                   <p class="service_pro">招牌Massage新用户体验</p>
@@ -171,7 +150,6 @@
                     <span>李阿芳</span>
                     <span>编号4661</span>
                   </p>
-                  <!---->
                   <p class="service_price">
                     <span>订单金额</span>
                     <span>99元</span>
@@ -182,15 +160,6 @@
                   </p>
                 </div>
               </div>
-              <p class="order_pro_btn">
-                <span style="border: 1px solid rgb(210, 210, 210);">取消订单</span>
-                <!---->
-                <!---->
-                <span style="border: 1px solid rgb(210, 210, 210);">修改时间</span>
-                <span style="border: 1px solid rgb(210, 210, 210);">追加项目</span>
-                <span class="order_again">再次预约</span>
-                <!---->
-              </p>
             </div>
           </div>
         </van-list>
@@ -216,40 +185,73 @@ export default {
       finished3: false,
       loading4: false,
       finished4: false,
-      allOrderPageParams: {
+      params1: {
         page: 1,
-        pageSize: 10,
-        params: {
-
-        }
+        pageSize: 20,
+        status: 1
+      },
+      params2: {
+        page:1,
+        pageSize: 20,
+        status:2
+      },
+      params3: {
+        page:1,
+        pageSize:20,
+        status:3
+      },
+      params4: {
+        page: 1,
+        pageSize: 20,
+        status: 4
       }
     };
   },
   methods: {
+    changeTab(name, title) {
+      console.log(name);
+    },
     onLoadAllOrder() {
       var self = this;
-      var page = this.allOrderPageParams.page;
-      let pageSize = this.allOrderPageParams.pageSize;
       this.$Progress.start();
-      this.$http.post(this.$api.Order.MyOrder, this.allOrderPageParams, false)
+      this.$http.post('/api/order/queryOrderListByStatus', this.params1, true)
       .then(res => {
         self.$Progress.finish();
         var resData = res.data;
-        self.loading1 = false;
+        self.loading1 = true;
         if (resData.code == 0) {
           var data = resData.data;
           self.allOrderList = self.allOrderList.concat(data.list);
-          var totalCount = data.totalCount;
-          if (page * pageSize < totalCount) {
-            self.allOrderPageParams.page++;
+          var totalCount = data.totalSize;
+          if (self.params1.page * self.params1.pageSize < totalCount) {
+            console.log('haha')
+            self.params1.page++;
           } else {
+            console.log('haha3')
             self.finished1 = true;
           }
         }
-      })
+      });
     },
     onLoadWaitPayOrder() {
-
+      var self = this;
+      this.$Progress.start();
+      this.$http.post('/api/order/queryOrderListByStatus', this.params2, true)
+      .then(res => {
+        self.$Progress.finish();
+        var resData = res.data;
+        self.loading2 = true;
+        if (resData.code == 0) {
+          var data = resData.data;
+          self.waitPayOrderList = self.waitPayOrderList.concat(data.list);
+          var totalCount = data.totalSize;
+          if (self.params2.page * self.params2.pageSize < totalCount) {
+            self.params2.page++;
+          } else {
+            self.finished2 = true;
+          }
+        }
+      });
     },
     onLoadFinishedOrder() {
 
