@@ -2,13 +2,13 @@
   <div class="mm">
     <div class="order-status">
       <img src="../../assets/pay_success.png" alt />
-      <p>支付成功</p>
-      <p>请静候懒猫到家的服务</p>
+      <p>预约成功</p>
+      <p>请静候静好时光的服务</p>
       <p @click="goOrder">查看订单</p>
     </div>
-    <div class="order-q">
+    <!-- <div class="order-q">
         <p>感谢您对懒猫服务品质的监督，邀请您协助抽查以下内容：技师首次为您服务，有没有主动向您进行自我介绍？服务结束24小时内在评价页面反馈得28元红包~</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -21,9 +21,12 @@ export default {
   },
   methods: {
       goOrder() {
-          this.$router.push({
-              path: '/my-order'
-          })
+        this.$router.push({
+            path: '/order-detail',
+            query: {
+              orderId: this.$route.query.orderId
+            }
+        })
       }
   }
 };

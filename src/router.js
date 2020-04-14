@@ -175,6 +175,13 @@ const routes = [
         }
     },
     {
+        name: 'order-detail',
+        component: () => import('./view/order-detail'),
+        meta: {
+            title: '订单信息'
+        }
+    },
+    {
         name: 'order-pay-success',
         component: () => import('./view/order-pay-success'),
         meta: {

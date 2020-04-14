@@ -208,8 +208,7 @@ export default {
       mechs:[],
       selectMech:[],
       selGuest: {},
-      days: [],
-      guestCount: 1
+      days: []
     };
   },
   computed: {
@@ -229,6 +228,10 @@ export default {
         }
       }
       return totalPrice;
+    },
+    guestCount() {
+      var guestList = this.$store.state.bookData.guests;
+      return guestList.length;
     }
   },
   mounted() {
@@ -239,6 +242,24 @@ export default {
   methods: {
     goConfirm() {
       this.$store.commit('commitState');
+      var bookData = this.bookData;
+      if (!bookData.bookTime 
+            || bookData.bookTime == '请选择您的预约时间') {
+        this.$toast('请选择预约时间');
+        return;
+      }
+      if (!bookData.shopId) {
+        this.$toast('请选择门店');
+        return;
+      }
+      for (var i = 0; i < bookData.guests.length; i++) {
+        var guest = bookData.guests[i];
+        if (!guest.products
+              || guest.products.length <= 0) {
+              this.$toast('预约人' + (i + 1) + '未选择项目');
+              return;
+        }
+      }
       this.$router.push({
         path: "/order-confirm"
       });
@@ -340,7 +361,6 @@ export default {
         })
     },
     plusGuest() {
-      this.guestCount++;
       this.bookData.guests.push(
          {
            products: [],
@@ -350,7 +370,6 @@ export default {
     },
     minusGuest() {
       if (this.guestCount > 1) {
-        this.guestCount--;
         this.bookData.guests.pop();
       }
     },
@@ -626,6 +645,7 @@ export default {
   background: #fff;
   border-radius: 10px;
   margin: 10px;
+  min-height: 100px;
   .order-pro-info {
     display: flex;
     padding: 10px;

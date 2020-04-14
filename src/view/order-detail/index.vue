@@ -24,7 +24,7 @@
             <p 
               :key="index" 
               v-for="(product, index) in guest.products">
-              {{product.name}} x {{product.count}}
+              {{product.productName}} x {{product.count}}
             </p>
           </div>
         </div>
@@ -72,27 +72,9 @@
     </div>
     <div class="order-msg">
       <span>备注</span>
-      <input type="text" placeholder="如有其它需要请留言" />
+      <input type="text" placeholder="如有其它需要请留言" readonly/>
     </div>
-    <!-- 优惠券 -->
-    <!-- <div class="price_con" >
-      <p>
-        <span>平台优惠券</span>
-        <span>
-          30元代金券
-          <i></i>
-        </span>
-      </p>
-      <p>
-        <span>技师优惠券</span>
-        <span>无</span>
-      </p>
-      <div>
-        合计
-        <span>158元</span>
-      </div>
-    </div> -->
-    <div class="pay_type">
+    <div class="pay_type" v-show="false">
       <p>支付方式</p>
       <div id="payType0" class="pay_icon_div" @click="payType = 1">
         <p>
@@ -154,9 +136,9 @@
         应付金额:
         <span>¥{{totalPrice}}</span>
       </span>
-      <span @click="goPay">
+      <!-- <span @click="goPay">
         <a class="order_btn_now">立即支付</a>
-      </span>
+      </span> -->
     </div>
   </div>
 </template>
@@ -166,15 +148,15 @@ export default {
   data() {
     return {
       active: 0,
-      payType: 1
+      payType: 1,
+      bookData: {
+          guests: []
+      }
     };
   },
   computed: {
     address() {
       return this.$store.state.appointAddress;
-    },
-    bookData() {
-      return this.$store.state.bookData;
     },
     totalPrice() {
       var guestList = this.$store.state.bookData.guests;
@@ -187,6 +169,34 @@ export default {
       }
       return totalPrice;
     }
+  },
+  mounted() {
+      var params = {};
+      params.orderId = this.$route.query.orderId;
+      var self = this;
+      this.$http.get('/api/order/detail', params, true)
+        .then(res => {
+            var resData = res.data;
+            if (resData.code == 0) {
+                var data = resData.data;
+                data.guests = data.guestList;
+                data.guests.forEach(guest => {
+                    guest.products = guest.productList;
+                    guest.products.forEach(product => {
+                        product.count = 1;
+                    });
+                });
+                var bookTime = new Date(data.bookTime);
+                var time = '';
+                time += bookTime.getFullYear() + '-';
+                time += ((bookTime.getMonth() + 1) < 10 ? '0' + (bookTime.getMonth() + 1) : (bookTime.getMonth() + 1))+ '-';
+                time += (bookTime.getDate() < 10) ? '0' + bookTime.getDate() : bookTime.getDate() + ' ';
+                time += (bookTime.getHours() < 10) ? '0' + bookTime.getHours() : bookTime.getHours() + ':';
+                time += (bookTime.getMinutes() < 10) ? '0' + bookTime.getMinutes(): bookTime.getMinutes();
+                data.bookTime = time;
+                self.bookData = data;
+            }
+        });
   },
   methods: {
     goPay() {
@@ -238,7 +248,6 @@ export default {
                 },
               function(res) {
                   if (res.err_msg == "get_brand_wcpay_request:ok") {
-                      // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
                       self.$router.push({
                         path: '/order-pay-success'
                       })

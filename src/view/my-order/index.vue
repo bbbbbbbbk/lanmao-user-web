@@ -6,10 +6,12 @@
           v-model="loading1" 
           :finished="finished1" 
           finished-text="没有更多了" 
-          @load="onLoadAllOrder">
+          @load="load1">
           <div 
             :key="order.id" 
-            v-for="order in allOrderList">
+            v-for="order in allOrderList"
+            @click="goOrderDetail(order)"
+            >
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
@@ -36,15 +38,18 @@
           v-model="loading2" 
           :finished="finished2" 
           finished-text="没有更多了"
-          @load="onLoadWaitPayOrder"
+          @load="load2"
+          @click="goOrderDetail(order)"
           >
           <div
             :key="order.id" 
-            v-for="order in waitPayOrderList">
+            v-for="order in waitPayOrderList"
+            @click="goOrderDetail(order)"
+            >
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span>待服务</span>
+                <span class="o_status">待服务</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -70,11 +75,13 @@
           @load="onLoad3">
           <div 
             :key="order.id"
-            v-for="order in finishedOrderList">
+            v-for="order in finishedOrderList"
+            @click="goOrderDetail(order)"
+            >
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span>待服务</span>
+                <span class="o_status">待服务</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -100,11 +107,13 @@
           @load="onLoad4">
           <div 
             :key="order.id" 
-            v-for="order in refundOrderList">
+            v-for="order in refundOrderList"
+            @click="goOrderDetail(order)"
+            >
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span>待服务</span>
+                <span class="o_status">待服务</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -169,7 +178,15 @@ export default {
     changeTab(name, title) {
       console.log(name);
     },
-    onLoadAllOrder() {
+    goOrderDetail(order) {
+      this.$router.push({
+        path: "/order-detail",
+        query: {
+          orderId: order.id 
+        }
+      });
+    },
+    load1() {
       var self = this;
       this.$Progress.start();
       this.$http.post('/api/order/queryOrderListByStatus', this.params1, true)
@@ -187,21 +204,27 @@ export default {
               })
             });
             order.productList = products;
+            var bookTime = new Date(order.bookTime);
+            var time = '';
+            time += bookTime.getFullYear() + '-';
+            time += ((bookTime.getMonth() + 1) < 10 ? '0' + (bookTime.getMonth() + 1) : (bookTime.getMonth() + 1))+ '-';
+            time += (bookTime.getDate() < 10) ? '0' + bookTime.getDate() : bookTime.getDate() + ' ';
+            time += (bookTime.getHours() < 10) ? '0' + bookTime.getHours() : bookTime.getHours() + ':';
+            time += (bookTime.getMinutes() < 10) ? '0' + bookTime.getMinutes(): bookTime.getMinutes();
+            order.bookTime = time;
           });
           console.log(data);
           self.allOrderList = self.allOrderList.concat(data.list);
           var totalCount = data.totalSize;
           if (self.params1.page * self.params1.pageSize < totalCount) {
-            console.log('haha')
             self.params1.page++;
           } else {
-            console.log('haha3')
             self.finished1 = true;
           }
         }
       });
     },
-    onLoadWaitPayOrder() {
+    load2() {
       var self = this;
       this.$Progress.start();
       this.$http.post('/api/order/queryOrderListByStatus', this.params2, true)
@@ -219,6 +242,14 @@ export default {
               })
             });
             order.productList = products;
+            var bookTime = new Date(order.bookTime);
+            var time = '';
+            time += bookTime.getFullYear() + '-';
+            time += ((bookTime.getMonth() + 1) < 10 ? '0' + (bookTime.getMonth() + 1) : (bookTime.getMonth() + 1))+ '-';
+            time += (bookTime.getDate() < 10) ? '0' + bookTime.getDate() : bookTime.getDate() + ' ';
+            time += (bookTime.getHours() < 10) ? '0' + bookTime.getHours() : bookTime.getHours() + ':';
+            time += (bookTime.getMinutes() < 10) ? '0' + bookTime.getMinutes(): bookTime.getMinutes();
+            order.bookTime = time;
           });
           self.waitPayOrderList = self.waitPayOrderList.concat(data.list);
           var totalCount = data.totalSize;
@@ -248,6 +279,14 @@ export default {
               })
             });
             order.productList = products;
+            var bookTime = new Date(order.bookTime);
+            var time = '';
+            time += bookTime.getFullYear() + '-';
+            time += ((bookTime.getMonth() + 1) < 10 ? '0' + (bookTime.getMonth() + 1) : (bookTime.getMonth() + 1))+ '-';
+            time += (bookTime.getDate() < 10) ? '0' + bookTime.getDate() : bookTime.getDate() + ' ';
+            time += (bookTime.getHours() < 10) ? '0' + bookTime.getHours() : bookTime.getHours() + ':';
+            time += (bookTime.getMinutes() < 10) ? '0' + bookTime.getMinutes(): bookTime.getMinutes();
+            order.bookTime = time;
           });
           self.finishedOrderList = self.finishedOrderList.concat(data.list);
           var totalCount = data.totalSize;
@@ -277,6 +316,14 @@ export default {
               })
             });
             order.productList = products;
+            var bookTime = new Date(order.bookTime);
+            var time = '';
+            time += bookTime.getFullYear() + '-';
+            time += ((bookTime.getMonth() + 1) < 10 ? '0' + (bookTime.getMonth() + 1) : (bookTime.getMonth() + 1))+ '-';
+            time += (bookTime.getDate() < 10) ? '0' + bookTime.getDate() : bookTime.getDate() + ' ';
+            time += (bookTime.getHours() < 10) ? '0' + bookTime.getHours() : bookTime.getHours() + ':';
+            time += (bookTime.getMinutes() < 10) ? '0' + bookTime.getMinutes(): bookTime.getMinutes();
+            order.bookTime = time;
           });
           self.refundOrderList = self.refundOrderList.concat(data.list);
           var totalCount = data.totalSize;

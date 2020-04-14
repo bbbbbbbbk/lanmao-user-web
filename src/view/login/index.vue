@@ -8,7 +8,14 @@
       </div>
       <div class="dr_phone">
         <van-cell-group>
-          <van-field v-model="mobile" placeholder="请输入手机号" type="number" />
+          <van-field 
+            v-model="name" 
+            placeholder="请输入称呼" 
+            type="text" />
+          <van-field 
+            v-model="mobile" 
+            placeholder="请输入手机号" 
+            type="number" />
           <van-field
             v-model="smsCode"
             center
@@ -23,7 +30,6 @@
       </div>
       <dl class="dr_agreement">
         <a href="/#/user-agreement">
-          <!-- <dd>· 登陆即”表示客户同意 上门服务协议</dd> -->
         </a>
         <dd>· 登陆后未注册手机号将自动注册</dd>
       </dl>
@@ -45,6 +51,7 @@ export default {
       smsCode: "",
       smsText: "发送验证码",
       mobile: "",
+      name: '',
       timer: null
     };
   },
@@ -82,7 +89,8 @@ export default {
       const self = this;
       var requestData = {
         mobile: this.mobile,
-        smsCode: this.smsCode
+        smsCode: this.smsCode,
+        name: this.name
       };
       this.$http
       .post(this.$api.Login.Login, requestData, false)
