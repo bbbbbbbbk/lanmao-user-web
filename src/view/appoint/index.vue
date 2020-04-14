@@ -13,7 +13,14 @@
         </p>
       </div>
     </div>
-    <p class="appoint-num">预约人数</p>
+    <p class="appoint-num">
+      <span>预约人数</span>
+      <span>
+        <span @click="minusGuest">-</span>
+        <span>{{guestCount}}</span>
+        <span @click="plusGuest">+</span>
+      </span>
+    </p>
     <div 
       class="order-guest" 
       v-for="(guest,index) in bookData.guests" :key="guest.id">
@@ -201,7 +208,8 @@ export default {
       mechs:[],
       selectMech:[],
       selGuest: {},
-      days: []
+      days: [],
+      guestCount: 1
     };
   },
   computed: {
@@ -331,6 +339,21 @@ export default {
           self.products = resData.data;
         })
     },
+    plusGuest() {
+      this.guestCount++;
+      this.bookData.guests.push(
+         {
+           products: [],
+           mechList: []
+          }
+      );
+    },
+    minusGuest() {
+      if (this.guestCount > 1) {
+        this.guestCount--;
+        this.bookData.guests.pop();
+      }
+    },
     minusP(product) {
       if (product.count > 0) {
         product.count--;
@@ -431,6 +454,24 @@ export default {
 .appoint-num {
   padding-left: 10px;
   font-size: 15px;
+  padding: 10px 10px 10px 10px;
+  >span:nth-child(2) {
+    float: right;
+    >span:nth-child(1) {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+    }
+    >span:nth-child(2) {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+    }
+    >span:nth-child(3) {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+    }
+  }
 }
 .order-guest {
 }
