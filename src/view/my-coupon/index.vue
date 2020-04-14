@@ -29,8 +29,8 @@ export default {
     return {
       active: 0,
       chosenCoupon: -1,
-      coupons: [coupon],
-      disabledCoupons: [coupon]
+      coupons: [],
+      disabledCoupons: []
     };
   },
 

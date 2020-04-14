@@ -15,14 +15,6 @@
         <van-grid-item icon="balance-pay" text="我的钱包" is-link to="my-wallet" />
       </van-grid>
     </div>
-    <!-- 箭头 -->
-    <!-- <div class="dr_others">
-      <van-cell title="我的地址" is-link to="my-address"/>
-      <van-cell title="关于我们" is-link to="about-us" />
-      <van-cell title="常见问题" is-link to="issues" />
-      <van-cell title="设置" is-link to="setting" />
-      <van-cell title="售后服务" is-link to="after-service" />
-    </div>-->
     <div class="user_menu">
       <ul>
         <li>
@@ -31,50 +23,26 @@
             <p>特惠充值</p>
           </a>
         </li>
-        <!-- <li>
-          <a href="/#/my-address">
-            <img src="http://w2.iyishengyuan.com/wechath5/img/menu_7.png" alt />
-            <p>地址管理</p>
-          </a>
-        </li> -->
-        <!-- <li>
-          <a href="//w2.iyishengyuan.com/common_mall_index/1.html">
-            <img src="http://w2.iyishengyuan.com/wechath5/img/menu_4.png" alt />
-            <p>健康商城</p>
-          </a>
-        </li> -->
-        <!-- <li>
-          <a href="//w2.iyishengyuan.com/common_user_collectList/1.html">
-            <img src="http://w2.iyishengyuan.com/wechath5/img/menu_6.png" alt />
-            <p>我的关注</p>
-          </a>
-        </li>
         <li>
-          <a href="//w2.iyishengyuan.com/common_expert_index/1.html">
-            <img src="http://w2.iyishengyuan.com/wechath5/img/menu_5.png" alt />
-            <p>健康管理</p>
-          </a>
-        </li> -->
-        <li>
-          <a href="tel:4006168080">
+          <a href="tel:13661895474">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_3.png" alt />
             <p>联系客服</p>
           </a>
         </li>
         <li>
-          <a href="//w2.iyishengyuan.com/index_h5.html?type=5">
+          <a href="javascript:void(0)">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_4.png" alt />
             <p>服务范围</p>
           </a>
         </li>
         <li>
-          <a href="//w2.iyishengyuan.com/index_h5.html?type=6">
+          <a href="javascript:void(0)">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_2.png" alt />
             <p>用户协议</p>
           </a>
         </li>
         <li>
-          <a href="//w2.iyishengyuan.com/common_share_appshare/1.html">
+          <a href="javascript:void(0)">
             <img src="http://w2.iyishengyuan.com/wechath5/img/menu_9.png" alt />
             <p>邀请有礼</p>
             <i class="new_icon"></i>
