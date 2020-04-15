@@ -211,9 +211,9 @@ export default {
       var self = this;
       var bookData = this.$store.state.bookData;
       bookData.orderType = this.payType;
-      var productIds = [];
       var guests = bookData.guests;
       guests.forEach(guest => {
+        var productIds = [];
         var products = guest.products;
         products.forEach(product => {
           productIds.push(product.id);

@@ -358,7 +358,7 @@ export default {
             item.count = 0;
           })
           self.products = resData.data;
-        })
+        });
     },
     plusGuest() {
       this.bookData.guests.push(
