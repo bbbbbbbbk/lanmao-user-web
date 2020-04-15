@@ -2,8 +2,8 @@
   <div>
     <div class="order-address">
       <p class="order-user-info">
-        <span>{{bookData.linkName}}</span>
-        <span>{{bookData.linkMobile}}</span>
+        <span>预约门店</span>
+        <span>{{shop.name}}</span>
       </p>
       <div class="order_time">
         <span>预约时间</span>
@@ -87,7 +87,7 @@
     </div>
     <div class="order-msg">
       <span>备注</span>
-      <input type="text" placeholder="如有其它需要请留言" />
+      <input type="text" v-model="bookData.remark" placeholder="如有其它需要请留言" />
     </div>
     <div class="pay-btn">
       <span>
@@ -208,7 +208,8 @@ export default {
       mechs:[],
       selectMech:[],
       selGuest: {},
-      days: []
+      days: [],
+      shop: {}
     };
   },
   computed: {
@@ -238,8 +239,19 @@ export default {
     console.log(this.$route.query);
     this.bookData.shopId = this.$route.query.shopId;
     this.getBookDay();
+    this.getShop();
   },
   methods: {
+    getShop() {
+      var self = this;
+      this.$http.get('/api/shop/detail', {'shopId': this.$route.query.shopId}, true)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            self.shop = resData.data;
+          }
+        });
+    },
     goConfirm() {
       this.$store.commit('commitState');
       var bookData = this.bookData;
@@ -501,11 +513,13 @@ export default {
   margin: 10px;
   .order-user-info {
     color: #333;
-    padding-left: 35px;
     font-size: 12px;
     span:nth-child(1) {
       font-size: 16px !important;
-      margin-right: 10px;
+    }
+    span:nth-child(2) {
+      float: right;
+      font-size: 16px;
     }
   }
   .order-user-add {
