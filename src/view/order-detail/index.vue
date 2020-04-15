@@ -2,8 +2,8 @@
   <div>
     <div class="order-address">
       <p class="order-user-info">
-        <span>{{bookData.linkName}}</span>
-        <span>{{bookData.linkMobile}}</span>
+        <span>预约门店</span>
+        <span>{{shop.name}}</span>
       </p>
       <div class="order_time">
         <span>预约时间</span>
@@ -72,7 +72,7 @@
     </div>
     <div class="order-msg">
       <span>备注</span>
-      <input type="text" placeholder="如有其它需要请留言" readonly/>
+      <input type="text" v-model="bookData.userRemark" placeholder="如有其它需要请留言" readonly/>
     </div>
     <div class="pay_type" v-show="false">
       <p>支付方式</p>
@@ -133,7 +133,7 @@
     </div>
     <div class="pay-btn">
       <span>
-        应付金额:
+        订单金额:
         <span>¥{{totalPrice}}</span>
       </span>
       <!-- <span @click="goPay">
@@ -151,7 +151,8 @@ export default {
       payType: 1,
       bookData: {
           guests: []
-      }
+      },
+      shop: {}
     };
   },
   computed: {
@@ -179,6 +180,7 @@ export default {
             var resData = res.data;
             if (resData.code == 0) {
                 var data = resData.data;
+                self.getShop(data.shopId);
                 data.guests = data.guestList;
                 data.guests.forEach(guest => {
                     guest.products = guest.productList;
@@ -199,6 +201,16 @@ export default {
         });
   },
   methods: {
+    getShop(shopId) {
+      var self = this;
+      this.$http.get('/api/shop/detail', {'shopId': shopId}, true)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            self.shop = resData.data;
+          }
+        });
+    },
     goPay() {
       var self = this;
       var bookData = this.$store.state.bookData;
@@ -282,6 +294,10 @@ export default {
       font-size: 16px !important;
       margin-right: 10px;
     }
+    span:nth-child(2) {
+      float: right;
+      font-size: 16px;
+    }
   }
   .order-user-add {
     display: flex;
@@ -358,7 +374,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 100%;
     height: 100%;
   }
   > span:nth-child(1) {

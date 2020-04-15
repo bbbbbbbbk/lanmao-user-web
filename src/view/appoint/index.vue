@@ -750,27 +750,26 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 10px 10px 5px 10px;
+  margin-top: 20px;
   > div {
     display: inline-block;
   }
   > span:nth-child(1) {
-    font-size: 13px;
+    font-size: 15px;
   }
   > span:nth-child(2) {
-    margin-right: 10px;
     font-size: 12px;
     > span:nth-child(1) {
       color: #fff;
       background: rgba(77, 184, 72, 1) !important;
       border-radius: 10px;
       padding: 5px 10px 5px 10px;
-      margin-right: 20px;
     }
     > span:nth-child(2) {
       color: #fff;
       background: rgba(77, 184, 72, 1) !important;
       border-radius: 10px;
-      padding: 5px 10px 5px 10px;
+      padding: 10px 10px 10px 10px;
     }
   }
 }
