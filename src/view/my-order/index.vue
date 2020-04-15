@@ -15,7 +15,7 @@
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span class="o_status">待服务</span>
+                <span class="o_status">{{order.status | filterStatus }}</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -49,7 +49,7 @@
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span class="o_status">待服务</span>
+                <span class="o_status">{{order.status | filterStatus }}</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -81,7 +81,7 @@
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span class="o_status">待服务</span>
+                <span class="o_status">{{order.status | filterStatus }}</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -113,7 +113,7 @@
             <div class="jishi_card">
               <p class="order_type">
                 <span>{{order.shop.name}}</span>
-                <span class="o_status">待服务</span>
+                <span class="o_status">{{order.status | filterStatus }}</span>
               </p>
               <p>
                 <span>{{order.bookTime}}</span>
@@ -347,6 +347,25 @@ export default {
     },
     imageURL(productList) {
       return productList[0].imageUrl;
+    },
+    filterStatus: function(val) {
+        switch (val) {
+          case 'WAIT_DO':
+            return '待完成'
+          case 'NOT_ARRIVAL':
+            return '未到店'
+          case 'WILL_OUT_DATE':
+            return '将逾期'
+          case 'SERVICING':
+            return '服务中'
+          case 'FINISHED':
+            return '已完成'
+          case 'CANCEL':
+            return '已取消'
+          case 'REFUNDED':
+            return '已退款'
+        }
+        return '未知';
     }
   }
 };

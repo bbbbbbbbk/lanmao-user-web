@@ -74,24 +74,6 @@
       <span>备注</span>
       <input type="text" placeholder="如有其它需要请留言" />
     </div>
-    <!-- 优惠券 -->
-    <!-- <div class="price_con" >
-      <p>
-        <span>平台优惠券</span>
-        <span>
-          30元代金券
-          <i></i>
-        </span>
-      </p>
-      <p>
-        <span>技师优惠券</span>
-        <span>无</span>
-      </p>
-      <div>
-        合计
-        <span>158元</span>
-      </div>
-    </div> -->
     <div class="pay_type">
       <p>支付方式</p>
       <div id="payType0" class="pay_icon_div" @click="payType = 1">
@@ -158,15 +140,24 @@
         <a class="order_btn_now">立即支付</a>
       </span>
     </div>
+    <van-popup
+      v-model="showBalance"
+      closeable
+      round 
+      :style="{ height: '30%' }">
+
+    </van-popup>
   </div>
 </template>
 
 <script>
+import { Dialog } from 'vant';
 export default {
   data() {
     return {
       active: 0,
-      payType: 1
+      payType: 1,
+      showBalance: false
     };
   },
   computed: {
@@ -191,6 +182,33 @@ export default {
   methods: {
     goPay() {
       var self = this;
+      if (this.payType == 3) {
+        this.$http.get('/api/member/getBalance', {}, true)
+          .then(res => {
+            var resData = res.data;
+            if (resData.code == 0) {
+              var message = '当前余额: ' + resData.data + "元";
+              Dialog.confirm({
+                title: '确定余额支付?',
+                message: message,
+              })
+              .then(() => {
+                // on confirm
+                self.saveAndPay();
+              })
+              .catch(() => {
+                // on cancel
+               });
+            }
+          });
+        return;
+      } else {
+        self.saveAndPay();
+      }
+
+    },
+    saveAndPay() {
+      var self = this;
       var bookData = this.$store.state.bookData;
       bookData.orderType = this.payType;
       var productIds = [];
@@ -202,7 +220,6 @@ export default {
         });
         guest.productIds = productIds;
       });
-
       this.$http.post(this.$api.Appoint.Book, bookData, {}, true)
       .then(res => {
         var resData = res.data;
@@ -215,9 +232,27 @@ export default {
               orderId: resData.data.id
             }
           });
+        } else if (resData.code == 0 && self.payType == 3) {
+          self.payByDeposit(resData.data.id);
         }
       });
-
+    },
+    payByDeposit(orderId) {
+      var self = this;
+      this.$http.post('/api/pay/payByDeposit', { 'orderId': orderId}, true)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            self.$router.push({
+              path: '/order-pay-success',
+              query: {
+                orderId: orderId
+              }
+            });
+          } else {
+            self.$toast(resData.message);
+          }
+        })
     },
     payByWechat(orderInfo) {
       var self = this;
@@ -240,8 +275,11 @@ export default {
                   if (res.err_msg == "get_brand_wcpay_request:ok") {
                       // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
                       self.$router.push({
-                        path: '/order-pay-success'
-                      })
+                        path: '/order-pay-success',
+                        query: {
+                          orderId: orderInfo.id
+                        }
+                      });
                   }
               }
             );
