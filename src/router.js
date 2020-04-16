@@ -164,7 +164,7 @@ const routes = [
         component: () => import('./view/appoint'),
         meta: {
             title: '预约信息',
-            keepAlive: true
+            keepAlive: false
         }
     },
     {
@@ -193,7 +193,7 @@ const routes = [
         component: () => import('./view/book'),
         meta: {
             title: '预定',
-            keepAlive: true
+            keepAlive: false
         }
     },
     {
@@ -231,7 +231,7 @@ const routes = [
                 component: () => import('./view/mine'),
                 meta: {
                     title: '我的',
-                    keepAlive: true
+                    keepAlive: false
                 }
             },
             {
@@ -240,7 +240,7 @@ const routes = [
                 component: () => import('./view/mech'),
                 meta: {
                     title: '技师',
-                    keepAlive: true
+                    keepAlive: false
                 }
             }
         ]
