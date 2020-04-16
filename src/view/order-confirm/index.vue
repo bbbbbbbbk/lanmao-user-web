@@ -244,16 +244,28 @@ export default {
         if (resData.code == 0 && self.payType == 1) {
           self.payByWechat(resData.data);
         } else if (resData.code == 0 && self.payType == 2) {
-          self.$router.push({
-            path: '/order-pay-success',
-            query: {
-              orderId: resData.data.id
-            }
-          });
+          self.payByShop(resData.data.id);
         } else if (resData.code == 0 && self.payType == 3) {
           self.payByDeposit(resData.data.id);
         }
       });
+    },
+    payByShop(orderId) {
+      var self = this;
+      this.$http.post('/api/pay/payByShop', { 'orderId': orderId}, true)
+        .then(res => {
+          var resData = res.data;
+          if (resData.code == 0) {
+            self.$router.push({
+              path: '/order-pay-success',
+              query: {
+                orderId: orderId
+              }
+            });
+          } else {
+            self.$toast(resData.message);
+          }
+        });
     },
     payByDeposit(orderId) {
       var self = this;
@@ -270,7 +282,7 @@ export default {
           } else {
             self.$toast(resData.message);
           }
-        })
+        });
     },
     payByWechat(orderInfo) {
       var self = this;
