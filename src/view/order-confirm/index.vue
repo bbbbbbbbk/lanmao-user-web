@@ -174,7 +174,11 @@ export default {
       for (let guest of guestList) {
         var productList = guest.products;
         for (let product of productList) {
-          totalPrice += product.sellPrice;
+          var count = product.count;
+          while(count > 0) {
+            totalPrice += product.sellPrice;
+            count--;
+          }
         }
       }
       return totalPrice;
@@ -226,7 +230,11 @@ export default {
         var productIds = [];
         var products = guest.products;
         products.forEach(product => {
-          productIds.push(product.id);
+          var count = product.count;
+          while(count > 0) {
+            productIds.push(product.id);
+            count--;
+          }
         });
         guest.productIds = productIds;
       });

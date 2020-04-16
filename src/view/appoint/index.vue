@@ -225,7 +225,11 @@ export default {
       for (let guest of guestList) {
         var productList = guest.products;
         for (let product of productList) {
-          totalPrice += product.sellPrice;
+          var count = product.count;
+          while(count > 0) {
+            totalPrice += product.sellPrice;
+            count--;
+          }
         }
       }
       return totalPrice;
