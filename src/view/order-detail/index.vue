@@ -160,12 +160,12 @@ export default {
       return this.$store.state.appointAddress;
     },
     totalPrice() {
-      var guestList = this.$store.state.bookData.guests;
+      var guestList = this.bookData.guests;
       var totalPrice = 0;
       for (let guest of guestList) {
         var productList = guest.products;
         for (let product of productList) {
-          totalPrice += product.sellPrice;
+          totalPrice += product.productPrice;
         }
       }
       return totalPrice;

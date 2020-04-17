@@ -286,8 +286,8 @@ export default {
   padding: 5px 10px 5px 10px;
 }
 .dr_right h5 span {
-  color: #999;
-  font-size: 0.6em;
+  color: #f63;
+  font-size: 10px;
 }
 .dr_right h5 span:first-child {
   margin-right: 20px;
