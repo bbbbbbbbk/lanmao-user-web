@@ -163,12 +163,15 @@ export default {
         justify-content: space-between;
         .have_gift {
           width: 25px;
+          height: 25px;
         }
         .no_gift {
           width: 25px;
+          height: 25px;
         }
         .get_fift01 {
           width: 25px;
+          height: 25px;
         }
       }
       .top_line {
@@ -233,7 +236,7 @@ export default {
       padding-top: 10px;
       .time_li {
         display: inline-block;
-        margin-right: 10px;
+        margin-right: 20px;
         .time_active {
           color: #f24f46 !important;
         }
