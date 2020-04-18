@@ -146,6 +146,20 @@ const routes = [
         }
     },
     {
+        name: 'mall',
+        component: () => import('./view/mall'),
+        meta: {
+            title: '健康商城'
+        }
+    },
+    {
+        name: 'mall-detail',
+        component: () => import('./view/mall-detail'),
+        meta: {
+            title: '商品详情'
+        }
+    },
+    {
         name: 'charge',
         component: () => import('./view/charge'),
         meta: {
