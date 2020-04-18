@@ -56,6 +56,9 @@
               </h5>
               <p class="txtdot">接单时间: 10:00～23:00 全天</p>
               <p class="txtdot">{{item.address}}</p>
+              <a :href="'tel:' + item.contactMobile">
+                <span class="d_mb">电话: {{item.contactMobile}}</span>
+              </a>
               <button class="book" @click.stop="goBook(item)">预约</button>
             </div>
           </div>
@@ -267,6 +270,9 @@ export default {
     font-size: 1.2em;
   }
 }
+.d_mb {
+  margin-top: 10px;
+}
 .book {
   margin-top: 5px;
   margin-right: 10px;
@@ -280,8 +286,8 @@ export default {
   padding: 5px 10px 5px 10px;
 }
 .dr_right h5 span {
-  color: #999;
-  font-size: 0.6em;
+  color: #f63;
+  font-size: 10px;
 }
 .dr_right h5 span:first-child {
   margin-right: 20px;
@@ -294,6 +300,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 2px;
 }
 .yhj_tancon {
   width: 296px;
