@@ -160,6 +160,13 @@ const routes = [
         }
     },
     {
+        name: 'mall-confirm',
+        component: () => import('./view/mall-confirm'),
+        meta: {
+            title: '订单确认'
+        }
+    },
+    {
         name: 'charge',
         component: () => import('./view/charge'),
         meta: {
