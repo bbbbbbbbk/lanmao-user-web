@@ -161,7 +161,11 @@ export default {
                   }
               });
           } else {
-            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx648f6696cf60ebf0&redirect_uri=http://user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
+            if (window.location.host == 'user.weizispa.com') {
+              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx648f6696cf60ebf0&redirect_uri=http://user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
+            } else if (window.location.host == 'sh-user.weizispa.com') {
+              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx096139dc4ea52367&redirect_uri=http://sh-user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
+            } 
           }
         }
       });
