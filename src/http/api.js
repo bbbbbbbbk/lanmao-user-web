@@ -56,5 +56,7 @@ export default {
 
     Order: {
         MyOrder: '/v1/order/myOrder'
-    }
+    },
+
+    WxRedirectURL: '/api/getWxDirectURL'
 }

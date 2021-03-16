@@ -98,11 +98,7 @@ export default {
         const resultData = res.data;
         if (resultData.code == 0) {
           utils.setItem('authCode', resultData.data);
-          if (window.location.host == 'user.weizispa.com') {
-              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx648f6696cf60ebf0&redirect_uri=http://user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
-          } else if (window.location.host == 'sh-user.weizispa.com') {
-              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx096139dc4ea52367&redirect_uri=http://sh-user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect';
-          } 
+          window.location.href = localStorage.getItem('WxDirectURL');
         } else {
           self.$toast(resultData.message);
         }

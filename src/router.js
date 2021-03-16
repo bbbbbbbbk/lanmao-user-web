@@ -9,10 +9,6 @@ const routes = [
         redirect: '/main'
     },
     {
-        path: '/wxAuth',
-        redirect: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx648f6696cf60ebf0&redirect_uri=http://user.weizispa.com&response_type=code&scope=snsapi_base&state=0#wechat_redirect'
-    },
-    {
         name: 'login',
         component: () => import('./view/login'),
         meta: {
